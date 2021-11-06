@@ -9,9 +9,16 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Admin Dashboard</h1>
+                        {{#if user}}
+                        <h1 class="h3 mb-0 text-gray-800">Admin Dashboard {{user.name}}</h1>
+                        {{/if}}
+                        {{#if (isAdmin user)}}
                         <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+                        {{else}}
+                         <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                class="fas fa-download fa-sm text-white-50"></i> Tengo otro rol jeje</a>
+                        {{/if}}
                     </div>
                 </div>
                 <!-- /.container-fluid -->

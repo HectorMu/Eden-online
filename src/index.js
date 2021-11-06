@@ -15,6 +15,7 @@ app.engine(".hbs",
     layoutsDir: path.join(app.get("views"), "layouts"),
     partialsDir: path.join(app.get("views"), "components"),
     extname: ".hbs",
+    helpers:require('./helpers/handlebars')
   })
 );
 app.set("view engine", ".hbs");
@@ -27,13 +28,19 @@ app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
+let user = {
+  name:'Pedro',
+  rol: 1
+}
 
 //all system render views
 app.get('/system',(req, res)=>{
   res.render('system/auth/login')
 })
 app.get('/admin/dashboard',(req, res)=>{
-    res.render('system/admin/dashboard')
+    res.render('system/admin/dashboard',{
+      user
+    })
 })
 app.get('/chef/dashboard',(req, res)=>{
   res.render('chef/dashboard')
@@ -44,6 +51,7 @@ app.get('/barman/dashboard',(req, res)=>{
 app.get('/mesero/dashboard',(req, res)=>{
   res.render('system/mesero/dashboard')
 })
+
 app.get('/repartidor/dashboard',(req, res)=>{
   res.render('system/repartidor/dashboard')
 })
