@@ -30,7 +30,7 @@ app.use(express.json());
 
 let user = {
   name:'Pedro',
-  rol: 1
+  rol: 2
 }
 
 //all system render views
@@ -56,11 +56,12 @@ app.get('/repartidor/dashboard',(req, res)=>{
   res.render('system/repartidor/dashboard')
 })
 
+app.use('/',require('./routes/client.routes'))
 
 //al client render views
-app.get('/login',(req, res)=>{
-  res.render('client/auth/login')
-})
+// app.get('/login',(req, res)=>{
+//   res.render('client/auth/login')
+// })
 app.get('/signup',(req, res)=>{
   res.render('client/auth/signup')
 })
