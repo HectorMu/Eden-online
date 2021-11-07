@@ -1,0 +1,86 @@
+{{>sidebar}}
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <!-- Main Content -->
+            <div id="content">
+               {{>navbar}}
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4 ">
+                        <h1 class="h3 mb-0 text-gray-800 display-4">Trabajadores</h1> 
+                        <button type="button"  data-toggle="modal" data-target="#addEmployeeModal" class="btn btn-primary">Registrar nuevo empleado</button>
+                    </div>
+                        <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Trabajadores Registrados</h6>
+                        </div>
+                        <div class="card-body">
+                            {{#if (isData employees)}}
+                              <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Nombre completo</th>
+                                            <th>Correo</th>
+                                            <th>Permisos</th>
+                                            <th>Opciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>Nombre completo</th>
+                                            <th>Correo</th>
+                                            <th>Permisos</th>
+                                            <th>Opciones</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                        {{#each employees}}
+                                        <tr>
+                                            <td>{{nombre}} {{apellido}}</td>
+                                            <td>{{correo}}</td>
+                                            <td>{{renderPrivileges fk_rol}}</td>
+                                            <td><button type="button"  
+                                            data-toggle="modal" 
+                                            data-target="#deleteEmployeeModal{{id}}" 
+                                            class="btn btn-danger btn-sm">Eliminar</button>
+                                            <button type="button"  
+                                            data-toggle="modal" 
+                                            data-target="#editEmployeeModal{{id}}" 
+                                            class="btn btn-info btn-sm my-1">Editar</button>
+                                            </td>
+                                        </tr>
+                                        {{>adminComponents/deleteUserModal}}
+                                        {{>adminComponents/editUserModal}}
+                                        {{/each}}
+                                    </tbody>
+                                </table>
+                            </div>
+                            {{else}}
+                            <h3 class="text-center">Aun no hay trabajadores registrados.</h3>
+                            {{/if}}        
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </div>
+            <!-- End of Main Content -->
+          {{>footer}}
+        </div>
+       
+        {{#if (isMessage message)}}
+        <script>
+            Toastify({
+            text: '{{renderMessage message}}',
+            className: "info",
+            position: "right",
+            gravity:"top",
+            style: {
+                background: "linear-gradient(to right, #00b09b, #96c93d)",
+            }
+            }).showToast();
+        </script>
+        {{/if}}
+{{>adminComponents/addUserModal}}
+<!-- End of Content Wrapper -->

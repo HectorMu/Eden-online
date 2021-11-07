@@ -1,11 +1,15 @@
 //Imports
+require('dotenv').config()
 const express = require('express')
 const morgan = require('morgan')
 const path = require('path')
 const exphbs = require('express-handlebars')
 
+
+
 //initializations
 const app = express()
+const initDatabase = require('./database')
 
 //CONFIG
 app.set("views",path.join(__dirname, "views"))
@@ -15,7 +19,7 @@ app.engine(".hbs",
     layoutsDir: path.join(app.get("views"), "layouts"),
     partialsDir: path.join(app.get("views"), "components"),
     extname: ".hbs",
-    helpers:require('./helpers/handlebars')
+    helpers: require('./helpers/handlebars')
   })
 );
 app.set("view engine", ".hbs");
@@ -28,40 +32,20 @@ app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-let user = {
-  name:'Pedro',
-  rol: 2
-}
 
-//all system render views
-app.get('/system',(req, res)=>{
-  res.render('system/auth/login')
-})
-app.get('/admin/dashboard',(req, res)=>{
-    res.render('system/admin/dashboard',{
-      user
-    })
-})
-app.get('/chef/dashboard',(req, res)=>{
-  res.render('chef/dashboard')
-})
-app.get('/barman/dashboard',(req, res)=>{
-  res.render('system/barman/dashboard')
-})
-app.get('/mesero/dashboard',(req, res)=>{
-  res.render('system/mesero/dashboard')
-})
 
-app.get('/repartidor/dashboard',(req, res)=>{
-  res.render('system/repartidor/dashboard')
-})
+app.use('/',require('./routes/clientRoutes/client.routes'))
 
-app.use('/',require('./routes/client.routes'))
 
-//al client render views
-// app.get('/login',(req, res)=>{
-//   res.render('client/auth/login')
-// })
+
+app.use('/',require('./routes/systemRoutes/auth.routes'))
+app.use('/',require('./routes/systemRoutes/admin.routes'))
+app.use('/',require('./routes/systemRoutes/chef.routes'))
+app.use('/',require('./routes/systemRoutes/waiter.routes'))
+app.use('/',require('./routes/systemRoutes/tradesman.routes'))
+app.use('/',require('./routes/systemRoutes/barman.routes'))
+
+
 app.get('/signup',(req, res)=>{
   res.render('client/auth/signup')
 })
