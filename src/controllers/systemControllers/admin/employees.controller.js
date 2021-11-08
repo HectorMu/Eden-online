@@ -1,5 +1,5 @@
- const connection = require('../../database')
- const helpers = require('../../helpers/helpers')
+ const connection = require('../../../database')
+ const helpers = require('../../../helpers/helpers')
  const controller = {}
  //aqui ponemos la ruta donde vamos a estar redireccionando siempre que hagamos una accion, la guardo en
  //una constante para no tener que estarla escribiendo completa siempre, hagan lo mismo, pero sobre la ruta
@@ -8,19 +8,8 @@
 //aqui guardo los mensajes, esto se va a quitar cuando usemos mensajes flash, pero jala para testear.
  let message = "";
 
- let user = {
-    name:'Pedro',
-    rol: 2
-}
 
- controller.renderAdminDashboard = (req, res)=>{
-   //aqui mandamos un usuarios, no le hagan caso solo son pruebas
-    res.render('system/admin/dashboard',{
-        user
-      }) 
- }
-
- controller.renderAdminEmployees = async (req, res)=>{
+ controller.renderEmployees = async (req, res)=>{
     const roles = await connection.query('select * from roles')
     const employees = await connection.query('select * from usuarios')
     //mandamos a renderizar todo lo que necesitamos al momento de cargar la vista empleados
