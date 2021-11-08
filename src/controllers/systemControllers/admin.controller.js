@@ -36,6 +36,20 @@
       console.log(error)
     }
  }
+ 
+ controller.editEmployee = async (req, res)=>{
+   const { id } = req.params
+   const { nombre, apellido,correo,contra, fk_rol } = req.body;
+   const updatedEmployee = {nombre,apellido,correo,contra,fk_rol}
+   updatedEmployee.contra = await helpers.encryptPassword(contra)
+   try {
+      await connection.query('update usuarios set ? where id = ?',[updatedEmployee,id])
+      message="Usuario modificado"
+      res.redirect(redirectPath)
+   } catch (error) {
+     console.log(error)
+   }
+ }
 
  controller.deleteEmployee = async (req, res)=>{
    const { id } = req.params;

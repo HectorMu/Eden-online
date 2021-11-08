@@ -8,12 +8,26 @@
                 <div class="container-fluid">
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4 ">
-                        <h1 class="h3 mb-0 text-gray-800 display-4">Trabajadores</h1> 
-                        <button type="button"  data-toggle="modal" data-target="#addEmployeeModal" class="btn btn-primary">Registrar nuevo empleado</button>
+                        <h1 class="h3 mb-0 text-gray-800">Control de usuarios</h1> 
+                        <button type="button"  data-toggle="modal" data-target="#addEmployeeModal" class="btn btn-primary btn-sm d-none d-md-block d-lg-block d-xl-block "><i class="fas fa-user-plus"></i> Nuevo</button>
+                        <div class="fixed-button d-lg-none d-md-none d-xl-none">
+                            <button type="button"  data-toggle="modal" data-target="#addEmployeeModal" class="btn btn-primary btn-lg"><i class="fas fa-user-plus"></i> Nuevo</button>
+                        </div>
+                                             
                     </div>
                         <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Trabajadores Registrados</h6>
+                            <div class="d-flex justify-content-between">
+                                   <h6 class="m-0 font-weight-bold text-primary">Empleados</h6>
+                                     <div class="input-group w-50">
+                                        <input id="tableSearch" type="text" class="form-control mt-0 border-0 w-50" placeholder="Buscar..." >
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary" type="button">
+                                                <i class="fas fa-search fa-sm"></i>
+                                            </button>
+                                        </div>
+                                    </div>  
+                            </div>           
                         </div>
                         <div class="card-body">
                             {{#if (isData employees)}}
@@ -35,20 +49,24 @@
                                             <th>Opciones</th>
                                         </tr>
                                     </tfoot>
-                                    <tbody>
+                                    <tbody id="tbodyEmployees">
                                         {{#each employees}}
                                         <tr>
                                             <td>{{nombre}} {{apellido}}</td>
                                             <td>{{correo}}</td>
                                             <td>{{renderPrivileges fk_rol}}</td>
-                                            <td><button type="button"  
+                                            <td>
+                                                <div class="d-flex  flex-column-reverse">
+                                            <button type="button"  
                                             data-toggle="modal" 
                                             data-target="#deleteEmployeeModal{{id}}" 
-                                            class="btn btn-danger btn-sm">Eliminar</button>
+                                            class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Eliminar</button>
+
                                             <button type="button"  
                                             data-toggle="modal" 
                                             data-target="#editEmployeeModal{{id}}" 
-                                            class="btn btn-info btn-sm my-1">Editar</button>
+                                            class="btn btn-info btn-sm my-1"><i class="fas fa-pen"></i> Editar</button>
+                                            </div>
                                             </td>
                                         </tr>
                                         {{>adminComponents/deleteUserModal}}
@@ -82,5 +100,11 @@
             }).showToast();
         </script>
         {{/if}}
+         <script type="module">
+            import { liveSearch } from '/js/realtimeSearch.js'
+            const searchInput = document.getElementById('tableSearch')
+            const tableBody = document.getElementById('tbodyEmployees')
+            liveSearch(searchInput,tableBody)
+        </script>
 {{>adminComponents/addUserModal}}
 <!-- End of Content Wrapper -->
