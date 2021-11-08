@@ -69,8 +69,8 @@
                                             </div>
                                             </td>
                                         </tr>
-                                        {{>adminComponents/deleteUserModal}}
-                                        {{>adminComponents/editUserModal}}
+                                        {{>adminComponents/employeesModals/deleteUserModal}}
+                                        {{>adminComponents/employeesModals/editUserModal}}
                                         {{/each}}
                                     </tbody>
                                 </table>
@@ -91,11 +91,11 @@
         <script>
             Toastify({
             text: '{{renderMessage message}}',
-            className: "info",
+            className: "info text-center mt-2 w-25",
             position: "right",
             gravity:"top",
             style: {
-                background: "linear-gradient(to right, #00b09b, #96c93d)",
+                background: "#4e73df",
             }
             }).showToast();
         </script>
@@ -106,5 +106,5 @@
             const tableBody = document.getElementById('tbodyEmployees')
             liveSearch(searchInput,tableBody)
         </script>
-{{>adminComponents/addUserModal}}
+{{>adminComponents/employeesModals/addUserModal}}
 <!-- End of Content Wrapper -->

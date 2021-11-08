@@ -1,4 +1,5 @@
 const bcrypt = require('bcryptjs');
+const connection = require('../database')
 
 const helpers = {};
 
@@ -15,6 +16,11 @@ helpers.matchPassword = async (password, savedPassword) => {
         console.log(e)
     }
 };
+
+helpers.userExists = async (correo)=>{
+    const exists = await connection.query(`select * from usuarios where correo like '%${correo}%'`)
+    return exists.length >  0 ? true : false;
+}
 
 
 module.exports = helpers;
