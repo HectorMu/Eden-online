@@ -9,9 +9,9 @@
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4 ">
                         <h1 class="h3 mb-0">Control de clientes</h1> 
-                        <button type="button"  data-toggle="modal" data-target="#addCostumerModal" class="btn btn-primary btn-sm d-none d-md-block d-lg-block d-xl-block "><i class="fas fa-user-plus"></i> Nuevo</button>
+                        <button type="button"  data-toggle="modal" data-target="#addCustomerModal" class="btn btn-primary btn-sm d-none d-md-block d-lg-block d-xl-block "><i class="fas fa-user-plus"></i> Nuevo</button>
                         <div class="fixed-button d-lg-none d-md-none d-xl-none">
-                            <button type="button"  data-toggle="modal" data-target="#addCostumerModal" class="btn btn-primary btn-lg"><i class="fas fa-user-plus"></i> Nuevo</button>
+                            <button type="button"  data-toggle="modal" data-target="#addCustomerModal" class="btn btn-primary btn-lg"><i class="fas fa-user-plus"></i> Nuevo</button>
                         </div>
                                              
                     </div>
@@ -30,7 +30,7 @@
                             </div>           
                         </div>
                         <div class="card-body">
-                            {{#if (isData costumers)}}
+                            {{#if (isData customers)}}
                               <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead class="thead-dark">
@@ -51,7 +51,7 @@
                                             <th>Opciones</th>
                                         </tr>
                                     </tfoot>
-                                    <tbody id="tbodyCostumers">
+                                    <tbody id="tbodyCustomers">
                                         {{#each costumers}}
                                         <tr>
                                             <td>{{nombre}} {{apellido}}</td>
@@ -62,18 +62,18 @@
                                                 <div class="d-flex  flex-column-reverse">
                                             <button type="button"  
                                             data-toggle="modal" 
-                                            data-target="#deleteCostumerModal{{id}}" 
+                                            data-target="#deleteCustomerModal{{id}}" 
                                             class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Eliminar</button>
 
                                             <button type="button"  
                                             data-toggle="modal" 
-                                            data-target="#editCostumerModal{{id}}" 
+                                            data-target="#editCustomerModal{{id}}" 
                                             class="btn btn-info btn-sm my-1"><i class="fas fa-pen"></i> Editar</button>
                                             </div>
                                             </td>
                                         </tr>
-                                        {{>adminComponents/costumersModals/deleteCostumerModal}}
-                                        {{>adminComponents/costumersModals/editCostumerModal}}
+                                        {{>adminComponents/customersModals/deleteCustomerModal}}
+                                        {{>adminComponents/customersModals/editCustomerModal}}
                                         {{/each}}
                                     </tbody>
                                 </table>
@@ -93,8 +93,8 @@
          <script type="module">
             import { liveSearch } from '/js/realtimeSearch.js'
             const searchInput = document.getElementById('tableSearch')
-            const tableBody = document.getElementById('tbodyCostumers')
+            const tableBody = document.getElementById('tbodyCustomers')
             liveSearch(searchInput,tableBody)
         </script>
-{{>adminComponents/costumersModals/addCostumerModal}}
+{{>adminComponents/customersModals/addCustomerModal}}
 <!-- End of Content Wrapper -->

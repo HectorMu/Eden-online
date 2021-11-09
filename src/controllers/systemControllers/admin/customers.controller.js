@@ -5,25 +5,25 @@ const controller = {}
 const redirectPath = '/admin/costumers';
 
 
-controller.renderCostumers = async (req, res) => {
-    const costumers = await connection.query('select * from clientes');
-    res.render('system/admin/admin.costumers.hbs', {
-        costumers
+controller.renderCustomers = async (req, res) => {
+    const customers = await connection.query('select * from clientes');
+    res.render('system/admin/admin.customers.hbs', {
+        customers
     });
 };
 
-controller.SaveCostumer = async (req, res) => {
+controller.SaveCustomer = async (req, res) => {
     const {nombre, apellido, correo, telefono, direccion, contra} = req.body;
-    const newCostumer = {nombre, apellido, correo, telefono, direccion, contra};
+    const newCustomer = {nombre, apellido, correo, telefono, direccion, contra};
 
-    newCostumer.contra = await helpers.encryptPassword(contra);
+    newCustomer.contra = await helpers.encryptPassword(contra);
     try {
-        const validateEmail = await helpers.costumerExists(newCostumer.correo);
+        const validateEmail = await helpers.costumerExists(newCustomer.correo);
         if(validateEmail){
             req.flash("error_msg", "Este correo electronico ya esta registrado.")
             res.redirect(redirectPath);
         } else{
-            await connection.query('insert into clientes set ?', [newCostumer]);
+            await connection.query('insert into clientes set ?', [newCustomer]);
             req.flash("success_msg", "Cliente guardado correctamente.")
             res.redirect(redirectPath);
         }
@@ -34,13 +34,13 @@ controller.SaveCostumer = async (req, res) => {
     }
 };
 
-controller.editCostumer = async (req, res) => {
+controller.editCustomer = async (req, res) => {
     const { id } = req.params;
     const { nombre, apellido, correo, telefono, direccion, contra } = req.body;
-    const updatedCostumer = { nombre, apellido, correo, telefono, direccion, contra};
-    updatedCostumer.contra = await helpers.encryptPassword(contra);
+    const updatedCustomer = { nombre, apellido, correo, telefono, direccion, contra};
+    updatedCustomer.contra = await helpers.encryptPassword(contra);
     try {
-        await connection.query('update clientes set ? where id = ?', [updatedCostumer, id]);
+        await connection.query('update clientes set ? where id = ?', [updatedCustomer, id]);
         req.flash("success_msg", "Datos del cliente modificados correctamente.")
         res.redirect(redirectPath);
     } catch (error) {
@@ -50,7 +50,7 @@ controller.editCostumer = async (req, res) => {
     }
 };
 
-controller.deleteCostumer = async (req, res) => {
+controller.deleteCustomer = async (req, res) => {
     const { id } = req.params;
     try {
         await connection.query('delete from clientes where id = ?', [id]);

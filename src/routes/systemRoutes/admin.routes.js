@@ -5,8 +5,9 @@ const authMiddleware = require('../../middlewares/authMiddleware')
 const adminControllersPath = './../../controllers/systemControllers/admin/'
 
 const systemEmployeesController = require(adminControllersPath+'employees.controller')
-const systemCostumersController = require(adminControllersPath+'costumers.controller')
+const systemCustomersController = require(adminControllersPath+'customers.controller')
 const systemProductController = require('./../../controllers/systemControllers/admin/products.controller')
+const systemTablesController = require(adminControllersPath+'tables.controller')
 const systemAdminController = require(adminControllersPath+'admin.controller')
 
 router.get('/admin/dashboard', authMiddleware.isLoggedIn, authMiddleware.isAdmin, systemAdminController.renderAdminDashboard)
@@ -25,5 +26,7 @@ router.get('/admin/products', authMiddleware.isLoggedIn, authMiddleware.isAdmin,
 router.post('/admin/saveproduct', authMiddleware.isLoggedIn, authMiddleware.isAdmin, systemProductController.SaveProduct)
 router.post('/admin/editproduct/:id', authMiddleware.isLoggedIn, authMiddleware.isAdmin, systemProductController.editProduct)
 router.get('/admin/deleteproduct/:id', authMiddleware.isLoggedIn, authMiddleware.isAdmin, systemProductController.deleteProduct)
+
+router.get('/admin/tables', authMiddleware.isLoggedIn, authMiddleware.isAdmin, systemTablesController.renderTables)
 
 module.exports = router;
