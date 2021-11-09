@@ -1,0 +1,41 @@
+<div class="modal fade" tabindex="-1" id="editCostumerModal{{id}}">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Editar cliente {{nombre}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       <form action="/admin/editcostumer/{{id}}" method="POST">
+            <div class="form-group">
+                <input type="text" name="nombre" value="{{nombre}}" placeholder="Nombre(s)" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <input type="text" name="apellido" value="{{apellido}}" placeholder="Apellido(s)" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <input type="email" name="correo" value="{{correo}}"  placeholder="Correo electronico" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <input type="text" name="telefono" value="{{telefono}}"  placeholder="Telefono" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <input type="text" name="direccion" value="{{direccion}}"  placeholder="Direccion" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <input type="password" name="contra" value="" placeholder="Nueva contraseña" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <input type="password" name="confirmar" placeholder="Contraseña" class="form-control" required>
+            </div>
+      </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Guardar cambios</button>
+        </div>
+       </form>
+    </div>
+  </div>
+</div>
