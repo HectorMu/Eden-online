@@ -14,7 +14,7 @@
     const employees = await connection.query('select * from usuarios')
     //mandamos a renderizar todo lo que necesitamos al momento de cargar la vista empleados
     res.render('system/admin/admin.employees.hbs',{
-      roles, employees, message
+      roles, employees
     })
  }
 
@@ -32,10 +32,11 @@
         const validateEmail = await helpers.userExists(newEmployee.correo)
         if(validateEmail){ //si existe, que me mande un mensaje que ya existe y redirija a la misma pagina
           message="El email ya esta en uso por otro usuario."
+          req.flash("error_msg", "Este correo electronico ya esta registrado.")
           res.redirect(redirectPath)
         }else{ //si no existe, guardamos el usuario
           await connection.query('insert into usuarios set ?',[newEmployee])
-          message="Usuario guardado"
+          req.flash("success_msg", "Empleado guardado correctamente.")
           res.redirect(redirectPath)
         }
     }
@@ -43,7 +44,7 @@
     {
       //siempre hay que poner un trycatch, por si el servidor se callo o paso algo, y mandamos un mensaje
       console.log(error)
-      message="Algo sucedio, intentalo de nuevo."
+      req.flash("success_msg", "Algo sucedio, intentalo de nuevo.")
       res.redirect(redirectPath)
     }
  }
@@ -56,11 +57,11 @@
    updatedEmployee.contra = await helpers.encryptPassword(contra)
    try {
       await connection.query('update usuarios set ? where id = ?',[updatedEmployee,id])
-      message="Usuario modificado"
+      req.flash("success_msg", "Datos del empleado modificados correctamente.")
       res.redirect(redirectPath)
    } catch (error) {
      console.log(error)
-     message="Algo sucedio, intentalo de nuevo."
+     req.flash("error_msg", "Algo sucedio, intentalo de nuevo.")
      res.redirect(redirectPath)
    }
  }
@@ -70,11 +71,11 @@
    const { id } = req.params;
    try {
      await connection.query('delete from usuarios where id = ?',[id])
-     message="Usuario eliminado"
+     req.flash("success_msg", "Empleado eliminado correctamente.")
      res.redirect(redirectPath)
    } catch (error) {
      console.log(error)
-     message="Algo sucedio, intentalo de nuevo."
+     req.flash("error_msg", "Algo sucedio, intentalo de nuevo.")
      res.redirect(redirectPath)
    }
  }

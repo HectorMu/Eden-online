@@ -2,8 +2,14 @@
 require('dotenv').config()
 const express = require('express')
 const morgan = require('morgan')
+const session = require('express-session')
+const MySqlSessionStore = require('express-mysql-session')(session)
 const path = require('path')
+const flash = require('connect-flash')
+const passport = require('passport')
 const exphbs = require('express-handlebars')
+require('./lib/passport')
+const { database } = require('./config/keys')
 
 
 
@@ -24,15 +30,35 @@ app.engine(".hbs",
 );
 app.set("view engine", ".hbs");
 
-//static files (css, html, js, media resources)
-app.use(express.static(path.join(__dirname,"public")))
-
 //Middlewares
 app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
+app.use(session({
+  secret: process.env.SECRET,
+  resave: false,
+  saveUninitialized: false,
+  store: new MySqlSessionStore(database)
+}))
 
+
+app.use(flash())
+app.use(passport.initialize())
+app.use(passport.session())
+
+//global variables for messages
+app.use((req, res, next) => {
+  app.locals.success_msg = req.flash("success_msg")
+  app.locals.error_msg = req.flash("error_msg")
+  app.locals.error = req.flash("error")
+   //global variable for get the user
+   app.locals.user = req.user || null
+   next()
+ })
+
+ //static files (css, html, js, media resources)
+app.use(express.static(path.join(__dirname,"public")))
 
 app.use('/',require('./routes/clientRoutes/client.routes'))
 
