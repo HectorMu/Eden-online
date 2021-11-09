@@ -32,4 +32,19 @@ helpers.productExists = async (nombre)=>{
     return exist.length > 0 ? true : false;
 }
 
+helpers.redirectByUserRol = (rol)=>{
+    if(rol == 2){
+        return '/chef/dashboard'
+    }
+    if(rol == 3){
+        return '/barman/dashboard'
+    }
+    if(rol == 4){
+        return '/waiter/dashboard'
+    }
+    if(rol == 5){
+        return '/tradesman/dashboard'
+    }
+}
+
 module.exports = helpers;

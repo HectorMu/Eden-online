@@ -15,7 +15,7 @@ const { database } = require('./config/keys')
 
 //initializations
 const app = express()
-const initDatabase = require('./database')
+
 
 //CONFIG
 app.set("views",path.join(__dirname, "views"))

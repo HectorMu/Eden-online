@@ -9,21 +9,21 @@ const systemCostumersController = require(adminControllersPath+'costumers.contro
 const systemProductController = require('./../../controllers/systemControllers/admin/products.controller')
 const systemAdminController = require(adminControllersPath+'admin.controller')
 
-router.get('/admin/dashboard', authMiddleware.isLoggedIn, systemAdminController.renderAdminDashboard)
+router.get('/admin/dashboard', authMiddleware.isLoggedIn, authMiddleware.isAdmin, systemAdminController.renderAdminDashboard)
 
-router.get('/admin/employees', authMiddleware.isLoggedIn, systemEmployeesController.renderEmployees)
-router.post('/admin/saveemployee', authMiddleware.isLoggedIn, systemEmployeesController.SaveEmplooyee)
-router.post('/admin/editemployee/:id', authMiddleware.isLoggedIn,  systemEmployeesController.editEmployee)
-router.get('/admin/deleteemployee/:id', authMiddleware.isLoggedIn,  systemEmployeesController.deleteEmployee)
+router.get('/admin/employees', authMiddleware.isLoggedIn, authMiddleware.isAdmin, systemEmployeesController.renderEmployees)
+router.post('/admin/saveemployee', authMiddleware.isLoggedIn, authMiddleware.isAdmin, systemEmployeesController.SaveEmplooyee)
+router.post('/admin/editemployee/:id', authMiddleware.isLoggedIn, authMiddleware.isAdmin,  systemEmployeesController.editEmployee)
+router.get('/admin/deleteemployee/:id', authMiddleware.isLoggedIn, authMiddleware.isAdmin,  systemEmployeesController.deleteEmployee)
 
-router.get('/admin/costumers', authMiddleware.isLoggedIn,  systemCostumersController.renderCostumers)
-router.post('/admin/savecostumer', authMiddleware.isLoggedIn,  systemCostumersController.SaveCostumer)
-router.post('/admin/editcostumer/:id', authMiddleware.isLoggedIn,  systemCostumersController.editCostumer)
-router.get('/admin/deletecostumer/:id', authMiddleware.isLoggedIn,  systemCostumersController.deleteCostumer)
+router.get('/admin/costumers', authMiddleware.isLoggedIn, authMiddleware.isAdmin,  systemCostumersController.renderCostumers)
+router.post('/admin/savecostumer', authMiddleware.isLoggedIn, authMiddleware.isAdmin,  systemCostumersController.SaveCostumer)
+router.post('/admin/editcostumer/:id', authMiddleware.isLoggedIn, authMiddleware.isAdmin,  systemCostumersController.editCostumer)
+router.get('/admin/deletecostumer/:id', authMiddleware.isLoggedIn, authMiddleware.isAdmin,  systemCostumersController.deleteCostumer)
 
-router.get('/admin/products', systemProductController.renderProducts)
-router.post('/admin/saveproduct', systemProductController.SaveProduct)
-router.post('/admin/editproduct/:id', systemProductController.editProduct)
-router.get('/admin/deleteproduct/:id', systemProductController.deleteProduct)
+router.get('/admin/products', authMiddleware.isLoggedIn, authMiddleware.isAdmin, systemProductController.renderProducts)
+router.post('/admin/saveproduct', authMiddleware.isLoggedIn, authMiddleware.isAdmin, systemProductController.SaveProduct)
+router.post('/admin/editproduct/:id', authMiddleware.isLoggedIn, authMiddleware.isAdmin, systemProductController.editProduct)
+router.get('/admin/deleteproduct/:id', authMiddleware.isLoggedIn, authMiddleware.isAdmin, systemProductController.deleteProduct)
 
 module.exports = router;
