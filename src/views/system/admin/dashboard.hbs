@@ -5,14 +5,45 @@
             <div id="content">
                {{>navbar}}
                 <!-- Begin Page Content -->
-                <div class="container-fluid">
-
+                <div id="adminDashboard" class="container-fluid">
                     <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                  
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4"> 
                         <h1 class="h3 mb-0">Bienvenido {{user.nombre}}</h1>
-
                     </div>
+                    <div class="row">
+                        <div class="col col-12 col-sm-12 col-md-3 col-lg-3">
+                             <div class="card shadow my-2">
+                                <div class="card-header text-center">
+                                    Ventas de hoy: {{totalSales}}
+                                </div>
+                                <div class="card-body">
+                                    <p>Ventas locales: {{localSales}}</p>
+                                    <p>Ventas en linea: {{onlineSales}} </p>
+                                </div>
+                            </div>
+                        </div>
+                         <div class="col col-12 col-sm-12 col-md-3 col-lg-3">
+                             <div onclick="(()=>window.location.replace('/admin/customers'))()" class="card shadow my-2">
+                                <div class="card-header text-center">
+                                    Clientes registrados
+                                </div>
+                                <div  class="card-body text-center">
+                                    {{Customers}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col col-12 col-sm-12 col-md-3 col-lg-3">
+                             <div onclick="(()=>window.location.replace('/admin/employees'))()"   class="card shadow my-2">
+                                <div class="card-header text-center">
+                                    Empleados registrados
+                                </div>
+                                <div  class="card-body text-center">
+                                    {{Employees}}
+                                </div>
+                            </div>
+                        </div>
+
+                </div> 
                 </div>
                 <!-- /.container-fluid -->
             </div>

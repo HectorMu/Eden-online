@@ -5,3 +5,12 @@
     bottom: 15%;
     margin-left: 90%;
 }
+
+
+#adminDashboard .card{
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+#adminDashboard .card:hover{
+    transform: scale(0.98);
+}
