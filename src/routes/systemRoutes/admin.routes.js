@@ -1,10 +1,11 @@
 const express = require('express')
 const router = express.Router()
 
+const adminControllersPath = './../../controllers/systemControllers/admin/'
 
 
-const systemEmployeesController = require('./../../controllers/systemControllers/admin/employees.controller')
-const systemAdminController = require('./../../controllers/systemControllers/admin/admin.controller')
+const systemEmployeesController = require(adminControllersPath+'employees.controller')
+const systemAdminController = require(adminControllersPath+'admin.controller')
 
 router.get('/admin/dashboard',systemAdminController.renderAdminDashboard)
 
