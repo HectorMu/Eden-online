@@ -40,6 +40,7 @@
   --yellow: #F2DF7E;
   --sporange: #F2622E; 
   --blued: #1B8EF2;
+  --pastelb: #5E82AD;
   --box-shadow:0 .5rem 1.5rem rgba(0,0,0,.1);
   --breakpoint-xs: 0;
   --breakpoint-sm: 576px;
@@ -3211,7 +3212,7 @@ input[type="button"].btn-block {
   padding: 0.25rem 1.5rem;
   clear: both;
   font-weight: 400;
-  color: #3a3b45;
+  color: var(--light-blue);
   text-align: inherit;
   white-space: nowrap;
   background-color: transparent;
@@ -9927,7 +9928,7 @@ a:focus {
 }
 
 .bg-gradient-primary {
-  background: var(--darkblue); 
+  background: var(--pastelb); 
   background-size: cover;
   color: var(--yellow);
 }
@@ -10369,7 +10370,7 @@ a:focus {
 .sidebar .nav-item .nav-link span {
   font-size: 0.65rem;
   display: block;
-  color: var(--light-blue);
+  color: var(--black);
 }
 
 .sidebar .nav-item.active .nav-link {
@@ -10386,6 +10387,7 @@ a:focus {
 .sidebar .nav-item .collapse .collapse-inner {
   border-radius: 0.35rem;
   box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+  background-color:var(--pastelb);
 }
 
 .sidebar .nav-item .collapsing {
@@ -10417,7 +10419,7 @@ a:focus {
   padding: 0.5rem 1rem;
   margin: 0 0.5rem;
   display: block;
-  color: var(--light-blue);
+  color: var(--dark);
   text-decoration: none;
   border-radius: 0.35rem;
   white-space: nowrap;
@@ -10572,7 +10574,7 @@ a:focus {
   .sidebar .nav-item .nav-link i {
     font-size: 0.85rem;
     margin-right: 0.25rem;
-    color: var(--light-blue) !important;
+    color: var(--yellow) !important;
   }
   .sidebar .nav-item .nav-link span {
     font-size: 0.85rem;
@@ -11313,4 +11315,13 @@ footer.sticky-footer .copyright {
 
 body.sidebar-toggled footer.sticky-footer {
   width: 100%;
+}
+
+.modal .modal-content{
+  background-color: rgba(137, 178, 245);
+}
+
+.modal .modal-body .form-group label{
+  color: var(--darkblue);
+  font-weight: bold;
 }
