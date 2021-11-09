@@ -8,7 +8,7 @@ hbs.handlebars.registerHelper('isAdmin',(user)=>{
     // }else{
     //     return false
     // }
-    return user.rol == 1 ? true : false
+    return user.fk_rol == 1 ? true : false
 })
 
 hbs.handlebars.registerHelper('isWaiter',(user)=>{
