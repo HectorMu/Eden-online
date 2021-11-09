@@ -16,10 +16,10 @@ router.post('/admin/saveemployee', authMiddleware.isLoggedIn, authMiddleware.isA
 router.post('/admin/editemployee/:id', authMiddleware.isLoggedIn, authMiddleware.isAdmin,  systemEmployeesController.editEmployee)
 router.get('/admin/deleteemployee/:id', authMiddleware.isLoggedIn, authMiddleware.isAdmin,  systemEmployeesController.deleteEmployee)
 
-router.get('/admin/costumers', authMiddleware.isLoggedIn, authMiddleware.isAdmin,  systemCostumersController.renderCostumers)
-router.post('/admin/savecostumer', authMiddleware.isLoggedIn, authMiddleware.isAdmin,  systemCostumersController.SaveCostumer)
-router.post('/admin/editcostumer/:id', authMiddleware.isLoggedIn, authMiddleware.isAdmin,  systemCostumersController.editCostumer)
-router.get('/admin/deletecostumer/:id', authMiddleware.isLoggedIn, authMiddleware.isAdmin,  systemCostumersController.deleteCostumer)
+router.get('/admin/customers', authMiddleware.isLoggedIn, authMiddleware.isAdmin,  systemCostumersController.renderCostumers)
+router.post('/admin/savecustomer', authMiddleware.isLoggedIn, authMiddleware.isAdmin,  systemCostumersController.SaveCostumer)
+router.post('/admin/editcustomer/:id', authMiddleware.isLoggedIn, authMiddleware.isAdmin,  systemCostumersController.editCostumer)
+router.get('/admin/deletecustomer/:id', authMiddleware.isLoggedIn, authMiddleware.isAdmin,  systemCostumersController.deleteCostumer)
 
 router.get('/admin/products', authMiddleware.isLoggedIn, authMiddleware.isAdmin, systemProductController.renderProducts)
 router.post('/admin/saveproduct', authMiddleware.isLoggedIn, authMiddleware.isAdmin, systemProductController.SaveProduct)
