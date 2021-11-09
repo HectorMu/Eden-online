@@ -18,14 +18,24 @@ hbs.handlebars.registerHelper('isWaiter',(user)=>{
 hbs.handlebars.registerHelper('isData',(array)=>{
     return array.length > 0 ? true : false
 })
-
-hbs.handlebars.registerHelper('isMessage',(message)=>{
-    return message.length > 0 ? true : false
+hbs.handlebars.registerHelper('redirectPrivileges',(rol)=>{
+    if(rol === 1){
+        return 'admin'
+    }
+    if(rol === 2){
+        return 'chef'
+    }
+    if(rol === 3){
+        return 'barman'
+    }
+    if(rol === 4){
+        return 'waiter'
+    }
+    if(rol === 5){
+        return 'tradesman'
+    }
 })
 
-hbs.handlebars.registerHelper('renderMessage',(message)=>{
-    return message
-})
 
 
 

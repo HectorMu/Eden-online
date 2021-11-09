@@ -12,18 +12,21 @@
             <hr class="sidebar-divider my-0">
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="/admin/dashboard">
+              
+                <a class="nav-link" href="/{{redirectPrivileges user.fk_rol}}/dashboard">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
             <!-- Divider -->
             <hr class="sidebar-divider">
             <!-- Heading -->
-            <div class="sidebar-heading">
+           
+            <!-- Nav Item - Pages Collapse Menu -->
+            {{#if (isAdmin user)}}
+             <div class="sidebar-heading">
                 Control de Usuarios
             </div>
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
+                 <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-users"></i>
@@ -58,8 +61,11 @@
                     </div>
                 </div>
             </li>
-            <!-- Divider -->
+              <!-- Divider -->
             <hr class="sidebar-divider">
+            {{/if}}
+           
+          
 
             <!-- Heading -->
             {{!-- <div class="sidebar-heading">
