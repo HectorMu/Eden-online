@@ -27,5 +27,9 @@ helpers.costumerExists = async (correo) => {
     return exists.length > 0 ? true : false;
 }
 
+helpers.productExists = async (nombre)=>{
+    const exist = await connection.query(`select * from productos where nombre like '%${nombre}%'`)
+    return exist.length > 0 ? true : false;
+}
 
 module.exports = helpers;

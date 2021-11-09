@@ -10,7 +10,7 @@
  * Copyright 2011-2021 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
-:root {
+ :root {
   --blue: #4e73df;
   --indigo: #6610f2;
   --purple: #6f42c1;
@@ -31,7 +31,16 @@
   --warning: #f6c23e;
   --danger: #e74a3b;
   --light: #f8f9fc;
-  --dark: #5a5c69;
+  --fyellow:#f8cf00;
+  --black:#192a56;
+  --light-color:#666;
+  --dark:#0D1826;
+  --darkblue: #0C2E59;
+  --light-blue:#8dc0ec;
+  --yellow: #F2DF7E;
+  --sporange: #F2622E; 
+  --blued: #1B8EF2;
+  --box-shadow:0 .5rem 1.5rem rgba(0,0,0,.1);
   --breakpoint-xs: 0;
   --breakpoint-sm: 576px;
   --breakpoint-md: 768px;
@@ -52,6 +61,7 @@ html {
   line-height: 1.15;
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  background: var(--darkblue);
 }
 
 article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
@@ -64,9 +74,9 @@ body {
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
-  color: #858796;
+  color: var(--yellow);
   text-align: left;
-  background-color: #fff;
+  background: var(--darkblue);
 }
 
 [tabindex="-1"]:focus:not(:focus-visible) {
@@ -82,6 +92,7 @@ hr {
 h1, h2, h3, h4, h5, h6 {
   margin-top: 0;
   margin-bottom: 0.5rem;
+  color: var(--yellow) !important;
 }
 
 p {
@@ -159,13 +170,13 @@ sup {
 }
 
 a {
-  color: #4e73df;
+  color: var(--yellow);
   text-decoration: none;
   background-color: transparent;
 }
 
 a:hover {
-  color: #224abe;
+  color: var(--fyellow);
   text-decoration: underline;
 }
 
@@ -376,6 +387,7 @@ h2, .h2 {
 
 h3, .h3 {
   font-size: 1.75rem;
+  color: var(--yellow) !important;
 }
 
 h4, .h4 {
@@ -435,7 +447,7 @@ small,
 mark,
 .mark {
   padding: 0.2em;
-  background-color: #fcf8e3;
+  background: var(--darkblue);
 }
 
 .list-unstyled {
@@ -469,7 +481,7 @@ mark,
 .blockquote-footer {
   display: block;
   font-size: 80%;
-  color: #858796;
+  color: var(--darkblue);
 }
 
 .blockquote-footer::before {
@@ -544,7 +556,9 @@ pre code {
   max-height: 340px;
   overflow-y: scroll;
 }
-
+.content-wrapper h1{
+  color: var(--yellow);
+}
 .container,
 .container-fluid,
 .container-sm,
@@ -556,6 +570,8 @@ pre code {
   padding-left: 0.75rem;
   margin-right: auto;
   margin-left: auto;
+  background: var(--darkblue);
+  color: var(--yellow);
 }
 
 @media (min-width: 576px) {
@@ -1731,13 +1747,17 @@ pre code {
 }
 
 .table .thead-dark th {
-  color: #fff;
-  background-color: #5a5c69;
-  border-color: #6c6e7e;
+  color: var(--fyellow);
+  border-color: var(--white);
+}
+
+.table #tbodyProducts, #tbodyEmployees, #tbodyCostumers{
+  color: var(--light-blue);
+  border-color:var(--dark);
 }
 
 .table .thead-light th {
-  color: #6e707e;
+  color: #001df7;
   background-color: #eaecf4;
   border-color: #e3e6f0;
 }
@@ -2356,14 +2376,14 @@ fieldset:disabled a.btn {
 }
 
 .btn-primary {
-  color: #fff;
-  background-color: #4e73df;
-  border-color: #4e73df;
+  color: var(--white);
+  background-color: var(--blue);
+  font-weight: bold;
 }
 
 .btn-primary:hover {
   color: #fff;
-  background-color: #2e59d9;
+  background-color: var(--blued);
   border-color: #2653d4;
 }
 
@@ -4108,6 +4128,7 @@ input[type="button"].btn-block {
   align-items: center;
   justify-content: space-between;
   padding: 0.5rem 1rem;
+  background-color: var(--darkblue);
 }
 
 .navbar .container,
@@ -4491,7 +4512,7 @@ input[type="button"].btn-block {
   word-wrap: break-word;
   background-color: #fff;
   background-clip: border-box;
-  border: 1px solid #e3e6f0;
+  border: 1px solid #36b9cc;
   border-radius: 0.35rem;
 }
 
@@ -4526,6 +4547,7 @@ input[type="button"].btn-block {
   flex: 1 1 auto;
   min-height: 1px;
   padding: 1.25rem;
+  background-color:rgba(255, 255, 255, 0.185);
 }
 
 .card-title {
@@ -4552,8 +4574,8 @@ input[type="button"].btn-block {
 .card-header {
   padding: 0.75rem 1.25rem;
   margin-bottom: 0;
-  background-color: #f8f9fc;
-  border-bottom: 1px solid #e3e6f0;
+  background-color:rgba(255, 255, 255, 0.185);
+  border-bottom: 1px solid #36b9cc;
 }
 
 .card-header:first-child {
@@ -4563,7 +4585,7 @@ input[type="button"].btn-block {
 .card-footer {
   padding: 0.75rem 1.25rem;
   background-color: #f8f9fc;
-  border-top: 1px solid #e3e6f0;
+  border-top: 1px solid #36b9cc;
 }
 
 .card-footer:last-child {
@@ -7571,6 +7593,7 @@ button.bg-dark:focus {
 
 .shadow {
   box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15) !important;
+  background: var(--darkblue);
 }
 
 .shadow-lg {
@@ -9592,11 +9615,12 @@ button.bg-dark:focus {
 }
 
 .text-primary {
-  color: #4e73df !important;
+  color: var(--fyellow) !important;
+  font-size: 2rem;
 }
 
 a.text-primary:hover, a.text-primary:focus {
-  color: #224abe !important;
+  color: var(--sporange) !important;
 }
 
 .text-secondary {
@@ -9758,11 +9782,11 @@ a.text-dark:hover, a.text-dark:focus {
   }
   .table td,
   .table th {
-    background-color: #fff !important;
+    background-color: #000 !important;
   }
   .table-bordered th,
   .table-bordered td {
-    border: 1px solid #dddfeb !important;
+    border: 1px solid #000 !important;
   }
   .table-dark {
     color: inherit;
@@ -9771,8 +9795,9 @@ a.text-dark:hover, a.text-dark:focus {
   .table-dark td,
   .table-dark thead th,
   .table-dark tbody + tbody {
-    border-color: #e3e6f0;
+    border-color: #000;
   }
+
   .table .thead-dark th {
     color: inherit;
     border-color: #e3e6f0;
@@ -9786,6 +9811,7 @@ html {
 
 body {
   height: 100%;
+  background-color: var(--darkblue);
 }
 
 a:focus {
@@ -9794,10 +9820,11 @@ a:focus {
 
 #wrapper {
   display: flex;
+  background-color: var(--darkblue);
 }
 
 #wrapper #content-wrapper {
-  background-color: #f8f9fc;
+  background-color: var(--darkblue);
   width: 100%;
   overflow-x: hidden;
 }
@@ -9900,9 +9927,9 @@ a:focus {
 }
 
 .bg-gradient-primary {
-  background-color: #4e73df;
-  background-image: linear-gradient(180deg, #4e73df 10%, #224abe 100%);
+  background: var(--darkblue); 
   background-size: cover;
+  color: var(--yellow);
 }
 
 .bg-gradient-secondary {
@@ -10177,7 +10204,7 @@ a:focus {
 }
 
 .topbar #sidebarToggleTop:hover {
-  background-color: #eaecf4;
+  background-color: var(--darkblue);
 }
 
 .topbar #sidebarToggleTop:active {
@@ -10326,6 +10353,7 @@ a:focus {
 
 .sidebar .nav-item {
   position: relative;
+  color: var(--yellow);
 }
 
 .sidebar .nav-item:last-child {
@@ -10341,6 +10369,7 @@ a:focus {
 .sidebar .nav-item .nav-link span {
   font-size: 0.65rem;
   display: block;
+  color: var(--light-blue);
 }
 
 .sidebar .nav-item.active .nav-link {
@@ -10388,7 +10417,7 @@ a:focus {
   padding: 0.5rem 1rem;
   margin: 0 0.5rem;
   display: block;
-  color: #3a3b45;
+  color: var(--light-blue);
   text-decoration: none;
   border-radius: 0.35rem;
   white-space: nowrap;
@@ -10396,7 +10425,8 @@ a:focus {
 
 .sidebar .nav-item .collapse .collapse-inner .collapse-item:hover,
 .sidebar .nav-item .collapsing .collapse-inner .collapse-item:hover {
-  background-color: #eaecf4;
+  background-color: var(--yellow);
+  color: var(--dark);
 }
 
 .sidebar .nav-item .collapse .collapse-inner .collapse-item:active,
@@ -10477,6 +10507,7 @@ a:focus {
   padding: 0 1rem;
   font-weight: 800;
   font-size: 0.65rem;
+  color: var(--white) !important;
 }
 
 .sidebar .sidebar-card {
@@ -10541,6 +10572,7 @@ a:focus {
   .sidebar .nav-item .nav-link i {
     font-size: 0.85rem;
     margin-right: 0.25rem;
+    color: var(--light-blue) !important;
   }
   .sidebar .nav-item .nav-link span {
     font-size: 0.85rem;
@@ -10567,6 +10599,7 @@ a:focus {
   }
   .sidebar .sidebar-heading {
     text-align: left;
+    color: var(--white) !important;
   }
   .sidebar.toggled {
     overflow: visible;
@@ -10610,6 +10643,7 @@ a:focus {
   }
   .sidebar.toggled .nav-item .nav-link i {
     margin-right: 0;
+    color: var(--yellow) !important;
   }
   .sidebar.toggled .nav-item .nav-link[data-toggle="collapse"]::after {
     display: none;
@@ -10662,7 +10696,7 @@ a:focus {
 }
 
 .sidebar-light .nav-item.active .nav-link i {
-  color: #6e707e;
+  color: var(--yellow);
 }
 
 .sidebar-light #sidebarToggle {
@@ -10678,11 +10712,12 @@ a:focus {
 }
 
 .sidebar-dark .sidebar-brand {
-  color: #fff;
+  color: var(--warning);
 }
 
 .sidebar-dark hr.sidebar-divider {
   border-top: 1px solid rgba(255, 255, 255, 0.15);
+  
 }
 
 .sidebar-dark .sidebar-heading {

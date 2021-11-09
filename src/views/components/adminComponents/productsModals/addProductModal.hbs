@@ -1,0 +1,40 @@
+<div class="modal fade" tabindex="-1" id="addProductModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Informacion del producto</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       <form action="/admin/saveproduct" method="POST">
+            <div class="form-group">
+                <input type="text" name="nombre" placeholder="Nombre" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <input type="text" name="precio_compra" placeholder="Precio de compra" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <input type="text" name="precio_venta" placeholder="Precio de venta" class="form-control" required>
+            </div>
+            <div class="form-group" required>
+                <label for="categoria">Categoria</label>
+                <select name="fk_categoria"  class="form-control">
+                    {{#each categoria}}
+                      <option value="{{id}}">{{nombre}}</option>
+                    {{/each}}
+                </select>
+            </div> 
+            <div class="form-group">
+                <input type="text" name="imagen" placeholder="URL de foto del producto" class="form-control" required>
+            </div>
+      </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Guardar producto</button>
+        </div>
+       </form>
+    </div>
+  </div>
+</div>
