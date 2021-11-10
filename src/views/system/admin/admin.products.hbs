@@ -8,12 +8,12 @@
                 <div class="container-fluid">
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4 ">
-                        <h1 class="h3 mb-0 ">Control de productos</hh1> 
-                        <button type="button"  data-toggle="modal" data-target="#addProductModal" class="btn btn-primary btn-sm d-none d-md-block d-lg-block d-xl-block "><i class="fas fa-plus"></i>Nuevo</button>
+                        <h1 class="h3 mb-0 ">Control de productos</h1> 
+                        <button type="button"  data-toggle="modal" data-target="#addProductModal" class="btn btn-primary btn-sm d-none d-md-block d-lg-block d-xl-block "><i class="fas fa-plus"></i> Nuevo producto</button>
                         <div class="fixed-button d-lg-none d-md-none d-xl-none">
-                            <button type="button"  data-toggle="modal" data-target="#addProductModal" class="btn btn-primary btn-lg"><i class="fas fa-user-plus"></i> Nuevo</button>
+                            <button type="button"  data-toggle="modal" data-target="#addProductModal" class="btn btn-primary btn-lg"><i class="fas fa-user-plus"></i> Nuevo producto</button>
                         </div>
-                                             
+                         
                     </div>
                         <div class="card shadow mb-4">
                         <div class="card-header py-3">
@@ -33,7 +33,7 @@
                             {{#if (isData products)}}
                               <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead class="thead-dark">
+                                    <thead >
                                         <tr>
                                             <th>Nombre</th>
                                             <th>Precio compra</th>
@@ -82,20 +82,6 @@
             <!-- End of Main Content -->
           {{>footer}}
         </div>
-       
-        {{#if (isMessage message)}}
-        <script>
-            Toastify({
-            text: '{{renderMessage message}}',
-            className: "info text-center mt-2 w-25",
-            position: "right",
-            gravity:"top",
-            style: {
-                background: "#4e73df",
-            }
-            }).showToast();
-        </script>
-        {{/if}}
          <script type="module">
             import { liveSearch } from '/js/realtimeSearch.js'
             const searchInput = document.getElementById('tableSearch')

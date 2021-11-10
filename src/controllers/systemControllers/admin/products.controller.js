@@ -2,13 +2,12 @@ const connection = require('../../../database')
 const helpers = require('../../../helpers/helpers')
 const controller = {}
 const redirectPath = '/admin/products'
-let message = "";
 
 controller.renderProducts = async (req, res)=>{
     const categoria = await connection.query('select * from categoria')
     const products = await connection.query('select * from productos')
     res.render('system/admin/admin.products.hbs',{
-       categoria, products, message
+       categoria, products
     })
  }
 
