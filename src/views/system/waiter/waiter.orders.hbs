@@ -1,0 +1,95 @@
+{{>sidebar}} 
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <!-- Main Content -->
+            <div id="content">
+               {{>navbar}}
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Control de ordenes</h1>
+                         <button type="button"  data-toggle="modal" data-target="#addOrderModal" class="btn btn-primary btn-sm d-none d-md-block d-lg-block d-xl-block "><i class="fas fa-plus"></i> Nueva orden</button>
+                        <div class="fixed-button d-lg-none d-md-none d-xl-none">
+                            <button type="button"  data-toggle="modal" data-target="#addOrderModal" class="btn btn-primary btn-lg"><i class="fas fa-plus"></i> Nueva orden</button>
+                        </div>
+                    </div>
+
+                    {{#if (isData orders)}}
+                    {{#each orders}}
+                    <div class="accordion" id="accordionOrder{{id}}">
+                        <div class="card">
+                            <div id="header{{id}}" class="card-header" data-id="{{id}}" id="headingOrder{{id}}" data-toggle="collapse" data-target="#collapseOrder{{id}}" aria-expanded="true" aria-controls="collapseOrder{{id}}">
+                                <div class="d-flex justify-content-between">
+                                     <h2 class="mb-0">
+                                    <button class="btn btn-link btn-block text-left" >
+                                        Orden: {{id}}
+                                    </button>
+                                    </h2>
+                                      <h2 class="mb-0">
+                                    <button class="btn btn-link btn-block text-left" >
+                                        Mesa: {{fk_mesa}}
+                                    </button>
+                                    </h2>
+                                    <div class="row">
+                                        <div class="col">
+                                            <button class="btn btn-primary btn-sm"><i class="fas fa-plus"></i></button>
+                                            <button class="btn btn-primary btn-sm"><i class="fas fa-receipt"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                    </div>
+                       <div id="collapseOrder{{id}}"  class="collapse" aria-labelledby="headingOrder{{id}}" data-parent="#accordionOrder{{id}}">
+                            <div data-cardBody="{{id}}" class="card-body">
+                                <table  class="table">
+                                    <thead>
+                                        <tr>
+                                        <th>Producto</th>
+                                        <th>Cantidad</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody data-detailTable="{{id}}">
+                                    </tbody>
+                                </table>
+                               
+                            </div>
+                         </div>
+                    </div>
+                    {{/each}}
+                    {{else}}
+                    <div class="card card-body text-center">
+                         <h3>Aun no hay ordenes registradas.</h3>
+                    </div>
+                    {{/if}}
+                </div>
+                <!-- /.container-fluid -->
+            </div>
+            <!-- End of Main Content -->
+          {{>footer}}
+        </div>
+<!-- End of Content Wrapper -->
+<script>
+    const cardHeaders = document.querySelectorAll('.card-header')
+    cardHeaders.forEach(header=>{
+        header.addEventListener('click',async ()=>{
+            const url = `/api/orderdetail/${header.dataset.id}`
+            const response = await fetch(url);
+            const details = await response.json();
+            const tableBody = document.querySelector(`[data-detailTable="${header.dataset.id}"]`)
+            if(details.length>0){
+                tableBody.innerHTML ="";
+                details.map(detail =>{
+                tableBody.innerHTML += 
+                ` <tr>
+                    <td>${detail.nombre}</td>
+                    <td>${detail.cantidad}</td>
+                </tr>`
+                }) 
+            }else{
+                tableBody.innerHTML=`<h5 class="text-center">Este pedido aun no tiene productos.</h5>`
+            }          
+        })
+    })
+</script>
+
+{{>waiterComponents/orderModals/addOrderModal}}

@@ -76,20 +76,25 @@ mesa VARCHAR(50));
 CREATE TABLE ventalocal(
 id INT PRIMARY KEY AUTO_INCREMENT,
 fecha VARCHAR(50),
-fk_mesa INT,
-FOREIGN KEY(fk_mesa)REFERENCES mesas(id),
-totalventa DOUBLE,
+fk_pedidolocal INT,
+FOREIGN KEY(fk_pedidolocal)REFERENCES pedidolocal(id),
 estatus VARCHAR(50));
 
 CREATE TABLE pedidolocal(
 id INT PRIMARY KEY AUTO_INCREMENT,
-fk_ventalocal INT,
-FOREIGN KEY(fk_ventalocal)REFERENCES ventalocal(id),
-fk_producto INT,
-FOREIGN KEY(fk_producto)REFERENCES productos(id),
-cantidad INT,
+fk_mesa INT,
+FOREIGN KEY(fk_mesa)REFERENCES mesas(id),
 totalpedido DOUBLE,
 estatus VARCHAR(50));
+
+CREATE TABLE productospedidolocal(
+num INT primary key AUTO_INCREMENT,
+fk_pedidolocal INT,
+FOREIGN KEY (fk_pedidolocal) REFERENCES pedidolocal(id),
+fk_producto INT,
+foreign KEY (fk_producto) REFERENCES productos(id),
+cantidad INT
+);
 
 CREATE TABLE ventalinea(
 id INT PRIMARY KEY AUTO_INCREMENT,

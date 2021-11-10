@@ -14,7 +14,7 @@ passport.use('system/local.login',new passportLocal({
         const user = rows[0]
         const validPass = await helpers.matchPassword(contra, user.contra)
         if(validPass){
-            done(null, user)
+            done(null, user,req.flash("success_msg", `Bienvenido ${user.nombre}`))
         }else{
             done(null, false, req.flash("error_msg", "Informacion incorrecta, intentalo de nuevo."))
         }

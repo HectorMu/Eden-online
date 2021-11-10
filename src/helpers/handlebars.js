@@ -1,4 +1,5 @@
 const exhbs = require('express-handlebars')
+const connection = require('../database')
 
 let hbs = exhbs.create({})
 
@@ -12,7 +13,7 @@ hbs.handlebars.registerHelper('isAdmin',(user)=>{
 })
 
 hbs.handlebars.registerHelper('isWaiter',(user)=>{
-    return user.rol == 2 ? true : false
+    return user.fk_rol == 4 ? true : false
 })
 
 hbs.handlebars.registerHelper('isData',(array)=>{

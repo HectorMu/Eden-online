@@ -1,11 +1,16 @@
 const express = require('express')
-const router = express.Router()
+const router = express.Router();
+
+const waiterControllersPath = '../../controllers/systemControllers/Waiter/'
 
 
+const systemWaiterController = require(waiterControllersPath+'waiter.controller')
+const systemOrdersController = require(waiterControllersPath+'orders.controller')
 
-const systemWaiterController = require('./../../controllers/systemControllers/waiter.controller')
 
 router.get('/waiter/dashboard',systemWaiterController.renderWaiterDashboard)
+router.get('/waiter/orders', systemOrdersController.renderOrdersView)
+
 
 
 module.exports = router;
