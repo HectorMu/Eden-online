@@ -17,10 +17,10 @@ router.post('/admin/saveemployee', authMiddleware.isLoggedIn, authMiddleware.isA
 router.post('/admin/editemployee/:id', authMiddleware.isLoggedIn, authMiddleware.isAdmin,  systemEmployeesController.editEmployee)
 router.get('/admin/deleteemployee/:id', authMiddleware.isLoggedIn, authMiddleware.isAdmin,  systemEmployeesController.deleteEmployee)
 
-router.get('/admin/customers', authMiddleware.isLoggedIn, authMiddleware.isAdmin,  systemCostumersController.renderCostumers)
-router.post('/admin/savecustomer', authMiddleware.isLoggedIn, authMiddleware.isAdmin,  systemCostumersController.SaveCostumer)
-router.post('/admin/editcustomer/:id', authMiddleware.isLoggedIn, authMiddleware.isAdmin,  systemCostumersController.editCostumer)
-router.get('/admin/deletecustomer/:id', authMiddleware.isLoggedIn, authMiddleware.isAdmin,  systemCostumersController.deleteCostumer)
+router.get('/admin/customers', authMiddleware.isLoggedIn, authMiddleware.isAdmin,  systemCustomersController.renderCustomers)
+router.post('/admin/savecustomer', authMiddleware.isLoggedIn, authMiddleware.isAdmin,  systemCustomersController.SaveCustomer)
+router.post('/admin/editcustomer/:id', authMiddleware.isLoggedIn, authMiddleware.isAdmin,  systemCustomersController.editCustomer)
+router.get('/admin/deletecustomer/:id', authMiddleware.isLoggedIn, authMiddleware.isAdmin,  systemCustomersController.deleteCustomer)
 
 router.get('/admin/products', authMiddleware.isLoggedIn, authMiddleware.isAdmin, systemProductController.renderProducts)
 router.post('/admin/saveproduct', authMiddleware.isLoggedIn, authMiddleware.isAdmin, systemProductController.SaveProduct)
@@ -28,5 +28,7 @@ router.post('/admin/editproduct/:id', authMiddleware.isLoggedIn, authMiddleware.
 router.get('/admin/deleteproduct/:id', authMiddleware.isLoggedIn, authMiddleware.isAdmin, systemProductController.deleteProduct)
 
 router.get('/admin/tables', authMiddleware.isLoggedIn, authMiddleware.isAdmin, systemTablesController.renderTables)
+router.post('/admin/savetable', authMiddleware.isLoggedIn, authMiddleware.isAdmin, systemTablesController.SaveTable)
+router.get('/admin/deletetable/:id', authMiddleware.isLoggedIn, authMiddleware.isAdmin, systemTablesController.deleteTable)
 
 module.exports = router;

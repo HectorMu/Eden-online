@@ -2,7 +2,7 @@ const connection = require('../../../database');
 const helpers = require('../../../helpers/helpers');
 const controller = {}
 
-const redirectPath = '/admin/custumers';
+const redirectPath = '/admin/customers';
 
 
 controller.renderCustomers = async (req, res) => {

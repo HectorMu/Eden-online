@@ -1,0 +1,18 @@
+<div class="modal fade" tabindex="-1" id="deleteTableModal{{id}}">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">¿Desea eliminar la mesa {{mesa}}?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       <div class="d-flex justify-content-between">
+           <button type="button" class="btn btn-secondary w-50 mx-1" data-dismiss="modal">Cancelar</button>
+            <a href="/admin/deletetable/{{id}}" class="btn btn-danger w-50">Eliminar mesa</a>   
+       </div>                
+      </div>
+    </div>
+  </div>
+</div>
