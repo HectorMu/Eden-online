@@ -57,3 +57,11 @@ hbs.handlebars.registerHelper('renderPrivileges',(rol)=>{
         return 'Repartidor'
     }
 })
+hbs.handlebars.registerHelper('renderCategory',(category)=>{
+    if(category === 1){
+        return 'Bebida'
+    }
+    if(category === 2){
+        return 'Platillo'
+    }
+})

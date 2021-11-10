@@ -11,7 +11,7 @@
                         <h1 class="h3 mb-0 ">Control de productos</h1> 
                         <button type="button"  data-toggle="modal" data-target="#addProductModal" class="btn btn-primary btn-sm d-none d-md-block d-lg-block d-xl-block "><i class="fas fa-plus"></i> Nuevo producto</button>
                         <div class="fixed-button d-lg-none d-md-none d-xl-none">
-                            <button type="button"  data-toggle="modal" data-target="#addProductModal" class="btn btn-primary btn-lg"><i class="fas fa-plus"></i> Nuevo producto</button>
+                            <button type="button"  data-toggle="modal" data-target="#addProductModal" class="btn btn-primary "><i class="fas fa-plus"></i> Nuevo producto</button>
                         </div>
                          
                     </div>
@@ -36,8 +36,8 @@
                                     <thead >
                                         <tr>
                                             <th>Nombre</th>
-                                            <th>Precio compra</th>
-                                            <th>Precio venta</th>
+                                            <th>$ Compra</th>
+                                            <th>$ Venta</th>
                                             <th>Categoria</th>
                                             <th>Imágen</th>
                                             <th>Opciones</th>
@@ -49,10 +49,17 @@
                                             <td>{{nombre}}</td>
                                             <td>{{precio_compra}}</td>
                                             <td>{{precio_venta}}</td>
-                                            <td>{{fk_categoria}}</td>
-                                            <td>{{imagen}}</td>
+                                            <td>{{renderCategory fk_categoria}}</td>
                                             <td>
-                                                <div class="d-flex  flex-column-reverse">
+                                            <div class="my-auto">
+                                            <button type="button"  
+                                            data-toggle="modal" 
+                                            data-target="#seeProductPhotoModal{{id}}" 
+                                            class="btn btn-info btn-sm btn-block"><i class="fas fa-eye"></i> Ver foto</button>
+                                                </div>    
+                                            </td>                                
+                                            <td>
+                                            <div class="d-flex  flex-column-reverse">
                                             <button type="button"  
                                             data-toggle="modal" 
                                             data-target="#deleteProductModal{{id}}" 
@@ -67,6 +74,7 @@
                                         </tr>
                                         {{>adminComponents/productsModals/deleteProductModal}}
                                         {{>adminComponents/productsModals/editProductModal}}
+                                        {{>adminComponents/productsModals/seeProductPhotoModal}}
                                         {{/each}}
                                     </tbody>
                                 </table>
