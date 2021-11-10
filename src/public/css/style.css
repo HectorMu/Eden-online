@@ -1,6 +1,6 @@
 .fixed-button{
     position: fixed;
-    z-index: 99999;
+    z-index: 99;
     right: 8%;
     bottom: 15%;
     margin-left: 90%;
