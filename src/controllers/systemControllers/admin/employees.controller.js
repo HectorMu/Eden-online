@@ -52,11 +52,12 @@
  controller.editEmployee = async (req, res)=>{
    //pues aqui ya saben
    const { id } = req.params
-   const { nombre, apellido,correo,contra, fk_rol } = req.body;
-   const updatedEmployee = {nombre,apellido,correo,contra,fk_rol}
+   const { nombre, apellido,contra, fk_rol } = req.body;
+   const updatedEmployee = {nombre,apellido,contra,fk_rol}
    updatedEmployee.contra = await helpers.encryptPassword(contra)
    try {
-      await connection.query('update usuarios set ? where id = ?',[updatedEmployee,id])
+      await connection.query('update usuarios set nombre = ?, apellido = ?, contra = ?, fk_rol = ? where id = ?',
+        [updatedEmployee.nombre, updatedEmployee.apellido, updatedEmployee.contra, updatedEmployee.fk_rol,id])
       req.flash("success_msg", "Datos del empleado modificados correctamente.")
       res.redirect(redirectPath)
    } catch (error) {

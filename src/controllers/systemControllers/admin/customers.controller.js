@@ -36,11 +36,12 @@ controller.SaveCustomer = async (req, res) => {
 
 controller.editCustomer = async (req, res) => {
     const { id } = req.params;
-    const { nombre, apellido, correo, telefono, direccion, contra } = req.body;
-    const updatedCustomer = { nombre, apellido, correo, telefono, direccion, contra};
+    const { nombre, apellido, telefono, direccion, contra } = req.body;
+    const updatedCustomer = { nombre, apellido, telefono, direccion, contra};
     updatedCustomer.contra = await helpers.encryptPassword(contra);
     try {
-        await connection.query('update clientes set ? where id = ?', [updatedCustomer, id]);
+        await connection.query('update clientes set nombre = ?, apellido = ?, telefono = ?, direccion = ?, contra = ? where id = ?', 
+            [updatedCustomer.nombre, updatedCustomer.apellido, updatedCustomer.telefono, updatedCustomer.direccion, updatedCustomer.contra, id]);
         req.flash("success_msg", "Datos del cliente modificados correctamente.")
         res.redirect(redirectPath);
     } catch (error) {
