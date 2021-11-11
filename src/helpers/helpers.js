@@ -45,6 +45,9 @@ helpers.redirectByUserRol = (rol)=>{
     if(rol == 5){
         return '/tradesman/dashboard'
     }
+    if(rol == undefined || rol == null){
+        return '/client/dashboard'
+    }
 }
 
 module.exports = helpers;

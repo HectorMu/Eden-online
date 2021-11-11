@@ -7,7 +7,7 @@ authMiddleware.isLoggedIn = (req, res, next)=>{
         return next();
     }
     req.flash('error_msg','Debes autenticarte para acceder a esta vista') 
-    res.redirect('/system')
+    res.redirect('/login')
 }
 
 authMiddleware.isAdmin = (req, res, next)=>{
