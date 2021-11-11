@@ -23,7 +23,7 @@ controller.Login =(req, res, next) =>{
             if(user.fk_rol == 4){
                 return res.redirect('/waiter/dashboard')
             }
-            if(user.fk_rol == 4){
+            if(user.fk_rol == 5){
                 return res.redirect('/tradesman/dashboard')
             }
         })
