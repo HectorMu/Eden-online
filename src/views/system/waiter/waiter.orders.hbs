@@ -14,46 +14,50 @@
                             <button type="button"  data-toggle="modal" data-target="#addOrderModal" class="btn btn-primary btn-lg"><i class="fas fa-plus"></i> Nueva orden</button>
                         </div>
                     </div>
-
                     {{#if (isData orders)}}
                     {{#each orders}}
                     <div class="accordion" id="accordionOrder{{id}}">
                         <div class="card">
-                            <div id="header{{id}}" class="card-header" data-id="{{id}}" id="headingOrder{{id}}" data-toggle="collapse" data-target="#collapseOrder{{id}}" aria-expanded="true" aria-controls="collapseOrder{{id}}">
+                            <div id="header{{id}}" class="card-header" data-id="{{id}}" >
                                 <div class="d-flex justify-content-between">
                                      <h2 class="mb-0">
-                                    <button class="btn btn-link btn-block text-left" >
+                                    <button class="btn btn-link btn-block text-left" id="headingOrder{{id}}" data-toggle="collapse" data-target="#collapseOrder{{id}}" aria-expanded="true" aria-controls="collapseOrder{{id}}">
                                         Orden: {{id}}
                                     </button>
                                     </h2>
                                       <h2 class="mb-0">
-                                    <button class="btn btn-link btn-block text-left" >
+                                    <button class="btn btn-link btn-block text-left"  >
                                         Mesa: {{fk_mesa}}
                                     </button>
                                     </h2>
                                     <div class="row">
                                         <div class="col">
-                                            <button class="btn btn-primary btn-sm"><i class="fas fa-plus"></i></button>
-                                            <button class="btn btn-primary btn-sm"><i class="fas fa-receipt"></i></button>
+                                            <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#addProductModal{{id}}"><i class="fas fa-plus"></i></button>
+                                            <button class="btn btn-primary "><i class="fas fa-paper-plane"></i></i></button>
+                                            <button class="btn btn-primary "><i class="fas fa-receipt"></i></button>
                                         </div>
                                     </div>
                                 </div>
                     </div>
                        <div id="collapseOrder{{id}}"  class="collapse" aria-labelledby="headingOrder{{id}}" data-parent="#accordionOrder{{id}}">
                             <div data-cardBody="{{id}}" class="card-body">
+                                <p data-Saletotal="{{id}}" id="total"></p>
                                 <table  class="table">
                                     <thead>
                                         <tr>
                                         <th>Producto</th>
                                         <th>Cantidad</th>
+                                        <th>$</th>
+                                        <th>Opciones</th>
                                         </tr>
                                     </thead>
                                     <tbody class="justify-content-center" data-detailTable="{{id}}">
                                     </tbody>
                                 </table>
-                               
+                                
                             </div>
                          </div>
+                           {{>waiterComponents/orderModals/addProductOrderModal}}
                     </div>
                     {{/each}}
                     {{else}}
@@ -82,20 +86,27 @@
            `
             const url = `/api/orderdetail/${header.dataset.id}`
             const response = await fetch(url);
-            
             const details = await response.json();
-        
+          
+            let alltotal = 0;
             if(details.length>0){
                 tableBody.innerHTML ="";
                 details.map(detail =>{
                 tableBody.innerHTML += 
-                ` <tr>
+                `
+                <tr>
                     <td>${detail.nombre}</td>
                     <td>${detail.cantidad}</td>
-                </tr>`
-                }) 
+                    <td>${detail.total}</td>
+                    <td><a href="/waiter/orders/deleteproduct/${detail.num}" class="btn btn-danger"><i class="fas fa-window-close"></i></td>
+                </tr>`})
+                for (let i = 0; i < tableBody.rows.length; i++){
+                    alltotal  += parseFloat(tableBody.rows[i].cells[2].textContent)
+                }
+                const pTotal = document.querySelector(`[data-Saletotal="${header.dataset.id}"]`)
+                pTotal.innerHTML = `Total de orden: ${alltotal} $ pesos`
             }else{
-                tableBody.innerHTML=`<h5 class="text-center">Este pedido aun no tiene productos.</h5>`
+                tableBody.innerHTML=`<h5 class="text-center mt-2">Esta orden aun no tiene productos.</h5>`
             }          
         })
     })
