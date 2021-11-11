@@ -6,7 +6,7 @@ const redirectPath = '/admin/customers';
 
 
 controller.renderCustomers = async (req, res) => {
-    const customers = await connection.query('select * from clientes');
+    const customers = await connection.query('select * from usuarios where fk_rol = 6');
     res.render('system/admin/admin.customers.hbs', {
         customers
     });
@@ -14,16 +14,16 @@ controller.renderCustomers = async (req, res) => {
 
 controller.SaveCustomer = async (req, res) => {
     const {nombre, apellido, correo, telefono, direccion, contra} = req.body;
-    const newCustomer = {nombre, apellido, correo, telefono, direccion, contra};
+    const newCustomer = {nombre, apellido, correo, telefono, direccion, contra, fk_rol: 6};
 
     newCustomer.contra = await helpers.encryptPassword(contra);
     try {
-        const validateEmail = await helpers.customerExists(newCustomer.correo);
+        const validateEmail = await helpers.userExists(newCustomer.correo);
         if(validateEmail){
             req.flash("error_msg", "Este correo electronico ya esta registrado.")
             res.redirect(redirectPath);
         } else{
-            await connection.query('insert into clientes set ?', [newCustomer]);
+            await connection.query('insert into usuarios set ?', [newCustomer]);
             req.flash("success_msg", "Cliente guardado correctamente.")
             res.redirect(redirectPath);
         }
@@ -40,7 +40,7 @@ controller.editCustomer = async (req, res) => {
     const updatedCustomer = { nombre, apellido, telefono, direccion, contra};
     updatedCustomer.contra = await helpers.encryptPassword(contra);
     try {
-        await connection.query('update clientes set nombre = ?, apellido = ?, telefono = ?, direccion = ?, contra = ? where id = ?', 
+        await connection.query('update usuarios set nombre = ?, apellido = ?, telefono = ?, direccion = ?, contra = ? where id = ?', 
             [updatedCustomer.nombre, updatedCustomer.apellido, updatedCustomer.telefono, updatedCustomer.direccion, updatedCustomer.contra, id]);
         req.flash("success_msg", "Datos del cliente modificados correctamente.")
         res.redirect(redirectPath);
@@ -54,7 +54,7 @@ controller.editCustomer = async (req, res) => {
 controller.deleteCustomer = async (req, res) => {
     const { id } = req.params;
     try {
-        await connection.query('delete from clientes where id = ?', [id]);
+        await connection.query('delete from usuarios where id = ?', [id]);
         req.flash("success_msg", "Cliente eliminado correctamente.")
         res.redirect(redirectPath);
     } catch (error) {

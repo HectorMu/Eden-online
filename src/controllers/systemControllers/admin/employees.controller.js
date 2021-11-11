@@ -11,7 +11,7 @@
 
  controller.renderEmployees = async (req, res)=>{
     const roles = await connection.query('select * from roles')
-    const employees = await connection.query('select * from usuarios')
+    const employees = await connection.query('select * from usuarios where fk_rol != 6')
     //mandamos a renderizar todo lo que necesitamos al momento de cargar la vista empleados
     res.render('system/admin/admin.employees.hbs',{
       roles, employees
