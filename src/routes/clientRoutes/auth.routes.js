@@ -10,4 +10,5 @@ router.post('/customer/login', authController.LoginCustomer)
 router.post('/customer/signup', authController.SignupCustomer)
 
 
+
 module.exports = router

@@ -22,11 +22,32 @@ passport.use('customer/local.login', new passportLocal({
     }
 }))
 
-// passport.serializeUser((customer, done) => {
-//     done(null, customer.id)
-// })
+passport.use('customer/local.signup', new passportLocal({
+    usernameField: 'correo',
+    passwordField: 'contra',
+    passReqToCallback: true
+}, async (req, correo, contra, done) => {
+    const { nombre, apellido, telefono, direccion } = req.body
+    const newCustomer = {
+        nombre,
+        apellido,
+        correo,
+        telefono,
+        direccion,
+        contra
+    }
+    newCustomer.contra = await helpers.encryptPassword(contra)
+    const result = await connection.query('insert into clientes set ?', [newCustomer])
+    req.flash("success_msg", "Cuenta registrada correctamente.")
+    newCustomer.id = result.insertId
+    return done(null, newCustomer)
+}))
 
-// passport.deserializeUser(async (id, done) => {
-//     const rows = await connection.query('select * from clientes where id = ?', [id])
-//     done(null, rows[0]);
-// })
+passport.serializeUser((customer, done) => {
+    done(null, customer.id)
+})
+
+passport.deserializeUser(async (id, done) => {
+    const rows = await connection.query('select * from clientes where id = ?', [id])
+    done(null, rows[0]);
+})

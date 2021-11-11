@@ -8,6 +8,7 @@ const path = require('path')
 const flash = require('connect-flash')
 const passport = require('passport')
 const exphbs = require('express-handlebars')
+require('./lib/passportCustomer')
 require('./lib/passport')
 const { database } = require('./config/keys')
 
