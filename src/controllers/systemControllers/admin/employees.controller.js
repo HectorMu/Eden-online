@@ -22,7 +22,7 @@
    //para guardar, destructuramos todo lo que nos manden del body
     const {nombre, apellido,correo,contra, fk_rol} = req.body;
     //creamos un nuevo objeto y le agregamos las propiedades que nos traemos del req.body
-    const newEmployee = {nombre, apellido,correo,contra,fk_rol};
+    const newEmployee = {nombre, apellido,correo, telefono:"N/A", direccion:"N/A",contra, fk_rol};
     //ahora, al objeto newEmployee y su atributo contraseña, lo cambiamos por el hash que nos traemos desde helpers,
     //le ponemos un await por que el hash toma tiempo
     newEmployee.contra = await helpers.encryptPassword(contra);
@@ -53,7 +53,7 @@
    //pues aqui ya saben
    const { id } = req.params
    const { nombre, apellido,contra, fk_rol } = req.body;
-   const updatedEmployee = {nombre,apellido,contra,fk_rol}
+   const updatedEmployee = {nombre,apellido,telefono:"N/A", direccion:"N/A",contra,fk_rol}
    updatedEmployee.contra = await helpers.encryptPassword(contra)
    try {
       await connection.query('update usuarios set nombre = ?, apellido = ?, contra = ?, fk_rol = ? where id = ?',

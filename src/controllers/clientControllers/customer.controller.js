@@ -8,7 +8,7 @@ controller.renderProfile = (req, res) => {
 }
 
 controller.renderDashboard = (req, res) => {
-    res.render('client/dashboard')
+    res.render('client/dashboard.hbs')
 }
 
   module.exports  = controller

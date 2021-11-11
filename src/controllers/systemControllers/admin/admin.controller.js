@@ -10,11 +10,11 @@ const connection = require('../../../database')
    const onlineSales = GetOnlineSales[0].onlinesales
    const totalSales = localSales + onlineSales;
    //getting customers
-   const GetCustomers = await connection.query('select COUNT (*) as customers from clientes')
+  //  const GetCustomers = await connection.query('select COUNT (*) as customers from clientes')
    const GetEmployees = await connection.query('select COUNT (*) as employees from usuarios')
     res.render('system/admin/dashboard',{
       localSales, onlineSales, totalSales, 
-      Customers: GetCustomers[0].customers,
+      // Customers: GetCustomers[0].customers,
       Employees: GetEmployees[0].employees
     }) 
  }

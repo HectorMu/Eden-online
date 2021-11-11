@@ -1,11 +1,15 @@
 const controller = {}
 const passport = require('passport')
 
-controller.renderEmployeeLogin = (req, res)=>{
-    res.render('system/auth/login')
+controller.renderLogin = (req, res)=>{
+    res.render('auth/login.hbs')
 }
+controller.renderSignUp = (req, res)=>{
+    res.render('auth/signup.hbs')
+}
+
 controller.Login =(req, res, next) =>{
-    passport.authenticate('system/local.login',(err, user)=>{
+    passport.authenticate('local.login',(err, user)=>{
         if(!user){
             return res.redirect('/system')
         }
@@ -26,13 +30,24 @@ controller.Login =(req, res, next) =>{
             if(user.fk_rol == 5){
                 return res.redirect('/tradesman/dashboard')
             }
+            if(user.fk_rol == 6){
+                return res.redirect('/client/dashboard')
+            }
         })
     })(req, res, next)
 }
 
+
+controller.SignUp = passport.authenticate('local.signup',{
+        successRedirect: '/client/dashboard',
+        failureRedirect: '/signup',
+        failureFlash: true
+})
+
+
 controller.LogOut = (req, res,next)=>{
     req.logOut()
-    res.redirect('/system')
+    res.redirect('/login')
 }
 
 

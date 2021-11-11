@@ -8,6 +8,7 @@ const path = require('path')
 const flash = require('connect-flash')
 const passport = require('passport')
 const exphbs = require('express-handlebars')
+// require('./lib/passportCustomer')
 require('./lib/passport')
 const { database } = require('./config/keys')
 
@@ -61,10 +62,9 @@ app.use((req, res, next) => {
 app.use(express.static(path.join(__dirname,"public")))
 
 app.use('/',require('./routes/clientRoutes/client.routes'))
-app.use('/', require('./routes/clientRoutes/auth.routes'))
+app.use('/', require('./routes/auth.routes'))
 
 
-app.use('/',require('./routes/systemRoutes/auth.routes'))
 app.use('/',require('./routes/systemRoutes/admin.routes'))
 app.use('/',require('./routes/systemRoutes/chef.routes'))
 app.use('/',require('./routes/systemRoutes/waiter.routes'))
