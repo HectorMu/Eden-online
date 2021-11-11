@@ -61,7 +61,7 @@ app.use((req, res, next) => {
 app.use(express.static(path.join(__dirname,"public")))
 
 app.use('/',require('./routes/clientRoutes/client.routes'))
-
+app.use('/', require('./routes/clientRoutes/auth.routes'))
 
 
 app.use('/',require('./routes/systemRoutes/auth.routes'))
@@ -72,17 +72,6 @@ app.use('/',require('./routes/systemRoutes/tradesman.routes'))
 app.use('/',require('./routes/systemRoutes/barman.routes'))
 app.use('/',require('./routes/systemRoutes/api.routes'))
 
-
-app.get('/signup',(req, res)=>{
-  res.render('client/auth/signup')
-})
-
-app.get('/client/profile',(req, res)=>{
-  res.render('client/profile')
-})
-app.get('/client/dashboard',(req, res)=>{
-  res.render('client/dashboard')
-})
 
 //lading page (initial page)
 app.get('/',(req, res)=>{

@@ -18,7 +18,7 @@ controller.SaveCustomer = async (req, res) => {
 
     newCustomer.contra = await helpers.encryptPassword(contra);
     try {
-        const validateEmail = await helpers.costumerExists(newCustomer.correo);
+        const validateEmail = await helpers.customerExists(newCustomer.correo);
         if(validateEmail){
             req.flash("error_msg", "Este correo electronico ya esta registrado.")
             res.redirect(redirectPath);

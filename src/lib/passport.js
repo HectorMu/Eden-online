@@ -23,7 +23,26 @@ passport.use('system/local.login',new passportLocal({
     }
 }))
 
-
+/*passport.use('customer/local.signup', new passportLocal({
+    usernameField: 'correo',
+    passwordField: 'contra',
+    passReqToCallback: true
+}, async (req, correo, contra, done) => {
+    const { nombre, apellido, telefono, direccion } = req.body
+    const newCustomer = {
+        nombre,
+        apellido,
+        correo,
+        telefono,
+        direccion,
+        contra
+    }
+    newCustomer.contra = await helpers.encryptPassword(contra)
+    const result = await connection.query('insert into clientes set ?', [newCustomer])
+    req.flash("success_msg", "Cuenta registrada correctamente.")
+    newCustomer.id = result.insertId
+    return done(null, newCustomer)
+}))*/
 
 // passport.use('signup', new passportLocal({
 //     usernameField: "email",

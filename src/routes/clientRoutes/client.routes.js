@@ -1,11 +1,10 @@
 const express = require('express')
 const router = express.Router();
 
-const authController = require('../../controllers/clientControllers/auth.controller')
+const customerController = require('../../controllers/clientControllers/customer.controller')
 
-
-router.get('/login',authController.renderClientLogin)
-
+router.get('/client/profile', customerController.renderProfile)
+router.get('/client/dashboard', customerController.renderDashboard)
 
 
 module.exports = router

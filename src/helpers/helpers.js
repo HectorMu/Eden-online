@@ -22,7 +22,7 @@ helpers.userExists = async (correo)=>{
     return exists.length >  0 ? true : false;
 }
 
-helpers.costumerExists = async (correo) => {
+helpers.customerExists = async (correo) => {
     const exists = await connection.query(`select * from clientes where correo like '%${correo}%'`)
     return exists.length > 0 ? true : false;
 }
