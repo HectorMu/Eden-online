@@ -103,7 +103,7 @@
                     <td><a href="/waiter/orders/deleteproduct/${detail.num}" class="btn btn-danger"><i class="fas fa-window-close"></i></td>
                 </tr>`})
                 for (let i = 0; i < tableBody.rows.length; i++){
-                    alltotal  += parseFloat(tableBody.rows[i].cells[2].textContent)
+                    alltotal  += parseFloat(tableBody.rows[i].cells[3].textContent)
                 }
                 const pTotal = document.querySelector(`[data-Saletotal="${header.dataset.id}"]`)
                 pTotal.innerHTML = `Total de orden: ${alltotal} $ pesos`
