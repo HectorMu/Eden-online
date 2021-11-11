@@ -11,7 +11,9 @@ hbs.handlebars.registerHelper('isAdmin',(user)=>{
     // }
     return user.fk_rol == 1 ? true : false
 })
-
+hbs.handlebars.registerHelper('hasRole',(user)=>{
+     return user.fk_rol ? 'system' : 'customer';
+})
 hbs.handlebars.registerHelper('isWaiter',(user)=>{
     return user.fk_rol == 4 ? true : false
 })
@@ -20,21 +22,25 @@ hbs.handlebars.registerHelper('isData',(array)=>{
     return array.length > 0 ? true : false
 })
 hbs.handlebars.registerHelper('redirectPrivileges',(rol)=>{
-    if(rol === 1){
-        return 'admin'
-    }
-    if(rol === 2){
-        return 'chef'
-    }
-    if(rol === 3){
-        return 'barman'
-    }
-    if(rol === 4){
-        return 'waiter'
-    }
-    if(rol === 5){
-        return 'tradesman'
-    }
+    if(rol){
+        if(rol === 1){
+            return 'admin'
+        }
+        if(rol === 2){
+            return 'chef'
+        }
+        if(rol === 3){
+            return 'barman'
+        }
+        if(rol === 4){
+            return 'waiter'
+        }
+        if(rol === 5){
+            return 'tradesman'
+        }
+    }else{
+        return 'client'
+    } 
 })
 
 

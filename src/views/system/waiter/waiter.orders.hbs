@@ -46,6 +46,7 @@
                                     <thead>
                                         <tr>
                                         <th>Producto</th>
+                                        <th>Precio</th>
                                         <th>Cantidad</th>
                                         <th>$</th>
                                         <th>Opciones</th>
@@ -96,7 +97,8 @@
                 `
                 <tr>
                     <td>${detail.nombre}</td>
-                    <td>${detail.cantidad}</td>
+                    <td>${detail.precio_venta}</td>
+                    <td>${detail.cantidad}</td> 
                     <td>${detail.total}</td>
                     <td><a href="/waiter/orders/deleteproduct/${detail.num}" class="btn btn-danger"><i class="fas fa-window-close"></i></td>
                 </tr>`})
