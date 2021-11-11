@@ -1,5 +1,5 @@
 <div class="modal fade" tabindex="-1" id="addProductModal{{id}}">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Añadir productos</h5>
@@ -13,37 +13,91 @@
             <h4>Orden: {{id}}</h4>
             <h4>Mesa: {{fk_mesa}}</h4>
         </div>
+        <div class="row">
+          <div class="col">
             <div class="form-group" >
-              <label for="input{{id}}">Codigo de producto</label>
-                <input id="input{{id}}" name="fk_producto" list="products{{id}}" class="form-control"  placeholder="Buscar producto por nombre...">
+              
+                <input id="input{{id}}" name="fk_producto" list="products{{id}}" class="form-control"  placeholder="Buscar por nombre..." required>
                 <datalist  id="products{{id}}"></datalist>
             </div> 
-         
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <input id="quantity{{id}}" type="number"class="form-control" name="cantidad" placeholder="Cantidad.." required>
+            </div>
+          </div>
+        </div>
               <div class="row">
                 <div class="col">
                    <h5 id="pname{{id}}"></h5>
+                   <a id="addProduct{{id}}"  data-btnAddToOrder="{{id}}" href=""  class="btn btn-primary d-none">Añadir</a>
                 </div>
                 <div class="col">
                   <h5 id="pprice{{id}}"></h5>
                 </div>
                 <div class="col">
-                     <img id="photoSrc{{id}}" class="d-none" width="100%" height="100%">
+                     <img id="photoSrc{{id}}" class="d-none btn-block" width="100%" height="100%">
                 </div>
               </div> 
-            <div class="form-group">
-              <input type="number"class="form-control" name="cantidad" placeholder="Cantidad..">
-            </div>
+              <div class="row">
+                <div class="col">
+                  <p>Productos agregados:</p>
+                  <div class="mt-0" id="addedProductsOrder{{id}}"></div>
+                  </div>
+              </div>
+            
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-            <button type="submit" class="btn btn-primary">Guardar pedido</button>
+            <button type="button" data-dismiss="modal" class="btn btn-primary">Aceptar</button>
         </div>
        </form>
     </div>
   </div>
 </div>
 </div>
-
 <script>
+    const addButton{{id}} = document.querySelector(`[data-btnAddToOrder="{{id}}"]`)
+    const idProduct{{id}} = document.getElementById('input{{id}}')
+    const quantity{{id}} = document.getElementById('quantity{{id}}')
+    const addedProducts{{id}} = document.getElementById('addedProductsOrder{{id}}')
+  
+    addButton{{id}}.addEventListener('click',async(e)=>{
+      e.preventDefault();
+      const url{{id}} = '/api/order/addproduct/{{id}}'
+
+      const response{{id}} = await fetch(url{{id}},{
+        method:'POST',
+        headers:{
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          fk_producto: idProduct{{id}}.value,
+          cantidad: quantity{{id}}.value
+        })
+      })
+      const results{{id}} = await response{{id}}.json();
+      if(results{{id}}.estatus == "ok"){
+        const url = '/api/orderdetail/{{id}}'
+        const response = await fetch(url)
+        const details = await response.json();
+        addedProducts{{id}}.innerHTML += `
+          <li> ${details[details.length-1].nombre}</li>
+        `
+         Toastify({
+            text: 'Producto añadido al pedido',
+            className: "info text-center mt-2 w-100 toast-font",
+            position: "center",
+            gravity:"top",
+            style: {
+                background: "#4e73df",
+            }
+            }).showToast();
+        console.log(details)
+      }
+    })
+         
+         
+
     const input{{id}} = document.getElementById('input{{id}}')
     const list{{id}} = document.getElementById('products{{id}}')
     let focusCount{{id}} = 0;
@@ -63,12 +117,13 @@
               let img{{id}} = document.getElementById('photoSrc{{id}}')
               let pName{{id}} = document.getElementById('pname{{id}}')
               let pPrice{{id}} = document.getElementById('pprice{{id}}')
+              let btnAdd{{id}} = document.getElementById('addProduct{{id}}')
               if(input{{id}}.value == product.id){
                 img{{id}}.src = product.imagen
                 img{{id}}.classList.remove('d-none')
                 pName{{id}}.innerHTML = `Selección: ${product.nombre}`
                 pPrice{{id}}.innerHTML = `Precio: ${product.precio_venta} $`
-
+                btnAdd{{id}}.classList.remove('d-none')
               }
             })
         })

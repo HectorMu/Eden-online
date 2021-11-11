@@ -15,6 +15,20 @@ controller.getProducts = async(req, res)=>{
     res.json(products)
 }
 
+controller.orderNewProduct = async (req, res)=>{
+    const {fk_pedidolocal} = req.params;
+    const {fk_producto, cantidad} = req.body;
+    const newProduct = {fk_pedidolocal,fk_producto,cantidad}
+
+    try {
+        await connection.query('insert into productospedidolocal set ?',[newProduct])
+        res.json({estatus: "ok"})
+    } catch (error) {
+        res.json({estatus: "wrong"})
+        console.log(error)  
+    }
+}
+
 
 
 module.exports = controller;
