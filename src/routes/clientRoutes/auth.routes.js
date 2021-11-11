@@ -8,6 +8,7 @@ router.get('/login',authController.renderClientLogin)
 router.get('/signup', authController.renderClientSignup)
 router.post('/customer/login', authController.LoginCustomer)
 router.post('/customer/signup', authController.SignupCustomer)
+router.get('/customer/logout',authController.logOutCustomer)
 
 
 

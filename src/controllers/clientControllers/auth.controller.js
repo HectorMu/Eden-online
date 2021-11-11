@@ -23,5 +23,10 @@ controller.SignupCustomer = passport.authenticate('customer/local.signup', {
         failureFlash: true
     })
 
+controller.logOutCustomer = (req, res, next)=>{
+    req.logOut()
+    res.redirect('/login')
+}
+
 
 module.exports  = controller
