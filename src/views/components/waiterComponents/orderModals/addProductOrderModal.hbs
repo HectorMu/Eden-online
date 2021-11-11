@@ -1,0 +1,62 @@
+<div class="modal fade" tabindex="-1" id="addProductModal{{id}}">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Añadir productos</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       <form action="/waiter/order/addproduct/{{id}}" method="POST">
+        <div class="d-flex justify-content-around mb-3">
+            <h4>Orden: {{id}}</h4>
+            <h4>Mesa: {{fk_mesa}}</h4>
+        </div>
+            <div class="form-group" >
+              <label for="input{{id}}">Codigo de producto</label>
+                <input id="input{{id}}" name="fk_producto" list="products{{id}}" class="form-control"  placeholder="Buscar producto por nombre...">
+                <datalist  id="products{{id}}"></datalist>
+            </div> 
+            <div class="d-flex justify-content-center mb-2">
+              <img id="photoSrc{{id}}" width="20%" height="20%">
+            </div>
+            <div class="form-group">
+              <input type="text"class="form-control" name="cantidad" placeholder="Cantidad..">
+            </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Guardar pedido</button>
+        </div>
+       </form>
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+    const input{{id}} = document.getElementById('input{{id}}')
+    const list{{id}} = document.getElementById('products{{id}}')
+    let focusCount{{id}} = 0;
+    
+    input{{id}}.addEventListener("focus",async()=>{
+        const url = '/api/getproducts'
+        const response = await fetch(url);
+        const products = await response.json();
+        if(focusCount{{id}} == 0){
+            focusCount{{id}}++
+            products.forEach((product)=>{
+            let option = document.createElement('option')
+            option.value = product.id
+            option.textContent = product.nombre
+            list{{id}}.appendChild(option)
+            input{{id}}.addEventListener('change',()=>{
+              let img{{id}} = document.getElementById('photoSrc{{id}}')
+              if(input{{id}}.value == product.id){
+                img{{id}}.src = product.imagen
+              }
+            })
+        })
+      } 
+    })
+</script>

@@ -6,6 +6,8 @@ const apiController = require('./../../controllers/systemControllers/Api/apiCont
 
 
 router.get('/api/orderdetail/:id',apiController.getOrderDetail)
+router.get('/api/getproducts',apiController.getProducts)
+
 
 
 

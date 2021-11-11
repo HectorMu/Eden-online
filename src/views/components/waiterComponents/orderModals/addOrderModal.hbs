@@ -9,9 +9,14 @@
       </div>
       <div class="modal-body">
        <form action="/waiter/neworder" method="POST">
-     
-
-     
+         <div class="form-group" required>
+                <label for="rol">Mesa</label>
+                <select name="fk_mesa"  class="form-control">
+                    {{#each tables}}
+                      <option value="{{id}}">{{mesa}}</option>
+                    {{/each}}
+                </select>
+            </div>  
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
             <button type="submit" class="btn btn-primary">Guardar Orden</button>
