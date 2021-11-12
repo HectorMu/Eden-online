@@ -48,7 +48,7 @@
             
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-            <button type="button" data-dismiss="modal" class="btn btn-primary">Aceptar</button>
+            <button id="btnAccept{{id}}" type="button" data-dismiss="modal" class="btn btn-primary">Aceptar</button>
         </div>
        </form>
     </div>
@@ -60,6 +60,11 @@
     const idProduct{{id}} = document.getElementById('input{{id}}')
     const quantity{{id}} = document.getElementById('quantity{{id}}')
     const addedProducts{{id}} = document.getElementById('addedProductsOrder{{id}}')
+    const btnAccept{{id}} = document.getElementById('btnAccept{{id}}')
+
+    btnAccept{{id}}.addEventListener('click',()=>{
+      addedProducts{{id}}.innerHTML = ""
+    })
   
     addButton{{id}}.addEventListener('click',async(e)=>{
       e.preventDefault();
@@ -92,9 +97,10 @@
                 background: "#4e73df",
             }
             }).showToast();
-        console.log(details)
+             const headerclicked{{id}} = document.querySelector(`[data-id="{{id}}"]`)
+            headerclicked{{id}}.click()
       }
-    })
+  })
          
          
 

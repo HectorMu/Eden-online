@@ -32,9 +32,9 @@
                                     </h2>
                                     <div class="row">
                                         <div class="col">
-                                            <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#addProductModal{{id}}"><i class="fas fa-plus"></i></button>
-                                            <button class="btn btn-primary "><i class="fas fa-paper-plane"></i></i></button>
-                                            <button class="btn btn-primary "><i class="fas fa-receipt"></i></button>
+                                            <button class="btn btn-primary btn-sm" type="button" data-toggle="modal" data-target="#addProductModal{{id}}"><i class="fas fa-plus"></i></button>
+                                            <button class="btn btn-primary btn-sm"><i class="fas fa-paper-plane"></i></i></button>
+                                            <button class="btn btn-primary btn-sm mt-1"><i class="fas fa-receipt"></i></button>
                                         </div>
                                     </div>
                                 </div>
@@ -42,14 +42,14 @@
                        <div id="collapseOrder{{id}}" data-collapseid="{{id}}" class="collapse" aria-labelledby="headingOrder{{id}}" data-parent="#accordionOrder{{id}}">
                             <div data-cardBody="{{id}}" class="card-body">
                                 <p data-Saletotal="{{id}}" id="total"></p>
-                                <table style="font-size: 15px;" class="table">
+                                <table  style="font-size: 15px;" class="table table-responsive text-center">
                                     <thead>
                                         <tr>
                                         <th>Producto</th>
-                                        <th>Precio</th>
-                                        <th>Cantidad</th>
                                         <th>$</th>
-                                        <th>Opciones</th>
+                                        <th>Cant.</th>
+                                        <th>Total</th>
+                                        <th><i class="fas fa-cog"></i></th>
                                         </tr>
                                     </thead>
                                     <tbody class="justify-content-center" data-detailTable="{{id}}">
@@ -86,17 +86,10 @@
         const response = await fetch(url);
         return response.json();
     }
-    
-    const cardHeaders = document.querySelectorAll('.card-header')
-    cardHeaders.forEach(header=>{
-        header.addEventListener('click',async ()=>{
-            const tableBody = document.querySelector(`[data-detailTable="${header.dataset.id}"]`)
-            const pTotal = document.querySelector(`[data-Saletotal="${header.dataset.id}"]`)
-            tableBody.innerHTML = tableSpinner();
-            const details = await getOrders(header.dataset.id)
-            let alltotal = 0;
-            if(details.length>0){
-                tableBody.innerHTML ="";
+    const renderOrderDetails = async(tableBody, id)=>{
+        tableBody.innerHTML = tableSpinner();
+        const details = await getOrders(id)
+         tableBody.innerHTML ="";
                 details.map(detail =>{
                 tableBody.innerHTML += 
                 `<tr>
@@ -104,40 +97,47 @@
                     <td>${detail.precio_venta}</td>
                     <td>${detail.cantidad}</td> 
                     <td>${detail.total}</td>
-                    <td><button type="submit" data-productnum="${detail.num}" class="btn btn-danger deleteProduct"><i class="fas fa-window-close"></button></td>
+                    <td><button type="submit" data-productnum="${detail.num}" class="btn btn-danger btn-sm deleteProduct"><i class="fas fa-window-close"></button></td>
                 </tr>`
-                })
+        })
+    }
+    const deleteProduct = async(id) =>{
+        const url = `/api/order/removeproduct/${id}`
+        const response = await fetch(url)
+        const results = await response.json();
+        return results;
+    }
+
+    
+    const cardHeaders = document.querySelectorAll('.card-header')
+    cardHeaders.forEach(header=>{
+        header.addEventListener('click',async ()=>{
+            const tableBody = document.querySelector(`[data-detailTable="${header.dataset.id}"]`)
+            const pTotal = document.querySelector(`[data-Saletotal="${header.dataset.id}"]`)
+            let alltotal = 0;
+               await renderOrderDetails(tableBody, header.dataset.id)
                 const deleteButtons = document.querySelectorAll('.deleteProduct')
                 deleteButtons.forEach( button =>{
-                    button.addEventListener('click',async(e)=>{
-                        e.preventDefault();
-                        const url = `/api/order/removeproduct/${button.dataset.productnum}`
-                        const response = await fetch(url)
-                        const results = await response.json();
-                        if(results.status == "ok"){
-                            const collapse = document.querySelector(`[data-collapseid="${header.dataset.id}"]`)
-                            collapse.classList.remove('show')
-                            Toastify({
-                                    text: `Producto eliminado de la orden ${header.dataset.id}`,
-                                    className: "info text-center mt-2 w-100 toast-font",
-                                    position: "center",
-                                    gravity:"top",
-                                    style: {
-                                        background: "#4e73df",
-                                    }
-                            }).showToast(); 
-                        }
-                    })
-                })
-                for (let i = 0; i < tableBody.rows.length; i++){
-                    alltotal  += parseFloat(tableBody.rows[i].cells[3].textContent)
+                button.addEventListener('click',async(e)=>{
+                e.preventDefault();          
+                const results = await deleteProduct(button.dataset.productnum)
+                if(results.status == "ok"){
+                    const headerclicked = document.querySelector(`[data-id="${header.dataset.id}"]`)
+                    headerclicked.click()
+                    Toastify({
+                        text: `Producto eliminado de la orden ${header.dataset.id}`,
+                        className: "info text-center mt-2 w-100 toast-font",
+                        position: "center",
+                         gravity:"top",
+                        style: {background: "#4e73df",}
+                    }).showToast();   
                 }
- 
-                pTotal.innerHTML = `Total de orden: ${alltotal} $ pesos`
-            }else{
-                tableBody.innerHTML=`<h5 class="text-center mt-2">Esta orden aun no tiene productos.</h5>`
-                pTotal.innerHTML =""
-            }          
+            })
+            })
+            for (let i = 0; i < tableBody.rows.length; i++){
+                    alltotal  += parseFloat(tableBody.rows[i].cells[3].textContent)
+            }
+            pTotal.innerHTML = `Total de orden: ${alltotal} $ pesos`        
         })
     })
 </script>
