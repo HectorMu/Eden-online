@@ -39,10 +39,10 @@
                                     </div>
                                 </div>
                     </div>
-                       <div id="collapseOrder{{id}}"  class="collapse" aria-labelledby="headingOrder{{id}}" data-parent="#accordionOrder{{id}}">
+                       <div id="collapseOrder{{id}}" data-collapseid="{{id}}" class="collapse" aria-labelledby="headingOrder{{id}}" data-parent="#accordionOrder{{id}}">
                             <div data-cardBody="{{id}}" class="card-body">
                                 <p data-Saletotal="{{id}}" id="total"></p>
-                                <table  class="table">
+                                <table style="font-size: 15px;" class="table">
                                     <thead>
                                         <tr>
                                         <th>Producto</th>
@@ -74,41 +74,69 @@
         </div>
 <!-- End of Content Wrapper -->
 <script>
-    const cardHeaders = document.querySelectorAll('.card-header')
-    cardHeaders.forEach(header=>{
-        header.addEventListener('click',async ()=>{
-            const tableBody = document.querySelector(`[data-detailTable="${header.dataset.id}"]`)
-            tableBody.innerHTML = `
+    const tableSpinner = () => (`
             <div class="d-flex justify-content-center mt-2">
                  <div class="spinner-border text-primary" role="status">
                 <span class="sr-only">Loading...</span>
                 </div>
-            </div>
-           `
-            const url = `/api/orderdetail/${header.dataset.id}`
-            const response = await fetch(url);
-            const details = await response.json();
-          
+            </div>`)
+
+    const getOrders = async (id) =>{
+        const url = `/api/orderdetail/${id}`
+        const response = await fetch(url);
+        return response.json();
+    }
+    
+    const cardHeaders = document.querySelectorAll('.card-header')
+    cardHeaders.forEach(header=>{
+        header.addEventListener('click',async ()=>{
+            const tableBody = document.querySelector(`[data-detailTable="${header.dataset.id}"]`)
+            const pTotal = document.querySelector(`[data-Saletotal="${header.dataset.id}"]`)
+            tableBody.innerHTML = tableSpinner();
+            const details = await getOrders(header.dataset.id)
             let alltotal = 0;
             if(details.length>0){
                 tableBody.innerHTML ="";
                 details.map(detail =>{
                 tableBody.innerHTML += 
-                `
-                <tr>
+                `<tr>
                     <td>${detail.nombre}</td>
                     <td>${detail.precio_venta}</td>
                     <td>${detail.cantidad}</td> 
                     <td>${detail.total}</td>
-                    <td><a href="/waiter/orders/deleteproduct/${detail.num}" class="btn btn-danger"><i class="fas fa-window-close"></i></td>
-                </tr>`})
+                    <td><button type="submit" data-productnum="${detail.num}" class="btn btn-danger deleteProduct"><i class="fas fa-window-close"></button></td>
+                </tr>`
+                })
+                const deleteButtons = document.querySelectorAll('.deleteProduct')
+                deleteButtons.forEach( button =>{
+                    button.addEventListener('click',async(e)=>{
+                        e.preventDefault();
+                        const url = `/api/order/removeproduct/${button.dataset.productnum}`
+                        const response = await fetch(url)
+                        const results = await response.json();
+                        if(results.status == "ok"){
+                            const collapse = document.querySelector(`[data-collapseid="${header.dataset.id}"]`)
+                            collapse.classList.remove('show')
+                            Toastify({
+                                    text: `Producto eliminado de la orden ${header.dataset.id}`,
+                                    className: "info text-center mt-2 w-100 toast-font",
+                                    position: "center",
+                                    gravity:"top",
+                                    style: {
+                                        background: "#4e73df",
+                                    }
+                            }).showToast(); 
+                        }
+                    })
+                })
                 for (let i = 0; i < tableBody.rows.length; i++){
                     alltotal  += parseFloat(tableBody.rows[i].cells[3].textContent)
                 }
-                const pTotal = document.querySelector(`[data-Saletotal="${header.dataset.id}"]`)
+ 
                 pTotal.innerHTML = `Total de orden: ${alltotal} $ pesos`
             }else{
                 tableBody.innerHTML=`<h5 class="text-center mt-2">Esta orden aun no tiene productos.</h5>`
+                pTotal.innerHTML =""
             }          
         })
     })

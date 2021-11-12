@@ -27,6 +27,16 @@ controller.orderNewProduct = async (req, res)=>{
         res.json({estatus: "wrong"})
         console.log(error)  
     }
+} 
+controller.deleteOrderProduct = async(req, res)=>{
+    const {num} = req.params;
+    try {
+        await connection.query('delete from productospedidolocal where num = ?',[num])
+        res.json({status:"ok"})
+    } catch (error) {
+        res.json({status: "wrong"})
+        console.log(error)
+    }
 }
 
 
