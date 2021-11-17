@@ -37,10 +37,10 @@ controller.deleteOrder = async(req, res)=>{
     }
 }
 controller.sendToCashier = async(req, res)=>{
-    const { id, total } = req.params;
+    const { id } = req.params;
     try {
-        const orderTotal = connection.query('select')
-        await connection.query(`update pedidolocal set estatus = 'En cobro', totalpedido = ? where id = ?`,[total, id])
+        const orderTotal = await connection.query(`SELECT SUM (p.precio_venta*ppl.cantidad) AS Total, ppl.fk_pedidolocal FROM productospedidolocal ppl, productos p WHERE ppl.fk_pedidolocal = ${id} && ppl.fk_producto = p.id GROUP BY ppl.fk_pedidolocal;`)
+        await connection.query(`update pedidolocal set estatus = 'En cobro', totalpedido = ? where id = ?`,[orderTotal[0].Total, id])
         req.flash("success_msg", `Pedido ${id} enviado para cobrar.`)
         res.redirect(redirectPath)
     } catch (error) {
