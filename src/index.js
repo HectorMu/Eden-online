@@ -71,6 +71,7 @@ app.use('/',require('./routes/systemRoutes/waiter.routes'))
 app.use('/',require('./routes/systemRoutes/tradesman.routes'))
 app.use('/',require('./routes/systemRoutes/barman.routes'))
 app.use('/',require('./routes/systemRoutes/api.routes'))
+app.use('/',require('./routes/profile.routes'))
 
 
 //lading page (initial page)
