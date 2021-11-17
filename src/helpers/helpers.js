@@ -45,7 +45,7 @@ helpers.redirectByUserRol = (rol)=>{
     if(rol == 5){
         return '/tradesman/dashboard'
     }
-    if(rol == undefined || rol == null){
+    if(rol == 6){
         return '/client/dashboard'
     }
 }

@@ -42,7 +42,7 @@
                        <div id="collapseOrder{{id}}" data-collapseid="{{id}}" class="collapse" aria-labelledby="headingOrder{{id}}" data-parent="#accordionOrder{{id}}">
                             <div data-cardBody="{{id}}" class="card-body">
                                 <p data-Saletotal="{{id}}" id="total"></p>
-                                <table  style="font-size: 15px;" class="table table-responsive text-center">
+                                <table  style="font-size: 15px;" class="table table-responsive  text-center">
                                     <thead>
                                         <tr>
                                         <th>Producto</th>
@@ -54,10 +54,10 @@
                                     </thead>
                                     <tbody class="justify-content-center" data-detailTable="{{id}}">
                                     </tbody>
-                                </table>
-                                
+                                </table>    
                             </div>
                          </div>
+                         
                            {{>waiterComponents/orderModals/addProductOrderModal}}
                     </div>
                     {{/each}}
@@ -86,6 +86,24 @@
         const response = await fetch(url);
         return response.json();
     }
+       const deleteProduct = async(id) =>{
+        const url = `/api/order/removeproduct/${id}`
+        const response = await fetch(url)
+        const results = await response.json();
+        return results;
+    }
+    const changeCuantity = async (id, newCuantity)=>{
+        const url = `/api/order/changecuantity/${id}`
+        const response = await fetch(url,{
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json'},
+            body:JSON.stringify({
+                  cuantity: newCuantity
+            })  
+        })
+        const results = await response.json();
+        return results;
+    }
     const renderOrderDetails = async(tableBody, id)=>{
         tableBody.innerHTML = tableSpinner();
         const details = await getOrders(id)
@@ -95,19 +113,17 @@
                 `<tr>
                     <td>${detail.nombre}</td>
                     <td>${detail.precio_venta}</td>
-                    <td>${detail.cantidad}</td> 
-                    <td>${detail.total}</td>
-                    <td><button type="submit" data-productnum="${detail.num}" class="btn btn-danger btn-sm deleteProduct"><i class="fas fa-window-close"></button></td>
+                    <td>     
+                        <input placeholder="Nueva cantidad" data-newcuantityinput="${detail.num}" type="number" class="form-control d-none"> 
+                        <div data-tdcuantity="${detail.num}">${detail.cantidad}</div> 
+                    <td>${parseFloat(detail.precio_venta*detail.cantidad)} </td>
+                    <td class="d-flex"><button type="submit" data-productnum="${detail.num}" class="btn btn-danger btn-sm deleteProduct"><i class="fas fa-window-close"></i></button>
+                      <button type="submit" data-productnumcuantity="${detail.num}" class="btn btn-sm btn-info btn-sm mx-1 cuantityEdit"><i class="fas fa-pen"></i></button>
+                       <button type="submit" data-savecuantity="${detail.num}" class="btn btn-sm btn-info btn-sm mx-1 d-none"><i class="fas fa-check"></i></button>
+                    </td>
                 </tr>`
         })
     }
-    const deleteProduct = async(id) =>{
-        const url = `/api/order/removeproduct/${id}`
-        const response = await fetch(url)
-        const results = await response.json();
-        return results;
-    }
-
     
     const cardHeaders = document.querySelectorAll('.card-header')
     cardHeaders.forEach(header=>{
@@ -137,7 +153,36 @@
             for (let i = 0; i < tableBody.rows.length; i++){
                     alltotal  += parseFloat(tableBody.rows[i].cells[3].textContent)
             }
-            pTotal.innerHTML = `Total de orden: ${alltotal} $ pesos`        
+            pTotal.innerHTML = `Total de orden: ${alltotal} $ pesos`   
+
+            const cuantityEditButtons = document.querySelectorAll('.cuantityEdit')
+
+            cuantityEditButtons.forEach(button =>{
+                button.addEventListener('click',()=>{
+                const divCuantity = document.querySelector(`[data-tdcuantity="${button.dataset.productnumcuantity}"]`)
+                divCuantity.classList.add('d-none')
+                const newCuantityInput = document.querySelector(`[data-newcuantityinput="${button.dataset.productnumcuantity}"]`)
+                newCuantityInput.classList.remove('d-none')
+                const saveCuantityBtn = document.querySelector(`[data-savecuantity="${button.dataset.productnumcuantity}"]`)
+                saveCuantityBtn.classList.remove('d-none')
+
+                saveCuantityBtn.addEventListener('click',async()=>{
+                    const headerclicked = document.querySelector(`[data-id="${header.dataset.id}"]`)
+                    const results = await changeCuantity(button.dataset.productnumcuantity, newCuantityInput.value)
+                        if(results.status == "ok"){
+                            headerclicked.click()
+                            Toastify({
+                            text: `Cantidad cambiada correctamente`,
+                            className: "info text-center mt-2 w-100 toast-font",
+                            position: "center",
+                            gravity:"top",
+                            style: {background: "#4e73df",}
+                        }).showToast();   
+                    }
+                })
+                button.classList.add('d-none')
+                })
+            })
         })
     })
 </script>

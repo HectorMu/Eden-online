@@ -39,6 +39,18 @@ controller.deleteOrderProduct = async(req, res)=>{
     }
 }
 
+controller.changeCuantityProduct = async(req, res)=>{
+    const {num} = req.params;
+    const { cuantity }= req.body;
+    try {
+        await connection.query('update productospedidolocal set cantidad = ? where num = ?',[cuantity, num])
+        res.json({status:"ok"})
+    } catch (error) {
+        res.json({status: "wrong"})
+        console.log(error)
+    }
+}
+
 
 
 module.exports = controller;

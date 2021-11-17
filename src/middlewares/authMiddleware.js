@@ -17,6 +17,19 @@ authMiddleware.isAdmin = (req, res, next)=>{
     req.flash('error_msg','Solo los administradores pueden acceder a este modulo')
     res.redirect(helpers.redirectByUserRol(req.user.fk_rol))
 }
+authMiddleware.isWaiter = (req, res,next)=>{
+    if(req.user.fk_rol === 1 || req.user.fk_rol === 4){
+        return next();
+    }
+    req.flash('error_msg','Solo los meseros y administradores pueden acceder a este modulo.')
+    res.redirect(helpers.redirectByUserRol(req.user.fk_rol))
+}
+authMiddleware.ApiIsWaiter = (req, res, next)=>{
+    if(req.user.fk_rol === 1 || req.user.fk_rol === 4){
+        return next();
+    }
+    res.json({estatus: "permissions denied"})
+}
 authMiddleware.isChef = (req, res, next)=>{
     if(req.user.fk_rol === 2){
         return next();

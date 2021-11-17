@@ -11,7 +11,7 @@ controller.renderSignUp = (req, res)=>{
 controller.Login =(req, res, next) =>{
     passport.authenticate('local.login',(err, user)=>{
         if(!user){
-            return res.redirect('/system')
+            return res.redirect('/login')
         }
         req.logIn(user,(err)=>{
             console.log(user)
