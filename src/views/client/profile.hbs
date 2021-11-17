@@ -4,18 +4,45 @@
             <!-- Main Content -->
             <div id="content">
                {{>navbar}}
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
-
-                    <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">This is my profile hehe</h1>
-                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+               <aside class="profile-card">
+                    <header>
+                        <a href="">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/OOjs_UI_icon_userAvatar.svg/2048px-OOjs_UI_icon_userAvatar.svg.png" />
+                        </a>
+                        <h1>Información básica</h1>
+                    </header>
+                    <div class="profile-bio">
+                        <h2>{{user.nombre}} {{user.apellido}}</h2>
                     </div>
-                </div>
-                <!-- /.container-fluid -->
+                    <div class="profile-bio">
+                        <h2>{{user.correo}}</h2>
+                    </div>
+                    <div class="profile-bio">
+                        <h2>{{user.telefono}}</h2>
+                    </div>
+                    <div class="profile-bio">
+                        <h2>{{user.direccion}}</h2>
+                    </div>
+                    <ul class="profile-social-links">
+                        <li>
+                            <div>
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Edit_icon_%28the_Noun_Project_30184%29.svg/1024px-Edit_icon_%28the_Noun_Project_30184%29.svg.png" type="button" data-toggle="modal" data-target="#editCustomersModal{{id}}">
+                            </div>
+                        </li>
+                        <li>
+                            <a href="">
+                                <img src="">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/client/dashboard">
+                                <img src="https://datosdeclasehector.blob.core.windows.net/imagenes/LogoEden.png">
+                            </a>
+                        </li>
+                    </ul>
+               </aside>
             </div>
+            {{>clientComponents/customerModals/editCustomerModal}}
             <!-- End of Main Content -->
           {{>footer}}
         </div>
