@@ -8,12 +8,9 @@ const path = require('path')
 const flash = require('connect-flash')
 const passport = require('passport')
 const exphbs = require('express-handlebars')
-// require('./lib/passportCustomer')
+const sockets = require('./lib/socketio')
 require('./lib/passport')
 const { database } = require('./config/keys')
-
-
-
 //initializations
 const app = express()
 
@@ -65,13 +62,13 @@ app.use('/',require('./routes/clientRoutes/client.routes'))
 app.use('/', require('./routes/auth.routes'))
 
 
-app.use('/',require('./routes/systemRoutes/admin.routes'))
-app.use('/',require('./routes/systemRoutes/chef.routes'))
-app.use('/',require('./routes/systemRoutes/waiter.routes'))
-app.use('/',require('./routes/systemRoutes/tradesman.routes'))
-app.use('/',require('./routes/systemRoutes/barman.routes'))
-app.use('/',require('./routes/systemRoutes/api.routes'))
-app.use('/',require('./routes/profile.routes'))
+app.use(require('./routes/systemRoutes/admin.routes'))
+app.use(require('./routes/systemRoutes/chef.routes'))
+app.use(require('./routes/systemRoutes/waiter.routes'))
+app.use(require('./routes/systemRoutes/tradesman.routes'))
+app.use(require('./routes/systemRoutes/barman.routes'))
+app.use(require('./routes/systemRoutes/api.routes'))
+app.use(require('./routes/profile.routes'))
 
 
 //lading page (initial page)
@@ -82,6 +79,10 @@ app.get('/',(req, res)=>{
 
 //Server port config
 let port = 3000 || process.env.PORT
-app.listen(port, ()=>{
+const server = app.listen(port, ()=>{
     console.log(`Listening on port ${port}`)
 })
+
+sockets(server)
+
+
