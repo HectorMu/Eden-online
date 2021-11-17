@@ -5,7 +5,7 @@ const connection = require('../../../database')
 
 controller.getOrderDetail = async(req, res)=>{
     const {id} = req.params;
-    const orderProducts = await connection.query(`SELECT ppl.num, ppl.fk_pedidolocal, p.nombre,p.precio_venta,ppl.cantidad, (p.precio_venta*ppl.cantidad) AS total FROM productospedidolocal ppl, productos p 
+    const orderProducts = await connection.query(`SELECT ppl.num, ppl.fk_pedidolocal, p.nombre,p.precio_venta,ppl.cantidad, ppl.estatus, (p.precio_venta*ppl.cantidad) AS total FROM productospedidolocal ppl, productos p 
     WHERE ppl.fk_pedidolocal = ${id} && ppl.fk_producto = p.id`)
     res.json(orderProducts)
 }
@@ -18,7 +18,7 @@ controller.getProducts = async(req, res)=>{
 controller.orderNewProduct = async (req, res)=>{
     const {fk_pedidolocal} = req.params;
     const {fk_producto, cantidad} = req.body;
-    const newProduct = {fk_pedidolocal,fk_producto,cantidad}
+    const newProduct = {fk_pedidolocal,fk_producto,cantidad,estatus:'Captura'}
 
     try {
         await connection.query('insert into productospedidolocal set ?',[newProduct])
@@ -50,6 +50,16 @@ controller.changeCuantityProduct = async(req, res)=>{
         console.log(error)
     }
 }
+// controller.sendOrderToChef = async (req, res)=>{
+//     const { fk_pedidolocal } = req.params;
+//     try {
+//         await connection.query(`update productospedidolocal set estatus = 'Preparacion' where fk_pedidolocal = ?`,[fk_pedidolocal])
+//         res.json({status:"ok"})
+//     } catch (error) {
+//         res.json({status: "wrong"})
+//         console.log(error)
+//     }
+// }
 
 
 

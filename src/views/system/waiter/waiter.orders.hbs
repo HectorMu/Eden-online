@@ -11,7 +11,7 @@
                         <h1 class="h3 mb-0 text-gray-800">Control de ordenes</h1>
                          <button type="button"  data-toggle="modal" data-target="#addOrderModal" class="btn btn-primary btn-sm d-none d-md-block d-lg-block d-xl-block "><i class="fas fa-plus"></i> Nueva orden</button>
                         <div class="fixed-button d-lg-none d-md-none d-xl-none">
-                            <button type="button"  data-toggle="modal" data-target="#addOrderModal" class="btn btn-primary btn-lg"><i class="fas fa-plus"></i> Nueva orden</button>
+                            <button type="button"  data-toggle="modal" data-target="#addOrderModal" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Nueva orden</button>
                         </div>
                     </div>
                     {{#if (isData orders)}}
@@ -33,8 +33,8 @@
                                     <div class="row">
                                         <div class="col">
                                             <button class="btn btn-primary btn-sm" type="button" data-toggle="modal" data-target="#addProductModal{{id}}"><i class="fas fa-plus"></i></button>
-                                            <button class="btn btn-primary btn-sm"><i class="fas fa-paper-plane"></i></i></button>
-                                            <button class="btn btn-primary btn-sm mt-1"><i class="fas fa-receipt"></i></button>
+                                            <a href="/waiter/sendorder/{{id}}" data-sendorder="{{id}}" class="btn btn-primary btn-sm"><i class="fas fa-paper-plane"></i></a>
+                                            <button class="btn btn-danger btn-sm" type="button" data-toggle="modal" data-target="#deleteOrderModal{{id}}"><i class="fas fa-trash"></i></button>
                                         </div>
                                     </div>
                                 </div>
@@ -56,9 +56,9 @@
                                     </tbody>
                                 </table>    
                             </div>
-                         </div>
-                         
+                         </div>      
                            {{>waiterComponents/orderModals/addProductOrderModal}}
+                           {{>waiterComponents/orderModals/deleteOrderModal}}
                     </div>
                     {{/each}}
                     {{else}}
@@ -72,6 +72,7 @@
             <!-- End of Main Content -->
           {{>footer}}
         </div>
+       
 <!-- End of Content Wrapper -->
 <script>
     const tableSpinner = () => (`
@@ -104,27 +105,37 @@
         const results = await response.json();
         return results;
     }
+     const changeColorByEstatus = (estatus)=>{
+            if(estatus == 'Preparacion'){
+                return 'bg-dark text-white'
+            }
+            if(estatus == 'Preparado'){
+                return 'bg-success text-white'
+            }else{
+                return ""
+            } 
+        }
     const renderOrderDetails = async(tableBody, id)=>{
         tableBody.innerHTML = tableSpinner();
         const details = await getOrders(id)
          tableBody.innerHTML ="";
                 details.map(detail =>{
                 tableBody.innerHTML += 
-                `<tr>
+                `<tr class="${changeColorByEstatus(detail.estatus)}">
                     <td>${detail.nombre}</td>
                     <td>${detail.precio_venta}</td>
                     <td>     
-                        <input placeholder="Nueva cantidad" data-newcuantityinput="${detail.num}" type="number" class="form-control d-none"> 
+                        <input placeholder="Nueva cantidad" data-newcuantityinput="${detail.num}" type="number"  autofocus class="form-control d-none"> 
                         <div data-tdcuantity="${detail.num}">${detail.cantidad}</div> 
                     <td>${parseFloat(detail.precio_venta*detail.cantidad)} </td>
-                    <td class="d-flex"><button type="submit" data-productnum="${detail.num}" class="btn btn-danger btn-sm deleteProduct"><i class="fas fa-window-close"></i></button>
-                      <button type="submit" data-productnumcuantity="${detail.num}" class="btn btn-sm btn-info btn-sm mx-1 cuantityEdit"><i class="fas fa-pen"></i></button>
-                       <button type="submit" data-savecuantity="${detail.num}" class="btn btn-sm btn-info btn-sm mx-1 d-none"><i class="fas fa-check"></i></button>
+                    <td class="d-flex">
+                        <button type="submit" data-productnumcuantity="${detail.num}" class="btn btn-sm btn-info btn-sm mx-1 cuantityEdit"><i class="fas fa-pen"></i></button>
+                        <button type="submit" data-savecuantity="${detail.num}" class="btn btn-sm btn-info btn-sm mx-1 d-none"><i class="fas fa-check"></i></button>
+                        <button type="submit" data-productnum="${detail.num}" class="btn btn-danger btn-sm deleteProduct"><i class="fas fa-window-close"></i></button>
                     </td>
                 </tr>`
         })
     }
-    
     const cardHeaders = document.querySelectorAll('.card-header')
     cardHeaders.forEach(header=>{
         header.addEventListener('click',async ()=>{
@@ -153,19 +164,26 @@
             for (let i = 0; i < tableBody.rows.length; i++){
                     alltotal  += parseFloat(tableBody.rows[i].cells[3].textContent)
             }
-            pTotal.innerHTML = `Total de orden: ${alltotal} $ pesos`   
-
+            if(alltotal > 0){
+                 pTotal.innerHTML = `
+                 <div class="d-flex justify-content-between">
+                     <p>Total de orden: ${alltotal} $ pesos</p>
+                      <a href="/waiter/sendtocashier/${header.dataset.id}/${alltotal}" class="btn btn-primary"><i class="fas fa-receipt"></i></a>
+                 </div>
+                  `   
+            }else{
+                 pTotal.innerHTML = `Esta orden aun no tiene productos.`   
+            }
             const cuantityEditButtons = document.querySelectorAll('.cuantityEdit')
-
             cuantityEditButtons.forEach(button =>{
                 button.addEventListener('click',()=>{
                 const divCuantity = document.querySelector(`[data-tdcuantity="${button.dataset.productnumcuantity}"]`)
                 divCuantity.classList.add('d-none')
                 const newCuantityInput = document.querySelector(`[data-newcuantityinput="${button.dataset.productnumcuantity}"]`)
                 newCuantityInput.classList.remove('d-none')
+                newCuantityInput.value = divCuantity.textContent
                 const saveCuantityBtn = document.querySelector(`[data-savecuantity="${button.dataset.productnumcuantity}"]`)
                 saveCuantityBtn.classList.remove('d-none')
-
                 saveCuantityBtn.addEventListener('click',async()=>{
                     const headerclicked = document.querySelector(`[data-id="${header.dataset.id}"]`)
                     const results = await changeCuantity(button.dataset.productnumcuantity, newCuantityInput.value)
