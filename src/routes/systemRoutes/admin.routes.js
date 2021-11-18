@@ -9,6 +9,8 @@ const systemCustomersController = require(adminControllersPath+'customers.contro
 const systemProductController = require('./../../controllers/systemControllers/admin/products.controller')
 const systemTablesController = require(adminControllersPath+'tables.controller')
 const systemAdminController = require(adminControllersPath+'admin.controller')
+const systemShoppingController = require(adminControllersPath+'shopping.controller')
+const systemInventoryController = require(adminControllersPath+'inventory.controller')
 
 router.get('/admin/dashboard', authMiddleware.isLoggedIn, authMiddleware.isAdmin, systemAdminController.renderAdminDashboard)
 
@@ -30,5 +32,12 @@ router.get('/admin/deleteproduct/:id', authMiddleware.isLoggedIn, authMiddleware
 router.get('/admin/tables', authMiddleware.isLoggedIn, authMiddleware.isAdmin, systemTablesController.renderTables)
 router.post('/admin/savetable', authMiddleware.isLoggedIn, authMiddleware.isAdmin, systemTablesController.SaveTable)
 router.get('/admin/deletetable/:id', authMiddleware.isLoggedIn, authMiddleware.isAdmin, systemTablesController.deleteTable)
+
+router.get('/admin/shopping', authMiddleware.isLoggedIn, authMiddleware.isAdmin, systemShoppingController.renderShopping)
+router.get('/admin/productsShopping', authMiddleware.isLoggedIn, authMiddleware.isAdmin, systemShoppingController.renderProductShopping)
+router.post('/admin/saveshopping', authMiddleware.isLoggedIn, authMiddleware.isAdmin, systemShoppingController.SaveShopping)
+router.get('/admin/deleteshopping/:id', authMiddleware.isLoggedIn, authMiddleware.isAdmin, systemShoppingController.DeleteShopping)
+
+router.get('/admin/inventory', authMiddleware.isLoggedIn, authMiddleware.isAdmin, systemInventoryController.renderInventory)
 
 module.exports = router;

@@ -1,0 +1,80 @@
+{{>sidebar}}
+<!-- Content Wrapper -->
+<div id="content-wrapper" class="d-flex flex-column">
+    <!-- Main Content -->
+    <div id="content">
+        {{>navbar}}
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+            <!-- Page Heading -->
+            <div class="d-sm-flex align-items-center justify-content-between mb-4 ">
+                <h1 class="h3 mb-0">Control de inventario</h1>
+            </div>
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <div class="d-flex justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Inventario</h6>
+                        <div class="input-group w-50">
+                            <input id="tableSearch" type="text" class="form-control mt-0 border-0 w-50"
+                                placeholder="Buscar...">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="button">
+                                    <i class="fas fa-search fa-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    {{#if (isData inventory)}}
+                    <div class="table-responsive">
+                        <table class="table table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Producto</th>
+                                    <th>Imagen</th>
+                                    <th>Existencias</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th>Producto</th>
+                                    <th>Imagen</th>
+                                    <th>Existencias</th>
+                                </tr>
+                            </tfoot>
+                            <tbody id="tbodyInventories">
+                                {{#each inventory}}
+                                <tr>
+                                    <td>{{nombre}}</td>
+                                    <td style="display: flex; align-items:center; justify-content:center;">
+                                        <img src="{{imagen}}" class="img-thumbnail" width="80" height="80">
+                                    </td>
+                                    {{#if (isMinor existencias)}}
+                                        <td class="font-weight-bold text-success">{{existencias}}</td>
+                                    {{else}}
+                                        <td class="font-weight-bold text-danger">{{existencias}}</td>
+                                    {{/if}}
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+                    {{else}}
+                    <h3 class="text-center">Aun no hay inventarios registrados.</h3>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </div>
+    <!-- End of Main Content -->
+    {{>footer}}
+</div>
+
+<script>
+    const searchInput = document.getElementById('tableSearch')
+    const tableBody = document.getElementById('tbodyInventories')
+    liveSearch(searchInput, tableBody)
+</script>
+<!-- End of Content Wrapper -->

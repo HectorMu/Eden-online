@@ -1,0 +1,28 @@
+<div class="modal fade" tabindex="-1" id="addShoppingModal{{id}}">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Informacion compra</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       <form action="/admin/saveshopping" method="POST">
+            <div class="form-group">
+                <p>ID del producto</p>
+                <input type="text" name="fk_producto" placeholder="Id del producto" class="form-control" value="{{id}}" required>
+            </div>
+            <hr>
+            <div class="form-group">
+                <input type="text" name="cantidad" placeholder="Cantidad" class="form-control" required>
+            </div>                     
+      </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Guardar compra</button>
+        </div>
+       </form>
+    </div>
+  </div>
+</div>
