@@ -33,9 +33,12 @@
                                     <div class="row">
                                         <div class="col">
                                             <button class="btn btn-primary btn-sm" type="button" data-toggle="modal" data-target="#addProductModal{{id}}"><i class="fas fa-plus"></i></button>
-                                            <a href="/waiter/sendorder/{{id}}" data-sendorder="{{id}}" class="btn btn-primary btn-sm"><i class="fas fa-paper-plane"></i></a>
+                                            <button data-sendbtnid="{{id}}" class="btn btn-primary btn-sm sendOrder"><i class="fas fa-paper-plane"></i></button>
                                             <button class="btn btn-danger btn-sm" type="button" data-toggle="modal" data-target="#deleteOrderModal{{id}}"><i class="fas fa-trash"></i></button>
                                         </div>
+                                        <script>
+                    
+                                        </script>
                                     </div>
                                 </div>
                     </div>
@@ -84,6 +87,11 @@
 
     const getOrders = async (id) =>{
         const url = `/api/orderdetail/${id}`
+        const response = await fetch(url);
+        return response.json();
+    }
+    const sendToChefOrders = async (id) =>{
+        const url = `/api/sendorder/${id}`
         const response = await fetch(url);
         return response.json();
     }
@@ -203,6 +211,25 @@
             })
         })
     })
+    const sendButtons = document.querySelectorAll('.sendOrder')
+            sendButtons.forEach(button =>{
+                button.addEventListener('click',async(e)=>{
+                    e.preventDefault();
+                    const results = await sendToChefOrders(button.dataset.sendbtnid)
+                    const headerclicked = document.querySelector(`[data-id="${button.dataset.sendbtnid}"]`)
+                    if(results.status == "ok"){
+                          headerclicked.click()
+                            Toastify({
+                            text: `Productos de orden ${button.dataset.sendbtnid} enviada para preparacion.`,
+                            className: "info text-center mt-2 w-100 toast-font",
+                            position: "center",
+                            gravity:"top",
+                            style: {background: "#4e73df",}
+                        }).showToast();   
+                         socket.emit('clientWaiter:sendNewOrder')
+                    }
+                })
+            })
 </script>
 
 {{>waiterComponents/orderModals/addOrderModal}}

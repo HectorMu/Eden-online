@@ -32,10 +32,13 @@
         <script src="/js/adminNotifyHandler.js"></script>
         {{/if}}
         {{#if (isWaiter user)}}
-        <script src="/js/waiterNotify.js"></script>
+        <script src="/js/waiterSockets.js"></script>
         {{/if}}
         {{#if (isClient user)}}
-        <script src="/js/clientNotify.js"></script>
+        <script src="/js/clientSockets.js"></script>
+        {{/if}}
+        {{#if (isChef user)}}
+        <script src="/js/chefSockets.js"></script>
         {{/if}}
     {{/if}}
         <!-- Bootstrap core JavaScript-->

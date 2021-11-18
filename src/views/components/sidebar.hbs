@@ -79,8 +79,22 @@
               <!-- Divider -->
             <hr class="sidebar-divider">
             {{/if}}
+            {{#if (isChef user)}}
+             <div class="sidebar-heading">
+                Pedidos
+            </div>
+                 <li class="nav-item">
+                <a class="nav-link collapsed" href="/chef/orders" >
+                    <i class="fas fa-list-alt"></i>
+                    <span>Ver pedidos</span>
+                </a>
+            </li>
+              <!-- Divider -->
+            <hr class="sidebar-divider">
+            {{/if}}
             <div class="text-center d-none d-md-inline my-auto">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
         </ul>
+        
         <!-- End of Sidebar -->

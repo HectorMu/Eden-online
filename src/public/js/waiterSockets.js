@@ -4,3 +4,4 @@ socket.on('server:notifyWaiter',()=>{
         icon: '/icon.png',
     })
 })
+

@@ -1,12 +1,17 @@
 const controller = {}
 const { json } = require('express');
 const connection = require('../../../database')
-
-
-controller.getOrderDetail = async(req, res)=>{
+controller.getWaiterOrderDetail = async(req, res)=>{
     const {id} = req.params;
     const orderProducts = await connection.query(`SELECT ppl.num, ppl.fk_pedidolocal, p.nombre,p.precio_venta,ppl.cantidad, ppl.estatus, (p.precio_venta*ppl.cantidad) AS total FROM productospedidolocal ppl, productos p 
     WHERE ppl.fk_pedidolocal = ${id} && ppl.fk_producto = p.id`)
+    res.json(orderProducts)
+}
+
+controller.getChefOrderDetail = async(req, res)=>{
+    const {id} = req.params;
+    const orderProducts = await connection.query(`SELECT ppl.num, ppl.fk_pedidolocal, p.nombre,p.precio_venta,ppl.cantidad, ppl.estatus, (p.precio_venta*ppl.cantidad) AS total FROM productospedidolocal ppl, productos p 
+    WHERE ppl.fk_pedidolocal = ${id} && ppl.fk_producto = p.id && ppl.estatus='Preparacion' && p.fk_categoria = 2;`)
     res.json(orderProducts)
 }
 
@@ -50,17 +55,17 @@ controller.changeCuantityProduct = async(req, res)=>{
         console.log(error)
     }
 }
-// controller.sendOrderToChef = async (req, res)=>{
-//     const { fk_pedidolocal } = req.params;
-//     try {
-//         await connection.query(`update productospedidolocal set estatus = 'Preparacion' where fk_pedidolocal = ?`,[fk_pedidolocal])
-//         res.json({status:"ok"})
-//     } catch (error) {
-//         res.json({status: "wrong"})
-//         console.log(error)
-//     }
-// }
-
+controller.sendOrderToChef = async (req, res)=>{
+    const { id } = req.params;
+    try {
+        await connection.query(`update pedidolocal set estatus = 'Preparacion' where id = ? `,[id])
+        await connection.query(`update productospedidolocal set estatus = 'Preparacion' where fk_pedidolocal = ? && estatus != 'Preparado'`,[id])
+        res.json({status:"ok"})
+    } catch (error) {
+        res.json({status: "wrong"})
+        console.log(error)
+    }
+}
 
 
 module.exports = controller;

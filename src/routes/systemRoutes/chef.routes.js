@@ -7,5 +7,7 @@ const systemChefController = require('./../../controllers/systemControllers/chef
 
 router.get('/chef/dashboard',systemChefController.renderChefDashboard)
 
+router.get('/chef/orders',systemChefController.renderChefOrdersView)
+
 
 module.exports = router;

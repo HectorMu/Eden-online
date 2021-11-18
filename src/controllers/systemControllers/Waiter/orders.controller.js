@@ -3,7 +3,7 @@ const connection = require('../../../database');
 const redirectPath = '/waiter/orders'
 
 controller.renderOrdersView = async (req, res)=>{
-    const orders = await connection.query(`select * from pedidolocal where estatus = 'Sin pagar' ORDER BY id DESC `)
+    const orders = await connection.query(`select * from pedidolocal where estatus = 'Sin pagar' || estatus='Preparacion' ORDER BY id DESC `)
     const tables = await connection.query('select * from mesas')
     const products = await connection.query('select * from productos')
     res.render('system/waiter/waiter.orders.hbs',{
@@ -50,18 +50,7 @@ controller.sendToCashier = async(req, res)=>{
         
     }
 }
-controller.sendOrderToChef = async (req, res)=>{
-    const { id } = req.params;
-    try {
-        await connection.query(`update productospedidolocal set estatus = 'Preparacion' where fk_pedidolocal = ? && estatus != 'Preparado'`,[id])
-        req.flash("success_msg", `Productos de orden ${id} enviados para preparacion.`)
-        res.redirect(redirectPath)
-    } catch (error) {
-        req.flash("error_msg", "Algo paso, vuelve a intentarlo.")
-        res.redirect(redirectPath)
-        console.log(error)
-    }
-}
+
 
 
 module.exports = controller;
