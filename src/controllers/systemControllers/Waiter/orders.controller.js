@@ -3,7 +3,7 @@ const connection = require('../../../database');
 const redirectPath = '/waiter/orders'
 
 controller.renderOrdersView = async (req, res)=>{
-    const orders = await connection.query('select * from pedidolocal ORDER BY id DESC')
+    const orders = await connection.query(`select * from pedidolocal where estatus = 'Sin pagar' ORDER BY id DESC `)
     const tables = await connection.query('select * from mesas')
     const products = await connection.query('select * from productos')
     res.render('system/waiter/waiter.orders.hbs',{
@@ -14,7 +14,7 @@ controller.renderOrdersView = async (req, res)=>{
 controller.newOrder = async (req, res)=>{
     const {fk_mesa} = req.body;
     try {
-        await connection.query(`insert into pedidolocal values (null, ?,0,'Captura')`,[fk_mesa])
+        await connection.query(`insert into pedidolocal values (null, ?,0,'Sin pagar')`,[fk_mesa])
         req.flash("success_msg", `Pedido para la mesa ${fk_mesa} generado correctamente.`)
         res.redirect(redirectPath)
         
@@ -24,28 +24,37 @@ controller.newOrder = async (req, res)=>{
         console.log(error)
     }
 }
-
-controller.orderNewProduct = async (req, res)=>{
-    const {fk_pedidolocal} = req.params;
-    const {fk_producto, cantidad} = req.body;
-    const newProduct = {fk_pedidolocal,fk_producto,cantidad}
-
+controller.deleteOrder = async(req, res)=>{
+    const { id } = req.params;
     try {
-        await connection.query('insert into productospedidolocal set ?',[newProduct])
-        req.flash("success_msg", `Producto para el pedido ${fk_pedidolocal} agregado correctamente.`)
+        await connection.query(`delete from pedidolocal where id = ?`,[id])
+        req.flash("success_msg", `Orden ${id} eliminada correctamente.`)
         res.redirect(redirectPath)
     } catch (error) {
         req.flash("error_msg", "Algo paso, vuelve a intentarlo.")
         res.redirect(redirectPath)
-        console.log(error)
+        console.log(error) 
+    }
+}
+controller.sendToCashier = async(req, res)=>{
+    const { id } = req.params;
+    try {
+        const orderTotal = await connection.query(`SELECT SUM (p.precio_venta*ppl.cantidad) AS Total, ppl.fk_pedidolocal FROM productospedidolocal ppl, productos p WHERE ppl.fk_pedidolocal = ${id} && ppl.fk_producto = p.id GROUP BY ppl.fk_pedidolocal;`)
+        await connection.query(`update pedidolocal set estatus = 'En cobro', totalpedido = ? where id = ?`,[orderTotal[0].Total, id])
+        req.flash("success_msg", `Pedido ${id} enviado para cobrar.`)
+        res.redirect(redirectPath)
+    } catch (error) {
+        req.flash("error_msg", "Algo paso, vuelve a intentarlo.")
+        res.redirect(redirectPath)
+        console.log(error) 
         
     }
 }
-controller.deleteOrderProduct = async(req, res)=>{
-    const {num} = req.params;
+controller.sendOrderToChef = async (req, res)=>{
+    const { id } = req.params;
     try {
-        await connection.query('delete from productospedidolocal where num = ?',[num])
-        req.flash("success_msg", "Producto del pedido eliminado correctamente.")
+        await connection.query(`update productospedidolocal set estatus = 'Preparacion' where fk_pedidolocal = ? && estatus != 'Preparado'`,[id])
+        req.flash("success_msg", `Productos de orden ${id} enviados para preparacion.`)
         res.redirect(redirectPath)
     } catch (error) {
         req.flash("error_msg", "Algo paso, vuelve a intentarlo.")
@@ -53,5 +62,6 @@ controller.deleteOrderProduct = async(req, res)=>{
         console.log(error)
     }
 }
+
 
 module.exports = controller;

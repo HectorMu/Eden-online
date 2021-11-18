@@ -11,12 +11,16 @@ hbs.handlebars.registerHelper('isAdmin',(user)=>{
     // }
     return user.fk_rol == 1 ? true : false
 })
-hbs.handlebars.registerHelper('hasRole',(user)=>{
-     return user.fk_rol ? 'system' : 'customer';
-})
 hbs.handlebars.registerHelper('isWaiter',(user)=>{
     return user.fk_rol == 4 ? true : false
 })
+hbs.handlebars.registerHelper('isClient',(user)=>{
+    return user.fk_rol == 6 ? true : false
+})
+hbs.handlebars.registerHelper('hasRole',(user)=>{
+     return user.fk_rol ? 'system' : 'customer';
+})
+
 
 hbs.handlebars.registerHelper('isData',(array)=>{
     return array.length > 0 ? true : false
