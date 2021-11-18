@@ -21,6 +21,10 @@ hbs.handlebars.registerHelper('isWaiter',(user)=>{
 hbs.handlebars.registerHelper('isData',(array)=>{
     return array.length > 0 ? true : false
 })
+
+hbs.handlebars.registerHelper('isMinor',(existencia) => {
+    return existencia > 0 ? true : false
+})
 hbs.handlebars.registerHelper('redirectPrivileges',(rol)=>{
     if(rol){
         if(rol === 1){
