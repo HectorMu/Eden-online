@@ -14,6 +14,15 @@
                             <button type="button"  data-toggle="modal" data-target="#addOrderModal" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Nueva orden</button>
                         </div>
                     </div>
+                     <div class="input-group my-4">
+                            <input type="text" id="searchInput" class="form-control bg-light small" placeholder="Buscar por No. de Orden..."
+                                aria-label="Search" aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="button">
+                                    <i class="fas fa-search fa-sm"></i>
+                                </button>
+                            </div>
+                        </div>
                     {{#if (isData orders)}}
                     {{#each orders}}
                     <div class="accordion" id="accordionOrder{{id}}">
@@ -21,7 +30,7 @@
                             <div id="header{{id}}" class="card-header" data-id="{{id}}" >
                                 <div class="d-flex justify-content-between">
                                      <h2 class="mb-0">
-                                    <button class="btn btn-link btn-block text-left" id="headingOrder{{id}}" data-toggle="collapse" data-target="#collapseOrder{{id}}" aria-expanded="true" aria-controls="collapseOrder{{id}}">
+                                    <button class="btn btn-link btn-block text-left buttonorder" id="headingOrder{{id}}" data-toggle="collapse" data-target="#collapseOrder{{id}}" aria-expanded="true" aria-controls="collapseOrder{{id}}">
                                         Orden: {{id}}
                                     </button>
                                     </h2>
@@ -154,8 +163,10 @@
                 const deleteButtons = document.querySelectorAll('.deleteProduct')
                 deleteButtons.forEach( button =>{
                 button.addEventListener('click',async(e)=>{
-                e.preventDefault();          
-                const results = await deleteProduct(button.dataset.productnum)
+                e.preventDefault();  
+                let deleteConfirmation = confirm(`¿Eliminar producto de la orden ${header.dataset.id}?`)
+                if(deleteConfirmation){
+                      const results = await deleteProduct(button.dataset.productnum)
                 if(results.status == "ok"){
                     const headerclicked = document.querySelector(`[data-id="${header.dataset.id}"]`)
                     headerclicked.click()
@@ -176,6 +187,7 @@
                             style: {background: "red",}
                         }).showToast();  
                 }
+            }
             })
             })
             for (let i = 0; i < tableBody.rows.length; i++){
@@ -203,7 +215,9 @@
                 saveCuantityBtn.classList.remove('d-none')
                 saveCuantityBtn.addEventListener('click',async()=>{
                     const headerclicked = document.querySelector(`[data-id="${header.dataset.id}"]`)
-                    const results = await changeCuantity(button.dataset.productnumcuantity, newCuantityInput.value)
+                    let confirmCuantityEdit = confirm(`¿Guardar cambios en la orden ${header.dataset.id}`)
+                    if(confirmCuantityEdit){
+                        const results = await changeCuantity(button.dataset.productnumcuantity, newCuantityInput.value)
                         if(results.status == "ok"){
                             headerclicked.click()
                             Toastify({
@@ -223,6 +237,7 @@
                             style: {background: "red",}
                         }).showToast();  
                     }
+                    }       
                 })
                 button.classList.add('d-none')
                 })
