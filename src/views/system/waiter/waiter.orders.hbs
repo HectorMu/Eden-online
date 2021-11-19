@@ -244,7 +244,7 @@
                             gravity:"top",
                             style: {background: "#4e73df",}
                         }).showToast();   
-                         socket.emit('clientWaiter:sendNewOrder')
+                         socket.emit('clientWaiter:sendNewOrder',button.dataset.sendbtnid)
                     }else{
                          headerclicked.click()
                             Toastify({

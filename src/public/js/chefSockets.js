@@ -6,31 +6,30 @@ const getOrders = async (id) =>{
 }
 const overWriteIfExists = (id)=>{
     const card = document.getElementById(`orderCard${id}`)
-    console.log(card.id)
     return card ? true : false;
 }
 
 const addOrderDiv = (order)=>{
     const result = overWriteIfExists(order.id)
-    console.log(result)
-    if(result) {
+    if(result) {  
+        const card = document.getElementById(`orderCard${order.id}`)
+        card.remove()  
+    }else{
         Toastify({
-            text: `Nuevo producto para la mesa ${order.mesa}`,
+            text: `Nueva orden`,
             className: "info text-center mt-2 w-100 toast-font",
             position: "center",
-             gravity:"top",
+            gravity:"top",
             style: {background: "#4e73df",}
-        }).showToast();  
-        const card = document.getElementById(`orderCard${order.id}`)
-        card.remove()
-          
+        }).showToast();
+
     }
     ordersDiv.innerHTML += `
         <div class="card" id="orderCard${order.id}">
         <div class="card-header" id="heading${order.id}">
         <h2 class="mb-0">
             <button class="btn btn-link btn-block text-left collapsedetail" data-id="${order.id}" type="button" data-toggle="collapse" data-target="#collapse${order.id}" aria-expanded="true" aria-controls="collapseOne">
-            ${order.mesa}
+            ${order.mesa} - Orden: ${order.id}
             </button>
         </h2>
         </div>
@@ -46,7 +45,17 @@ const addOrderDiv = (order)=>{
     setActionsToButtons()
 }
 
-socket.on('server:waiterSendOrdersChef',async(orders)=>{
+socket.on('server:waiterSendOrdersChef',async(orders,id)=>{
+    const existingCard = document.getElementById(`orderCard${id}`)
+    if(existingCard){
+        Toastify({
+            text: `Cambios en la orden ${id}`,
+            className: "info text-center mt-2 w-100 toast-font",
+            position: "center",
+            gravity:"top",
+            style: {background: "#4e73df",}
+        }).showToast();
+    }
     await addOrderDiv(orders[orders.length-1])
 })
 
@@ -56,7 +65,6 @@ socket.on('server:waiterSendOrdersChef',async(orders)=>{
 window.onload = () =>{
     socket.emit('clientChef:getAllOrders')
     socket.on('server:chefGetAllOrders', async(orders) =>{
-        console.log(orders)
         await renderOrders(orders)
     }) 
 }
@@ -70,7 +78,7 @@ const renderOrders = async(orders)=>{
             <div class="card-header" id="heading${order.id}">
               <h2 class="mb-0">
                 <button class="btn btn-link btn-block text-left collapsedetail" data-id="${order.id}" type="button" data-toggle="collapse" data-target="#collapse${order.id}" aria-expanded="true" aria-controls="collapseOne">
-                ${order.mesa}
+                ${order.mesa} - Orden: ${order.id}
                 </button>
               </h2>
             </div>
@@ -103,7 +111,6 @@ const setActionsToButtons = ()=>{
                             <div class="card-body">
                                 <h5 class="card-title">${detail.nombre} </h5>
                                 <p class="card-text">Cantidad: ${detail.cantidad}.</p>
-                                <a href="#" class="btn btn-primary">Go somewhere</a>
                             </div>
                         </div>
                     </div>  

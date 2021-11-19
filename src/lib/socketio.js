@@ -12,9 +12,10 @@ module.exports = (server)=>{
     })
 
 
-    socket.on('clientWaiter:sendNewOrder',async()=>{
+    socket.on('clientWaiter:sendNewOrder',async(id)=>{
+        console.log(id)
         const orders = await connection.query(`select ppl.id, m.mesa, ppl.totalpedido, ppl.estatus from pedidolocal ppl, mesas m WHERE m.id = ppl.fk_mesa && estatus = 'Preparacion'`)
-        io.emit('server:waiterSendOrdersChef',orders)
+        io.emit('server:waiterSendOrdersChef',orders, id)
     })
 
 
