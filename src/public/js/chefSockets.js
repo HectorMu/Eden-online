@@ -9,6 +9,8 @@ const overWriteIfExists = (id)=>{
     return card ? true : false;
 }
 
+
+
 const addOrderDiv = (order)=>{
     const result = overWriteIfExists(order.id)
     if(result) {  
@@ -69,7 +71,6 @@ window.onload = () =>{
     }) 
 }
 
-
 const renderOrders = async(orders)=>{
     ordersDiv.innerHTML=""
         orders.map(order =>{ 
@@ -121,3 +122,15 @@ const setActionsToButtons = ()=>{
         })
     })
 }
+
+const searchInput = document.getElementById('searchInput')
+searchInput.addEventListener('keyup',()=>{
+    socket.emit('clientChef:getAllOrders')
+    socket.on('server:chefGetAllOrders', async(orders) =>{
+        await renderOrders(orders.filter((order)=> order.id == searchInput.value))
+        if(searchInput.value == ""){
+            await renderOrders(orders)
+        }
+    }) 
+})
+ 
