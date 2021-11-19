@@ -1,0 +1,68 @@
+{{>sidebar}}
+<!-- Content Wrapper -->
+<div id="content-wrapper" class="d-flex flex-column">
+    <!-- Main Content -->
+    <div id="content">
+        {{>navbar}}
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+            <!-- Page Heading -->
+            <div class="d-sm-flex align-items-center justify-content-between mb-4 ">
+                <h1 class="h3 mb-0">Detalle de la venta: {{id}}</h1>
+                <a href="/admin/paymentscontrol"
+                    class="btn btn-danger btn-sm d-none d-md-block d-lg-block d-xl-block ">
+                    <i class="fas fa-arrow-left"></i> Regresar</a>
+                <div class="fixed-button d-lg-none d-md-none d-xl-none">
+                    <a href="/admin/paymentscontrol" class="btn btn-danger btn-lg">
+                        <i class="fas fa-arrow-left"></i> Regresar</a>
+                </div>
+            </div>
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <div class="d-flex justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Productos</h6>
+                    </div>
+                </div>
+                <div class="card-body">
+                    {{#if (isData detailaccount)}}
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Producto</th>
+                                    <th>Precio</th>
+                                    <th>Cantidad</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th>Producto</th>
+                                    <th>Precio</th>
+                                    <th>Cantidad</th>
+                                    <th>Total</th>
+                                </tr>
+                            </tfoot>
+                            <tbody>
+                                {{#each detailaccount}}
+                                <tr>
+                                    <td>{{nombre}}</td>
+                                    <td>$ {{precio_venta}}</td>
+                                    <td>{{cantidad}}</td>
+                                    <td>$ {{getTotal precio_venta cantidad}}</td>
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+                    {{else}}
+                    <h3 class="text-center">Esta cuenta no tiene productos.</h3>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </div>
+    <!-- End of Main Content -->
+    {{>footer}}
+</div>
