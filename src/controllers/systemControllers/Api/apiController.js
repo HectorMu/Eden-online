@@ -71,7 +71,7 @@ controller.chefFinishOrder = async(req, res)=>{
     const {id}= req.params
     try {
         await connection.query(`update pedidolocal set estatus = 'Preparado' where id = ?`,[id])
-        await connection.query(`update productospedidolocal set estatus = 'Preparado' where fk_pedidolocal = ?`,[id])
+        await connection.query(`update productospedidolocal ppl, productos p set ppl.estatus = 'Preparado' WHERE ppl.fk_pedidolocal = ? AND ppl.fk_producto = p.id && p.fk_categoria = 2;`,[id])
         res.json({status:"ok"})
     } catch (error) {
         res.json({status: "wrong"})

@@ -18,6 +18,10 @@ module.exports = (server)=>{
         io.emit('server:waiterSendOrdersChef',orders, id)
     })
 
+    socket.on('clientChef:OrderFinished',(id)=>{
+        io.emit('server:waiterOrderFinished',id)
+    })
+
 
   
     socket.on('clientAdmin:notifyClient', ()=>{

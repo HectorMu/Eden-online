@@ -153,6 +153,7 @@ const setActionsToButtons = ()=>{
             }).showToast();
 
             socket.emit('clientChef:getAllOrders')
+            socket.emit('clientChef:OrderFinished', button.dataset.finishorder)
         }else{
             Toastify({
                 text: `Algo sucedio, intental de nuevo.`,

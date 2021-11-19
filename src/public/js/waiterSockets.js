@@ -5,6 +5,17 @@ socket.on('server:notifyWaiter',()=>{
     })
 })
 
+socket.on('server:waiterOrderFinished',(id)=>{
+    Toastify({
+        text: `Platillos de la orden ${id} listos para recoger.`,
+        className: "info text-center mt-2 w-100 toast-font",
+        position: "center",
+        gravity:"top",
+        style: {background: "#4e73df",}
+    }).showToast();
+})
+
+
 
 const searchInput = document.getElementById('searchInput')
 const buttons = document.querySelectorAll('.buttonorder')
