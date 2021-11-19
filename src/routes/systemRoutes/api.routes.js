@@ -8,6 +8,7 @@ const apiController = require('./../../controllers/systemControllers/Api/apiCont
 
 router.get('/api/orderdetail/:id', authMiddleware.isLoggedIn, authMiddleware.ApiIsWaiter, apiController.getWaiterOrderDetail)
 router.get('/api/chef/orderdetail/:id', authMiddleware.isLoggedIn, apiController.getChefOrderDetail)
+router.get('/api/chef/finishorder/:id', authMiddleware.isLoggedIn, apiController.chefFinishOrder)
 router.get('/api/getproducts', authMiddleware.isLoggedIn, authMiddleware.isWaiter, apiController.getProducts)
 router.post('/api/order/addproduct/:fk_pedidolocal', authMiddleware.isLoggedIn, authMiddleware.isWaiter, apiController.orderNewProduct)
 router.get('/api/order/removeproduct/:num',authMiddleware.isLoggedIn, authMiddleware.isWaiter, apiController.deleteOrderProduct)

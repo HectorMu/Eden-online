@@ -67,5 +67,17 @@ controller.sendOrderToChef = async (req, res)=>{
     }
 }
 
+controller.chefFinishOrder = async(req, res)=>{
+    const {id}= req.params
+    try {
+        await connection.query(`update pedidolocal set estatus = 'Preparado' where id = ?`,[id])
+        await connection.query(`update productospedidolocal set estatus = 'Preparado' where fk_pedidolocal = ?`,[id])
+        res.json({status:"ok"})
+    } catch (error) {
+        res.json({status: "wrong"})
+        console.log(error)
+    }
+}
+
 
 module.exports = controller;

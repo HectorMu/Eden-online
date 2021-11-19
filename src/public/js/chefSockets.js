@@ -4,6 +4,11 @@ const getOrders = async (id) =>{
     const response = await fetch(url);
     return response.json();
 }
+const finishOrder = async(id)=>{
+    const url = `/api/chef/finishorder/${id}`
+    const response = await fetch(url);
+    return response.json();
+}
 const overWriteIfExists = (id)=>{
     const card = document.getElementById(`orderCard${id}`)
     return card ? true : false;
@@ -29,11 +34,19 @@ const addOrderDiv = (order)=>{
     ordersDiv.innerHTML += `
         <div class="card" id="orderCard${order.id}">
         <div class="card-header" id="heading${order.id}">
-        <h2 class="mb-0">
-            <button class="btn btn-link btn-block text-left collapsedetail" data-id="${order.id}" type="button" data-toggle="collapse" data-target="#collapse${order.id}" aria-expanded="true" aria-controls="collapseOne">
-            ${order.mesa} - Orden: ${order.id}
-            </button>
-        </h2>
+                    <div class="d-flex justify-content-between">
+                    <h2 class="mb-0">
+                    <button class="btn btn-link btn-block text-left collapsedetail" data-id="${order.id}" type="button" data-toggle="collapse" data-target="#collapse${order.id}" aria-expanded="true" aria-controls="collapseOne">
+                    ${order.mesa} - Orden: ${order.id}
+                    </button>
+                    </h2>
+                <div class="row">
+                    <div class="col">
+                        <button data-finishorder="${order.id}" class="btn btn-primary btn-sm finishOrder"><i class="fas fa-check-double"></i></button>              
+                    </div>
+                </div>
+            </div>
+            </div>
         </div>
         <div id="collapse${order.id}" class="collapse" aria-labelledby="heading${order.id}" >
         <div class="card-body">
@@ -62,8 +75,6 @@ socket.on('server:waiterSendOrdersChef',async(orders,id)=>{
 })
 
 
-
-
 window.onload = () =>{
     socket.emit('clientChef:getAllOrders')
     socket.on('server:chefGetAllOrders', async(orders) =>{
@@ -77,11 +88,18 @@ const renderOrders = async(orders)=>{
             ordersDiv.innerHTML += `
             <div class="card" id="orderCard${order.id}">
             <div class="card-header" id="heading${order.id}">
-              <h2 class="mb-0">
-                <button class="btn btn-link btn-block text-left collapsedetail" data-id="${order.id}" type="button" data-toggle="collapse" data-target="#collapse${order.id}" aria-expanded="true" aria-controls="collapseOne">
-                ${order.mesa} - Orden: ${order.id}
-                </button>
-              </h2>
+            <div class="d-flex justify-content-between">
+                        <h2 class="mb-0">
+                        <button class="btn btn-link btn-block text-left collapsedetail" data-id="${order.id}" type="button" data-toggle="collapse" data-target="#collapse${order.id}" aria-expanded="true" aria-controls="collapseOne">
+                        ${order.mesa} - Orden: ${order.id}
+                        </button>
+                        </h2>
+                    <div class="row">
+                        <div class="col">
+                            <button data-finishorder="${order.id}" class="btn btn-primary btn-sm finishOrder"><i class="fas fa-check-double"></i></button>              
+                        </div>
+                    </div>
+                </div>
             </div>
             <div id="collapse${order.id}" class="collapse" aria-labelledby="heading${order.id}" >
               <div class="card-body">
@@ -94,7 +112,6 @@ const renderOrders = async(orders)=>{
           </div>`
         })
         setActionsToButtons()
-       
 }
 
 const setActionsToButtons = ()=>{
@@ -121,6 +138,35 @@ const setActionsToButtons = ()=>{
             }
         })
     })
+    const sendButtons = document.querySelectorAll('.finishOrder')
+    sendButtons.forEach(button =>{
+    button.addEventListener("click",async(e)=>{
+        e.preventDefault();
+        const results = await finishOrder(button.dataset.finishorder)
+        if(results.status == "ok"){
+            Toastify({
+                text: `Orden ${button.dataset.finishorder} terminada.`,
+                className: "info text-center mt-2 w-100 toast-font",
+                position: "center",
+                gravity:"top",
+                style: {background: "#4e73df",}
+            }).showToast();
+
+            socket.emit('clientChef:getAllOrders')
+        }else{
+            Toastify({
+                text: `Algo sucedio, intental de nuevo.`,
+                className: "info text-center mt-2 w-100 toast-font",
+                position: "center",
+                gravity:"top",
+                style: {background: "red",}
+            }).showToast();
+
+        }
+        
+        
+    })
+})
 }
 
 const searchInput = document.getElementById('searchInput')
@@ -133,4 +179,7 @@ searchInput.addEventListener('keyup',()=>{
         }
     }) 
 })
+
+
+
  

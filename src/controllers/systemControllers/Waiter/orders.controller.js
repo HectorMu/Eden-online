@@ -3,7 +3,7 @@ const connection = require('../../../database');
 const redirectPath = '/waiter/orders'
 
 controller.renderOrdersView = async (req, res)=>{
-    const orders = await connection.query(`select * from pedidolocal where estatus = 'Sin pagar' || estatus='Preparacion' ORDER BY id DESC `)
+    const orders = await connection.query(`select * from pedidolocal where estatus = 'Sin pagar' || estatus='Preparacion' || estatus='Preparado' ORDER BY id DESC `)
     const tables = await connection.query('select * from mesas')
     const products = await connection.query('select * from productos')
     res.render('system/waiter/waiter.orders.hbs',{
