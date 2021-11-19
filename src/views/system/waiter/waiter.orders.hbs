@@ -166,6 +166,15 @@
                          gravity:"top",
                         style: {background: "#4e73df",}
                     }).showToast();   
+                }else{
+                    headerclicked.click()
+                            Toastify({
+                            text: `Algo paso, intentalo de nuevo.`,
+                            className: "info text-center mt-2 w-100 toast-font",
+                            position: "center",
+                            gravity:"top",
+                            style: {background: "red",}
+                        }).showToast();  
                 }
             })
             })
@@ -204,6 +213,15 @@
                             gravity:"top",
                             style: {background: "#4e73df",}
                         }).showToast();   
+                    }else{
+                        headerclicked.click()
+                            Toastify({
+                            text: `Algo paso, intentalo de nuevo.`,
+                            className: "info text-center mt-2 w-100 toast-font",
+                            position: "center",
+                            gravity:"top",
+                            style: {background: "red",}
+                        }).showToast();  
                     }
                 })
                 button.classList.add('d-none')
@@ -226,7 +244,16 @@
                             gravity:"top",
                             style: {background: "#4e73df",}
                         }).showToast();   
-                         socket.emit('clientWaiter:sendNewOrder')
+                         socket.emit('clientWaiter:sendNewOrder',button.dataset.sendbtnid)
+                    }else{
+                         headerclicked.click()
+                            Toastify({
+                            text: `Algo paso, intentalo de nuevo.`,
+                            className: "info text-center mt-2 w-100 toast-font",
+                            position: "center",
+                            gravity:"top",
+                            style: {background: "red",}
+                        }).showToast();   
                     }
                 })
             })
