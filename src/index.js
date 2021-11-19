@@ -69,13 +69,7 @@ app.use(require('./routes/systemRoutes/tradesman.routes'))
 app.use(require('./routes/systemRoutes/barman.routes'))
 app.use(require('./routes/systemRoutes/api.routes'))
 app.use(require('./routes/profile.routes'))
-
-
-//lading page (initial page)
-app.get('/',(req, res)=>{
-  res.render('index')
-})
-
+app.use(require('./routes/landinPage.routes'))
 
 //Server port config
 let port = 3000 || process.env.PORT
