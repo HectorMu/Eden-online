@@ -16,6 +16,9 @@ router.post('/api/order/changecuantity/:num',authMiddleware.isLoggedIn, authMidd
 
 router.get('/api/sendorder/:id',authMiddleware.isLoggedIn, authMiddleware.isWaiter, apiController.sendOrderToChef)
 
+router.get('/api/barman/orderdetail/:id', authMiddleware.isLoggedIn, apiController.getBarmanOrderDetail)
+router.get('/api/barman/finishorder/:id', authMiddleware.isLoggedIn, apiController.barmanFinishOrder)
+
 
 
 

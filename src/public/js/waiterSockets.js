@@ -5,7 +5,7 @@ socket.on('server:notifyWaiter',()=>{
     })
 })
 
-socket.on('server:waiterOrderFinished',(id)=>{
+socket.on('server:chefOrderFinished',(id)=>{
     Toastify({
         text: `Platillos de la orden ${id} listos para recoger.`,
         className: "info text-center mt-2 w-100 toast-font",
@@ -15,6 +15,15 @@ socket.on('server:waiterOrderFinished',(id)=>{
     }).showToast();
 })
 
+socket.on('server:barmanOrderFinished',(id)=>{
+    Toastify({
+        text: `Bebidas de la orden ${id} listas para recoger.`,
+        className: "info text-center mt-2 w-100 toast-font",
+        position: "center",
+        gravity:"top",
+        style: {background: "#4e73df",}
+    }).showToast();
+})
 
 
 const searchInput = document.getElementById('searchInput')

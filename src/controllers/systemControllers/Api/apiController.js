@@ -14,6 +14,12 @@ controller.getChefOrderDetail = async(req, res)=>{
     WHERE ppl.fk_pedidolocal = ${id} && ppl.fk_producto = p.id && ppl.estatus='Preparacion' && p.fk_categoria = 2;`)
     res.json(orderProducts)
 }
+controller.getBarmanOrderDetail = async(req, res)=>{
+    const {id} = req.params;
+    const orderProducts = await connection.query(`SELECT ppl.num, ppl.fk_pedidolocal, p.nombre,p.precio_venta,ppl.cantidad, ppl.estatus, (p.precio_venta*ppl.cantidad) AS total FROM productospedidolocal ppl, productos p 
+    WHERE ppl.fk_pedidolocal = ${id} && ppl.fk_producto = p.id && ppl.estatus='Preparacion' && p.fk_categoria = 1;`)
+    res.json(orderProducts)
+}
 
 controller.getProducts = async(req, res)=>{
     const products = await connection.query(`select * from productos`)
@@ -72,6 +78,17 @@ controller.chefFinishOrder = async(req, res)=>{
     try {
         await connection.query(`update pedidolocal set estatus = 'Preparado' where id = ?`,[id])
         await connection.query(`update productospedidolocal ppl, productos p set ppl.estatus = 'Preparado' WHERE ppl.fk_pedidolocal = ? AND ppl.fk_producto = p.id && p.fk_categoria = 2;`,[id])
+        res.json({status:"ok"})
+    } catch (error) {
+        res.json({status: "wrong"})
+        console.log(error)
+    }
+}
+controller.barmanFinishOrder = async(req, res)=>{
+    const {id}= req.params
+    try {
+        await connection.query(`update pedidolocal set estatus = 'Preparado' where id = ?`,[id])
+        await connection.query(`update productospedidolocal ppl, productos p set ppl.estatus = 'Preparado' WHERE ppl.fk_pedidolocal = ? AND ppl.fk_producto = p.id && p.fk_categoria = 1;`,[id])
         res.json({status:"ok"})
     } catch (error) {
         res.json({status: "wrong"})
