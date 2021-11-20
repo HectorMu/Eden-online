@@ -25,7 +25,13 @@
                         </div>
                     {{#if (isData orders)}}
                     {{#each orders}}
+                     <div class="d-flex justify-content-end">
+                     <div class="dropdown dropleft ">
+                           
+                    </div>
+                    </div>
                     <div class="accordion" id="accordionOrder{{id}}">
+                        
                         <div class="card">
                             <div id="header{{id}}" class="card-header" data-id="{{id}}" >
                                 <div class="d-flex justify-content-between">
@@ -35,9 +41,16 @@
                                     </button>
                                     </h2>
                                     <div class="row">
-                                        <div class="col">
+                                        <div class="col dropleft">
                                             <button class="btn btn-primary btn-sm" type="button" data-toggle="modal" data-target="#addProductModal{{id}}"><i class="fas fa-plus"></i></button>
-                                            <button data-sendbtnid="{{id}}" class="btn btn-primary btn-sm sendOrder"><i class="fas fa-paper-plane"></i></button>
+                                             <button data-drop="{{id}}" class="btn btn-secondary btn-sm  dropOptions" type="button" id="dropdownMenuButton{{id}}" data-toggle="dropdown" aria-expanded="false">
+                                                    <i class="fas fa-paper-plane"></i>
+                                                </button>
+                                            <div class="dropdown-menu"   aria-labelledby="dropdownMenuButton{{id}}">
+                                                <button data-sendbtnid="{{id}}" class="dropdown-item sendOrder" >A Cocina y Barra</button>
+                                                <button data-sendbtnid="{{id}}" class="dropdown-item sendChef" href="#">Cocina</button>
+                                                <button data-sendbtnid="{{id}}" class="dropdown-item sendBarman" href="#">Barra</button>
+                                            </div>
                                             <button class="btn btn-danger btn-sm" type="button" data-toggle="modal" data-target="#deleteOrderModal{{id}}"><i class="fas fa-trash"></i></button>
                                         </div>
                                     </div>
@@ -64,6 +77,7 @@
                            {{>waiterComponents/orderModals/addProductOrderModal}}
                            {{>waiterComponents/orderModals/deleteOrderModal}}
                     </div>
+                
                     {{/each}}
                     {{else}}
                     <div class="card card-body text-center">
@@ -265,6 +279,68 @@
                     }
                 })
             })
+            const sendChefButtons = document.querySelectorAll('.sendChef')
+            sendChefButtons.forEach(button => {
+            button.addEventListener('click', async (e) => {
+                e.preventDefault();
+                const results = await sendToChefOrders(button.dataset.sendbtnid)
+                const headerclicked = document.querySelector(`[data-id="${button.dataset.sendbtnid}"]`)
+                if (results.status == "ok") {
+                    headerclicked.click()
+                    Toastify({
+                        text: `Platillos de orden ${button.dataset.sendbtnid} enviada para preparacion.`,
+                        className: "info text-center mt-2 w-100 toast-font",
+                        position: "center",
+                        gravity: "top",
+                        style: { background: "#4e73df", }
+                    }).showToast();
+                    socket.emit('clientWaiter:sendChefNewOrder', button.dataset.sendbtnid)
+                } else {
+                    headerclicked.click()
+                    Toastify({
+                        text: `Algo paso, intentalo de nuevo.`,
+                        className: "info text-center mt-2 w-100 toast-font",
+                        position: "center",
+                        gravity: "top",
+                        style: { background: "red", }
+                    }).showToast();
+                }
+            })
+        })
+         const sendBarmanButtons = document.querySelectorAll('.sendBarman')
+        sendBarmanButtons.forEach(button => {
+            button.addEventListener('click', async (e) => {
+                e.preventDefault();
+                const results = await sendToChefOrders(button.dataset.sendbtnid)
+                const headerclicked = document.querySelector(`[data-id="${button.dataset.sendbtnid}"]`)
+                if (results.status == "ok") {
+                    headerclicked.click()
+                    Toastify({
+                        text: `Bebidas de orden ${button.dataset.sendbtnid} enviada para preparacion.`,
+                        className: "info text-center mt-2 w-100 toast-font",
+                        position: "center",
+                        gravity: "top",
+                        style: { background: "#4e73df", }
+                    }).showToast();
+                    socket.emit('clientWaiter:sendBarmanNewOrder', button.dataset.sendbtnid)
+                } else {
+                    headerclicked.click()
+                    Toastify({
+                        text: `Algo paso, intentalo de nuevo.`,
+                        className: "info text-center mt-2 w-100 toast-font",
+                        position: "center",
+                        gravity: "top",
+                        style: { background: "red", }
+                    }).showToast();
+                }
+            })
+        })
+        const dropButtons = document.querySelectorAll('.dropOptions')
+        dropButtons.forEach(button =>{
+            button.addEventListener('click',()=>{
+                const header = document.getElementById(`header${button.dataset.drop}`)
+                header.classList.toggle('grow-height')
+            })
+        })
 </script>
-
 {{>waiterComponents/orderModals/addOrderModal}}

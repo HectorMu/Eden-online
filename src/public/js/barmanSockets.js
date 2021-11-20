@@ -36,7 +36,6 @@ const addOrderDiv = (order)=>{
             gravity:"top",
             style: {background: "#4e73df",}
         }).showToast();
-
     }
     ordersDiv.innerHTML += `
         <div class="card" id="orderCard${order.id}">
