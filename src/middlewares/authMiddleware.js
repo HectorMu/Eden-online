@@ -18,7 +18,7 @@ authMiddleware.isAdmin = (req, res, next)=>{
     res.redirect(helpers.redirectByUserRol(req.user.fk_rol))
 }
 authMiddleware.isWaiter = (req, res,next)=>{
-    if(req.user.fk_rol === 1 || req.user.fk_rol === 4){
+    if(req.user.fk_rol === 1 || req.user.fk_rol === 4 || req.user.fk_rol == 6){
         return next();
     }
     req.flash('error_msg','Solo los meseros pueden acceder a este modulo.')

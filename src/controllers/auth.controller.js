@@ -14,7 +14,6 @@ controller.Login =(req, res, next) =>{
             return res.redirect('/login')
         }
         req.logIn(user,(err)=>{
-            console.log(user)
             if(user.fk_rol == 1){
                 return res.redirect('/admin/dashboard')
             }

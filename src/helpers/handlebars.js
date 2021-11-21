@@ -48,7 +48,7 @@ hbs.handlebars.registerHelper('isMinorCash', (total) => {
 })
 
 hbs.handlebars.registerHelper('redirectPrivileges',(rol)=>{
-    if(rol){
+    
         if(rol === 1){
             return 'admin'
         }
@@ -64,9 +64,9 @@ hbs.handlebars.registerHelper('redirectPrivileges',(rol)=>{
         if(rol === 5){
             return 'tradesman'
         }
-    }else{
-        return 'client'
-    } 
+        if(rol == 6){
+            return 'client'
+        }
 })
 
 

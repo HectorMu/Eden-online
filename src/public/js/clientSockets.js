@@ -1,7 +1,59 @@
-socket.on('server:notifyCustomer',()=>{
+
+const carDropdown = document.getElementById('carDropdown')
+const carListDiv = document.getElementById('carListDiv')
+socket.on('server:notifyCustomer', () => {
+    Toastify({
+        text: `Hola cliente`,
+        className: "info text-center mt-2 w-100 toast-font",
+        position: "center",
+        gravity: "top",
+        style: { background: "#4e73df", }
+    }).showToast();
     Push.create("Nueva promocion!", {
         body: "Aprovecha nuestra promocion!",
         icon: '/icon.png',
     })
 })
+const Carspinner = () =>(`
+<center>
+     <div class="spinner-border text-primary" role="status">
+    <span class="sr-only">Loading...</span>
+    </div>
+</center>`)
 
+const getClientCarProducts = async () => {
+    const url = '/api/getclientproducts'
+    const response = await fetch(url)
+    const clientProducts = await response.json();
+    return clientProducts
+}
+
+
+
+
+carDropdown.addEventListener("click", async () => {
+    carListDiv.innerHTML = Carspinner()
+    const clientProducts = await getClientCarProducts()
+    if(clientProducts.length > 0){
+        carListDiv.innerHTML =""
+        carListDiv.innerHTML += ` <a class="dropdown-item text-center small text-gray-500" href="#">Mostrar mi carrito</a>`
+        clientProducts.map(producto =>{
+            carListDiv.innerHTML += `
+            <a class="dropdown-item d-flex align-items-center" href="#">
+                    <div class="mr-3">
+                        <div class="icon-circle bg-primary">
+                        <img class="img-thumbnail" src="${producto.imagen}" alt="">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="small text-gray-500">${producto.nombre}</div>
+                        <span class="font-weight-bold"> $${producto.precio_venta} - Cantidad: ${producto.cantidad} - Total: $${producto.total}</span>
+                     </div>
+            </a> 
+            `
+        })
+    }else{
+        carListDiv.innerHTML =`<a class="dropdown-item text-center small text-gray-500">No tiene productos en su carrito.</a>`
+    }
+  
+})

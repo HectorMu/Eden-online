@@ -1,5 +1,6 @@
 //Imports
 require('dotenv').config()
+const connection = require('./database')
 const express = require('express')
 const morgan = require('morgan')
 const session = require('express-session')
@@ -33,12 +34,13 @@ app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-app.use(session({
+const sessionConfig = session({
   secret: process.env.SECRET,
   resave: false,
   saveUninitialized: false,
   store: new MySqlSessionStore(database)
-}))
+})
+app.use(sessionConfig)
 
 
 app.use(flash())
@@ -77,6 +79,72 @@ const server = app.listen(port, ()=>{
     console.log(`Listening on port ${port}`)
 })
 
-sockets(server)
+const io = require('socket.io')(server)
+
+const wrap = middleware => (socket, next) => middleware(socket.request, {}, next);
+  io.use(wrap(sessionConfig))
+  io.use(wrap(passport.initialize()));
+  io.use(wrap(passport.session()));
+  
+    io.on('connection',(socket)=>{
+      console.log('nueva conexion')
+    let clients = io.sockets;
+    clients.sockets.forEach(socket =>{
+      console.log(socket.request.user)
+    })
+    //chef
+    //render al chef orders
+    socket.on('clientChef:getAllOrders',async()=>{
+        const orders = await connection.query(`select ppl.id, m.mesa, ppl.totalpedido, ppl.estatus from pedidolocal ppl, mesas m WHERE m.id = ppl.fk_mesa && estatus = 'Preparacion'`)
+        io.emit('server:chefGetAllOrders',orders)
+    })
+    //send new order to chef from waiter to add to chef orders view
+    socket.on('clientWaiter:sendChefNewOrder',async(id)=>{
+        console.log(id)
+        const orders = await connection.query(`select ppl.id, m.mesa, ppl.totalpedido, ppl.estatus from pedidolocal ppl, mesas m WHERE m.id = ppl.fk_mesa && estatus = 'Preparacion'`)
+        io.emit('server:waiterSendOrdersChef',orders, id)
+    })
+    //chef emits order finished and id of the order
+    socket.on('clientChef:OrderFinished',(id)=>{
+        io.emit('server:chefOrderFinished',id)
+    })
+
+    
+    //render al barman orders
+    socket.on('clientBarman:getAllOrders',async()=>{
+        const orders = await connection.query(`select ppl.id, m.mesa, ppl.totalpedido, ppl.estatus from pedidolocal ppl, mesas m WHERE m.id = ppl.fk_mesa && estatus = 'Preparacion'`)
+        io.emit('server:barmanGetAllOrders',orders)
+    })
+    //send new order to chef from waiter to add to chef orders view
+    socket.on('clientWaiter:sendBarmanNewOrder',async(id)=>{
+        console.log(id)
+        const orders = await connection.query(`select ppl.id, m.mesa, ppl.totalpedido, ppl.estatus from pedidolocal ppl, mesas m WHERE m.id = ppl.fk_mesa && estatus = 'Preparacion'`)
+        io.emit('server:waiterSendOrdersBarman',orders, id)
+    })
+    //chef emits order finished and id of the order
+    socket.on('clientBarman:OrderFinished',(id)=>{
+        io.emit('server:barmanOrderFinished',id)
+    })
+
+
+
+
+    //sockets for test
+    //notify to specific client
+    socket.on('clientAdmin:notifyClient', ()=>{
+      clients.sockets.forEach(socket =>{
+        if(socket.request.user.id === 38){
+          io.to(socket.id).emit('server:notifyCustomer')
+        }
+      })
+       
+    })
+    socket.on('clientAdmin:notifyWaiter',()=>{
+        io.emit('server:notifyWaiter')
+    })
+    
+    
+    //console.log('new connection', socket.id, socket.request.user)
+}) 
 
 

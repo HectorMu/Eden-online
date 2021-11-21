@@ -162,10 +162,7 @@ const setActionsToButtons = ()=>{
                 gravity:"top",
                 style: {background: "red",}
             }).showToast();
-
         }
-        
-        
     })
 })
 }
