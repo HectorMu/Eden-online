@@ -40,8 +40,8 @@ controller.renderProducts = async (req, res)=>{
 
   controller.editProduct = async (req, res)=>{
     const { id } = req.params
-    const { nombre, precio_compra, precio_venta, fk_categoria} = req.body;
-    const updatedProduct = {nombre, precio_compra, precio_venta, fk_categoria}
+    const { nombre, precio_compra, precio_venta, fk_categoria, imagen} = req.body;
+    const updatedProduct = {nombre, precio_compra, precio_venta, fk_categoria, imagen}
     try {
        await connection.query('update productos set ? where id = ?',[updatedProduct, id])                  
        req.flash("success_msg", "Producto modificado correctamente.")
