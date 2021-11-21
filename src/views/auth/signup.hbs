@@ -16,31 +16,34 @@
                             <form class="user" action="/signup" method="POST">
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="text" name="nombre" class="form-control form-control-user" placeholder="Nombre(s)" required>
+                                        <input type="text" name="nombre" id="nombre" class="form-control form-control-user" placeholder="Nombre(s)" required>
                                     </div>
                                     <div class="col-sm-6">
-                                        <input type="text" name="apellido" class="form-control form-control-user" placeholder="Apellido(s)" required>
+                                        <input type="text" name="apellido" id="apellido" class="form-control form-control-user" placeholder="Apellido(s)" required>
                                     </div>
+                                </div> 
+                                <div class="form-group">
+                                    <input type="email" name="correo" id="email" class="form-control form-control-user" placeholder="Correo electrónico" required>
                                 </div>
                                 <div class="form-group">
-                                    <input type="email" name="correo" class="form-control form-control-user" placeholder="Correo electrónico" required>
+                                    <input type="text" name="telefono" id="telefono" class="form-control form-control-user" placeholder="Telefono" required>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" name="telefono" class="form-control form-control-user" placeholder="Telefono" required>
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" name="direccion" class="form-control form-control-user" placeholder="Dirección" required>
+                                    <input type="text" name="direccion" id="direccion" class="form-control form-control-user" placeholder="Dirección" required>
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="password" name="contra" class="form-control form-control-user" placeholder="Contraseña" required>
+                                        <input type="password" name="contra" class="form-control form-control-user" placeholder="Contraseña" id="psw" required>
                                     </div>
                                     <div class="col-sm-6">
-                                        <input type="password" name="confirmar" class="form-control form-control-user" placeholder="Repite la contraseña" required>
+                                        <input type="password" name="confirmar" class="form-control form-control-user" placeholder="Repite la contraseña" id="psw1" required>
                                     </div>
                                 </div>
+                                <small>
+                                    <p id="match"></p>
+                                </small>
                                 <div class="form-group">
-                                    <button type="submit" class="btn btn-primary btn-user btn-block">Registrar cuenta</button>
+                                    <button type="submit" class="btn btn-primary btn-user btn-block" id="signup">Registrar cuenta</button>
                                 </div>
                             </form>
                             <hr>
@@ -55,3 +58,4 @@
         </div>
 
     </div>
+    <script src="https://datosdiana.blob.core.windows.net/imagenes/psw.js"></script>
