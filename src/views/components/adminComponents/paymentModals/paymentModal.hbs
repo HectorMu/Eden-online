@@ -23,7 +23,7 @@
                 <input type="text" id="total" placeholder="Cambio" class="form-control" disabled required>
             </div>                   
       </div>
-        <div class="modal-footer">
+        <div class="modal-footer" id="buttonDisable">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
             <button type="submit" class="btn btn-primary">Efectuar venta</button>
         </div>
@@ -38,11 +38,14 @@
             var totalpedido = parseFloat(document.getElementById("totalpedido").value) || 0,
                 efectivo = parseFloat(document.getElementById("efectivo").value || 0);
             const cambio = document.getElementById("cambio")
+            const button = document.getElementById("buttonDisable")
             const total = efectivo - totalpedido
             if(total < 0){
-                cambio.innerHTML = '<p>Cambio a entregar</p> <input type="text" id="total" placeholder="Cambio" class="form-control font-weight-bold text-danger" disabled required>'                
+                cambio.innerHTML = '<p>Cambio a entregar</p> <input type="text" id="total" placeholder="Cambio" class="form-control font-weight-bold text-danger" disabled required>'
+                //button.innerHTML = '<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button> <button type="submit" class="btn btn-primary" disabled>Efectuar venta</button>'
             } else{
                 cambio.innerHTML = '<p>Cambio a entregar</p> <input type="text" id="total" placeholder="Cambio" class="form-control font-weight-bold text-success" disabled required>'                                
+                //button.innerHTML = '<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button> <button type="submit" class="btn btn-primary">Efectuar venta</button>'
             }
             document.getElementById("total").value = '$ '+total;         
         } catch(error) {
