@@ -96,16 +96,28 @@ controller.barmanFinishOrder = async(req, res)=>{
     }
 }
 
-controller.addProductToOrder = async(req, res)=>{
+controller.ClientAddProductToOrder = async(req, res)=>{
     const { productid, cuantity } = req.params;
+    if(cuantity > 10){
+        res.json({status: "cuantityExceding"})
+        return
+    }
     let fkPedido;
     try {
         const car = await connection.query(`select * from pedidolinea where fk_cliente = ? && estatus = 'Captura'`,[req.user.id])
         if(car.length > 0){
             fkPedido = car[0].id
-            await connection.query(`insert into productospedidolinea values(null, ?, ?,?,'Captura')`,[fkPedido,productid,cuantity])
-            console.log("ya existe un carrito")
-            res.json({status:"ok"})
+            const productInCar = await connection.query(`select * from productospedidolinea where fk_producto = ? && estatus = 'Captura'`,[productid])
+            if(productInCar.length > 0){
+                let currentCuantity = productInCar[0].cantidad;
+                let newCuantity = parseFloat(currentCuantity)+parseFloat(cuantity)
+                await connection.query(`update productospedidolinea set cantidad = ? where fk_pedidolinea = ? && fk_producto = ?`,[newCuantity,fkPedido, productid])
+                res.json({status:"ok"})
+            }else{
+                await connection.query(`insert into productospedidolinea values(null, ?, ?,?,'Captura')`,[fkPedido,productid,cuantity])
+                console.log("ya existe un carrito")
+                res.json({status:"ok"})
+            }
         }else{
             await connection.query(`insert into pedidolinea values (null, ?,0,'Captura')`, [req.user.id])
             const car = await connection.query(`select * from pedidolinea where fk_cliente = ? && estatus = 'Captura'`,[req.user.id])

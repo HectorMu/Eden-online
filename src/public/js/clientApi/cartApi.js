@@ -76,7 +76,7 @@ const renderProducts = async (products) =>{
 const addOne = async(num) =>{
     const input = document.getElementById(`inputnum${num}`)
     input.value = parseFloat(input.value)+1;
-    while(input.value > 15){
+    while(input.value > 10){
         input.value = 10
         return
     }

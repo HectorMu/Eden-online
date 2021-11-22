@@ -78,7 +78,7 @@ const renderProducts = async (products) => {
                 <div class="card-body">
                     <p class="card-title">${product.nombre} - $${product.precio_venta}</p>
                     <div class="d-flex justify-content-between">
-                    <input id="cuantityInput${product.id}" onkeyup="verifyInputValue(this.value, ${product.id})" type="number" value="1" min="1" placeholder="Piezas" class="form-control w-25">
+                    <input id="cuantityInput${product.id}" max="10" onkeyup="verifyInputValue(this.value, ${product.id})" type="number" value="1" min="1" placeholder="Piezas" class="form-control w-25">
                     <button id="btnAddToCar${product.id}" onclick="addProductToOrder(${product.id})" class="btn btn-primary"><i class="fas fa-cart-plus"></i></a>
                     </div>       
                 </div>
@@ -88,6 +88,10 @@ const renderProducts = async (products) => {
 const addProductToOrder = async(id) =>{
     const cuantity = document.getElementById(`cuantityInput${id}`)
     const results = await addToCar(id,cuantity.value)
+    if(results.status == "cuantityExceding"){
+        createToast("Solo puedes agregar 10 piezas por producto.","error")
+        return
+    }
     if(results.status == "ok"){
         updateCounter()
         createToast("Producto agregado al carrito.","success")
