@@ -10,32 +10,36 @@
       <div class="modal-body">
        <form action="/admin/savecustomer" method="POST">
             <div class="form-group">
-                <input type="text" name="nombre" placeholder="Nombre(s)" class="form-control" required>
+                <input type="text" name="nombre" id="nombre" placeholder="Nombre(s)" class="form-control" required>
             </div>
             <div class="form-group">
-                <input type="text" name="apellido" placeholder="Apellido(s)" class="form-control" required>
+                <input type="text" name="apellido" id="apellido" placeholder="Apellido(s)" class="form-control" required>
             </div>
             <div class="form-group">
-                <input type="email" name="correo" placeholder="Correo electronico" class="form-control" required>
+                <input type="email" name="correo" id="email" placeholder="Correo electronico" class="form-control" required>
             </div>
             <div class="form-group">
-                <input type="text" name="telefono" placeholder="Telefono" class="form-control" required>
+                <input type="text" name="telefono" id="telefono" placeholder="Telefono" class="form-control" required>
             </div>
             <div class="form-group">
-                <input type="text" name="direccion" placeholder="Direccion" class="form-control" required>
+                <input type="text" name="direccion" placeholder="Direccion" class="form-control" id="direccion" required>
             </div>
             <div class="form-group">
-                <input type="password" name="contra" placeholder="Contraseña" class="form-control" required>
+                <input type="password" name="contra" placeholder="Contraseña" class="form-control" id="psw" required>
             </div>
             <div class="form-group">
-                <input type="password" name="confirmar" placeholder="Contraseña" class="form-control" required>
-            </div>            
+                <input type="password" name="confirmar" placeholder="Contraseña" class="form-control" id="psw1" required>
+            </div>  
+            <small>
+              <p id="match"></p>
+            </small>   
       </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-            <button type="submit" class="btn btn-primary">Guardar cliente</button>
+            <button type="submit" class="btn btn-primary" id="signup">Guardar cliente</button>
         </div>
        </form>
     </div>
   </div>
 </div>
+<script src="https://datosdiana.blob.core.windows.net/imagenes/psw.js"></script>
