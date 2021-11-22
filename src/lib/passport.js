@@ -29,21 +29,26 @@ passport.use('local.signup', new passportLocal({
     passwordField: 'contra',
     passReqToCallback: true
 }, async (req, correo, contra, done) => {
-    const { nombre, apellido, telefono, direccion } = req.body
-    const newCustomer = {
-        nombre,
-        apellido,
-        correo,
-        telefono,
-        direccion,
-        contra,
-        fk_rol: 6
+    if(!helpers.userExists(correo)){
+        const { nombre, apellido, telefono, direccion } = req.body
+        const newCustomer = {
+            nombre,
+            apellido,
+            correo,
+            telefono,
+            direccion,
+            contra,
+            fk_rol: 6
+        }
+        newCustomer.contra = await helpers.encryptPassword(contra)
+        const result = await connection.query('insert into usuarios set ?', [newCustomer])
+        req.flash("success_msg", "Cuenta registrada correctamente.")
+        newCustomer.id = result.insertId
+        return done(null, newCustomer)
+    }else{
+        return done(null,req.flash("error_msg", "Ese correo electrónico ya esta registrado, prueba otro."))
     }
-    newCustomer.contra = await helpers.encryptPassword(contra)
-    const result = await connection.query('insert into usuarios set ?', [newCustomer])
-    req.flash("success_msg", "Cuenta registrada correctamente.")
-    newCustomer.id = result.insertId
-    return done(null, newCustomer)
+   
 }))
 
 passport.serializeUser((user, done) => {

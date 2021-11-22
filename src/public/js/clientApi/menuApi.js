@@ -2,22 +2,11 @@ const productsDiv = document.getElementById('productsList')
 const drinksCheck = document.getElementById('checkDrinks')
 const dishesCheck = document.getElementById('checkDishes')
 const searchInput = document.getElementById('searchInput')
-const carCounter = document.getElementById('carCounter')
+
 
 let localProducts = []
 
-const updateCounter = async()=>{
-    const productNumber = await getClientCarProducts();
-    if(productNumber !== undefined){
-        if(productNumber.length > 4){
-            carCounter.innerText = "4+";
-        }else{
-            carCounter.innerText = productNumber.length;
-        } 
-    }else{
-        carCounter.innerText = "0";
-    } 
-}
+
 
 const spinner = () =>(`
 <center>
@@ -119,29 +108,8 @@ const verifyInputValue = (value, productbuttonid)=>{
     }
 }
 
-
 window.onload = async () => {
      renderProducts(await getProducts())
      updateCounter()
 }
 
-const createToast = (message, type)=>{
-    if(type == "success"){
-        Toastify({
-            text: message,
-            className: "info text-center mt-2 w-100 toast-font",
-            position: "center",
-            gravity:"top",
-            style: {background: "#4e73df",}
-        }).showToast();
-    }
-    if(type == "error"){
-        Toastify({
-            text: message,
-            className: "info text-center mt-2 w-100 toast-font",
-            position: "center",
-            gravity:"top",
-            style: {background: "red",}
-        }).showToast()
-    }
-}

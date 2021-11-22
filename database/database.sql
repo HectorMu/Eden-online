@@ -22,15 +22,7 @@ contra VARCHAR(50),
 fk_rol INT,
 FOREIGN KEY(fk_rol)REFERENCES roles(id));
 
-CREATE TABLE clientes(
-id INT PRIMARY KEY AUTO_INCREMENT,
-nombre VARCHAR(50),
-apellido VARCHAR(50),
-correo VARCHAR(70),
-telefono VARCHAR(50),
-direccion VARCHAR(100),
-contra VARCHAR(50),
-verificado BOOLEAN);
+
 
 CREATE TABLE categoria(
 id INT PRIMARY KEY AUTO_INCREMENT,
@@ -103,7 +95,7 @@ id INT PRIMARY KEY AUTO_INCREMENT,
 fecha VARCHAR(50),
 fk_pedidolinea INT,
 FOREIGN KEY(fk_pedidolinea)REFERENCES pedidolinea(id),
-estatus VARCHAR(50));
+
 
 
 CREATE TABLE pedidolinea(

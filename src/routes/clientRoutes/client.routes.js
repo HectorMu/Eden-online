@@ -7,5 +7,6 @@ const authMiddleware = require('../../middlewares/authMiddleware')
 router.get('/client/dashboard', authMiddleware.isLoggedIn, customerController.renderDashboard) 
 router.get('/client/menu',authMiddleware.isLoggedIn, customerController.renderClientMenu)
 router.get('/client/orders', authMiddleware.isLoggedIn, customerController.renderClientOrders)
+router.get('/client/shoppingcart', authMiddleware.isLoggedIn, customerController.renderClientCart)
 
 module.exports = router

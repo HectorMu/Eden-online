@@ -24,6 +24,9 @@ router.get('/api/client/addtocar/:productid/:cuantity',apiController.addProductT
 
 router.get('/api/getclientproducts', authMiddleware.isLoggedIn, apiController.getClientProducts)
 
+router.get('/api/client/changecuantity/:num/:cuantity', authMiddleware.isLoggedIn, apiController.clientChangeProductCuantity)
+router.get('/api/client/remove/:num', authMiddleware.isLoggedIn, apiController.clientRemoveProductFromOrder)
+router.get('/api/client/confirmorder',authMiddleware.isLoggedIn, apiController.clientConfirmOrder)
 
 
 

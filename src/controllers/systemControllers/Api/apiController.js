@@ -122,14 +122,55 @@ controller.addProductToOrder = async(req, res)=>{
 
 controller.getClientProducts = async(req, res)=>{
     try {
-        const idPedido = await connection.query('select id from pedidolinea where fk_cliente = ?',[req.user.id])
-        console.log(idPedido)
-        const clientProducts = await connection.query('SELECT ppl.num, p.nombre, p.imagen, p.precio_venta, ppl.cantidad, (p.precio_venta*ppl.cantidad) AS total, ppl.estatus FROM productospedidolinea ppl, productos p WHERE p.id = ppl.fk_producto && ppl.fk_pedidolinea = ?',[idPedido[0].id])
-        res.json(clientProducts)
+        const idPedido = await connection.query(`select id from pedidolinea where fk_cliente = ? && estatus = 'Captura'`,[req.user.id])
+        if(idPedido){
+            const clientProducts = await connection.query(`SELECT ppl.num, p.nombre, p.imagen, p.precio_venta, ppl.cantidad, (p.precio_venta*ppl.cantidad) AS total, ppl.estatus FROM productospedidolinea ppl, productos p WHERE p.id = ppl.fk_producto && ppl.fk_pedidolinea = ? && estatus = 'Captura'`,[idPedido[0].id])
+            res.json(clientProducts)
+        }else{
+            res.json([])
+        }
+        
     } catch (error) {
         res.json({status: "wrong"})
         console.log(error)
         
+    }
+}
+
+controller.clientChangeProductCuantity = async(req, res)=>{
+    const { num, cuantity } = req.params;
+    try {
+        const idPedido = await connection.query(`select id from pedidolinea where fk_cliente = ? && estatus = 'Captura'`,[req.user.id])
+        await connection.query('update productospedidolinea set cantidad = ? where num = ? ',[cuantity, num])
+        const cuantityChanged = await connection.query('select cantidad from productospedidolinea where num = ? && fk_pedidolinea = ?',[num,idPedido[0].id])
+        res.json({status: "ok",cuantityChanged})
+
+    } catch (error) {
+        res.json({status: "wrong"})
+        console.log(error)
+    }
+}
+controller.clientRemoveProductFromOrder = async(req,res)=>{
+    const {num} = req.params
+    try {
+        const idPedido = await connection.query(`select id from pedidolinea where fk_cliente = ? && estatus = 'Captura'`,[req.user.id])
+        await connection.query('delete from productospedidolinea where num = ? && fk_pedidolinea = ?', [num,idPedido[0].id])
+        res.json({status: "ok"})
+    } catch (error) {
+        res.json({status: "wrong"})
+        console.log(error)
+    }
+}
+
+controller.clientConfirmOrder = async (req, res)=>{
+    try {
+        const idPedido = await connection.query(`select id from pedidolinea where fk_cliente = ? && estatus = 'Captura'`,[req.user.id])
+        await connection.query(`update pedidolinea set estatus = 'Preparacion' where id = ?`,[idPedido[0].id])
+        await connection.query(`update productospedidolinea set estatus = 'Preparacion' where fk_pedidolinea = ?`,[idPedido[0].id])
+        res.json({status: "ok"})
+    } catch (error) {
+        res.json({status: "wrong"})
+        console.log(error) 
     }
 }
 
