@@ -2,22 +2,11 @@ const productsDiv = document.getElementById('productsList')
 const drinksCheck = document.getElementById('checkDrinks')
 const dishesCheck = document.getElementById('checkDishes')
 const searchInput = document.getElementById('searchInput')
-const carCounter = document.getElementById('carCounter')
+
 
 let localProducts = []
 
-const updateCounter = async()=>{
-    const productNumber = await getClientCarProducts();
-    if(productNumber !== undefined){
-        if(productNumber.length > 4){
-            carCounter.innerText = "4+";
-        }else{
-            carCounter.innerText = productNumber.length;
-        } 
-    }else{
-        carCounter.innerText = "0";
-    } 
-}
+
 
 const spinner = () =>(`
 <center>
@@ -89,7 +78,7 @@ const renderProducts = async (products) => {
                 <div class="card-body">
                     <p class="card-title">${product.nombre} - $${product.precio_venta}</p>
                     <div class="d-flex justify-content-between">
-                    <input id="cuantityInput${product.id}" onkeyup="verifyInputValue(this.value, ${product.id})" type="number" value="1" min="1" placeholder="Piezas" class="form-control w-25">
+                    <input id="cuantityInput${product.id}" max="10" onkeyup="verifyInputValue(this.value, ${product.id})" type="number" value="1" min="1" placeholder="Piezas" class="form-control w-25">
                     <button id="btnAddToCar${product.id}" onclick="addProductToOrder(${product.id})" class="btn btn-primary"><i class="fas fa-cart-plus"></i></a>
                     </div>       
                 </div>
@@ -99,6 +88,10 @@ const renderProducts = async (products) => {
 const addProductToOrder = async(id) =>{
     const cuantity = document.getElementById(`cuantityInput${id}`)
     const results = await addToCar(id,cuantity.value)
+    if(results.status == "cuantityExceding"){
+        createToast("Solo puedes agregar 10 piezas por producto.","error")
+        return
+    }
     if(results.status == "ok"){
         updateCounter()
         createToast("Producto agregado al carrito.","success")
@@ -119,29 +112,8 @@ const verifyInputValue = (value, productbuttonid)=>{
     }
 }
 
-
 window.onload = async () => {
      renderProducts(await getProducts())
      updateCounter()
 }
 
-const createToast = (message, type)=>{
-    if(type == "success"){
-        Toastify({
-            text: message,
-            className: "info text-center mt-2 w-100 toast-font",
-            position: "center",
-            gravity:"top",
-            style: {background: "#4e73df",}
-        }).showToast();
-    }
-    if(type == "error"){
-        Toastify({
-            text: message,
-            className: "info text-center mt-2 w-100 toast-font",
-            position: "center",
-            gravity:"top",
-            style: {background: "red",}
-        }).showToast()
-    }
-}

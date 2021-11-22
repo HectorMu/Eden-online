@@ -16,5 +16,9 @@ controller.renderClientOrders = (req, res)=>{
     res.render('client/client.orders.hbs')
 }
 
+controller.renderClientCart = (req, res)=>{
+    res.render('client/client.cart.hbs')
+}
+
 
 module.exports  = controller
