@@ -120,11 +120,11 @@ controller.ClientAddProductToOrder = async(req, res)=>{
             const productInCar = await connection.query(`select * from productospedidolinea where fk_producto = ? && fk_pedidolinea = ? && estatus = 'Captura'`,[productid,fkPedido])
             if(productInCar.length > 0){
                 let currentCuantity = productInCar[0].cantidad;
-                if(currentCuantity >= 10){
+                let newCuantity = parseFloat(currentCuantity)+parseFloat(cuantity)
+                if(parseFloat(currentCuantity)+parseFloat(newCuantity) >= 10){
                     await connection.query(`update productospedidolinea set cantidad = 10 where fk_pedidolinea = ? && fk_producto = ?`,[fkPedido, productid])
                     res.json({status:"ok"})
                 }else{
-                    let newCuantity = parseFloat(currentCuantity)+parseFloat(cuantity)
                     await connection.query(`update productospedidolinea set cantidad = ? where fk_pedidolinea = ? && fk_producto = ?`,[newCuantity,fkPedido, productid])
                     res.json({status:"ok"})
                 }
