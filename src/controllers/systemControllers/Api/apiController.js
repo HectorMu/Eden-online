@@ -65,7 +65,7 @@ controller.sendOrderToChef = async (req, res)=>{
 /* /waiter actions */
 
 /* chef actions */
-controller.chefFinishOrder = async(req, res)=>{
+controller.chefFinishLocalOrder = async(req, res)=>{
     const {id}= req.params
     try {
         await connection.query(`update pedidolocal set estatus = 'Preparado' where id = ?`,[id])
@@ -76,7 +76,7 @@ controller.chefFinishOrder = async(req, res)=>{
         console.log(error)
     }
 }
-controller.getChefOrderDetail = async(req, res)=>{
+controller.getChefLocalOrderDetail = async(req, res)=>{
     const {id} = req.params;
     const orderProducts = await connection.query(`SELECT ppl.num, ppl.fk_pedidolocal, p.nombre,p.precio_venta,ppl.cantidad, ppl.estatus, (p.precio_venta*ppl.cantidad) AS total FROM productospedidolocal ppl, productos p 
     WHERE ppl.fk_pedidolocal = ${id} && ppl.fk_producto = p.id && ppl.estatus='Preparacion' && p.fk_categoria = 2;`)
@@ -85,7 +85,7 @@ controller.getChefOrderDetail = async(req, res)=>{
 /* /chef actions */
 
 /* barman actions */
-controller.barmanFinishOrder = async(req, res)=>{
+controller.barmanFinishLocalOrder = async(req, res)=>{
     const {id}= req.params
     try {
         await connection.query(`update pedidolocal set estatus = 'Preparado' where id = ?`,[id])
@@ -96,14 +96,13 @@ controller.barmanFinishOrder = async(req, res)=>{
         console.log(error)
     }
 }
-controller.getBarmanOrderDetail = async(req, res)=>{
+controller.getBarmanLocalOrderDetail = async(req, res)=>{
     const {id} = req.params;
     const orderProducts = await connection.query(`SELECT ppl.num, ppl.fk_pedidolocal, p.nombre,p.precio_venta,ppl.cantidad, ppl.estatus, (p.precio_venta*ppl.cantidad) AS total FROM productospedidolocal ppl, productos p 
     WHERE ppl.fk_pedidolocal = ${id} && ppl.fk_producto = p.id && ppl.estatus='Preparacion' && p.fk_categoria = 1;`)
     res.json(orderProducts)
 }
 /* /barman actions */
-
 
 //client api actions
 controller.ClientAddProductToOrder = async(req, res)=>{
@@ -147,7 +146,6 @@ controller.ClientAddProductToOrder = async(req, res)=>{
         console.log(error)
     }
 }
-
 controller.getClientProducts = async(req, res)=>{
     try {
         const idPedido = await connection.query(`select id from pedidolinea where fk_cliente = ? && estatus = 'Captura'`,[req.user.id])
@@ -156,15 +154,12 @@ controller.getClientProducts = async(req, res)=>{
             res.json(clientProducts)
         }else{
             res.json([])
-        }
-        
+        } 
     } catch (error) {
         res.json({status: "wrong"})
-        console.log(error)
-        
+        console.log(error) 
     }
 }
-
 controller.clientChangeProductCuantity = async(req, res)=>{
     const { num, cuantity } = req.params;
     try {
@@ -193,9 +188,31 @@ controller.clientRemoveProductFromOrder = async(req,res)=>{
 controller.clientConfirmOrder = async (req, res)=>{
     try {
         const idPedido = await connection.query(`select id from pedidolinea where fk_cliente = ? && estatus = 'Captura'`,[req.user.id])
-        await connection.query(`update pedidolinea set estatus = 'Preparacion' where id = ?`,[idPedido[0].id])
+        const pedidoTotal = await connection.query(`SELECT SUM(p.precio_venta*ppl.cantidad) AS Total FROM productospedidolinea ppl, productos p WHERE ppl.fk_pedidolinea = ? && p.id = ppl.fk_producto;`,[idPedido[0].id])
+        await connection.query(`update pedidolinea set totalPedido = ?, estatus = 'Preparacion' where id = ?`,[pedidoTotal[0].Total,idPedido[0].id])
         await connection.query(`update productospedidolinea set estatus = 'Preparacion' where fk_pedidolinea = ?`,[idPedido[0].id])
+        
         res.json({status: "ok"})
+    } catch (error) {
+        res.json({status: "wrong"})
+        console.log(error) 
+    }
+}
+
+controller.clientGetAllOrders = async (req, res)=>{
+    try {
+        const clientOrders = await connection.query(`select * from pedidolinea where fk_cliente = ? && estatus != 'Captura'`,[req.user.id])
+        res.json(clientOrders)
+    } catch (error) {
+        res.json({status: "wrong"})
+        console.log(error) 
+    }
+}
+controller.getClientDetailOrder = async(req, res)=>{
+    const {id} = req.params;
+    try {
+        const orderDetail = await connection.query(`SELECT ppl.num, p.nombre, p.imagen, p.precio_venta, ppl.cantidad, (p.precio_venta*ppl.cantidad) AS total, ppl.estatus FROM productospedidolinea ppl, productos p WHERE p.id = ppl.fk_producto && ppl.fk_pedidolinea = ?`,[id])
+        res.json(orderDetail)
     } catch (error) {
         res.json({status: "wrong"})
         console.log(error) 
