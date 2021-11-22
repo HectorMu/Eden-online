@@ -20,6 +20,11 @@ router.get('/api/barman/orderdetail/:id', authMiddleware.isLoggedIn, apiControll
 router.get('/api/barman/finishorder/:id', authMiddleware.isLoggedIn, apiController.barmanFinishOrder)
 
 
+router.get('/api/client/addtocar/:productid/:cuantity',apiController.addProductToOrder)
+
+router.get('/api/getclientproducts', authMiddleware.isLoggedIn, apiController.getClientProducts)
+
+
 
 
 

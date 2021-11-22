@@ -125,6 +125,30 @@
     <!-- Divider -->
     <hr class="sidebar-divider">
     {{/if}}
+    {{#if (isClient user)}}
+    <div class="sidebar-heading">
+        Pedidos
+    </div>
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="/client/orders">
+            <i class="fab fa-elementor fa-2x"></i>
+            <span>Ver mis pedidos</span>
+        </a>
+    </li>
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+    <div class="sidebar-heading">
+        Menú
+    </div>
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="/client/Menu">
+            <i class="fab fa-elementor fa-2x"></i>
+            <span>Ver menu</span>
+        </a>
+    </li>
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+    {{/if}}
     <div class="text-center d-none d-md-inline">
         <button class="rounded-circle border-0" id="sidebarToggle"></button>
     </div>

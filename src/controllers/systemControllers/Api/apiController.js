@@ -96,5 +96,41 @@ controller.barmanFinishOrder = async(req, res)=>{
     }
 }
 
+controller.addProductToOrder = async(req, res)=>{
+    const { productid, cuantity } = req.params;
+    let fkPedido;
+    try {
+        const car = await connection.query(`select * from pedidolinea where fk_cliente = ? && estatus = 'Captura'`,[req.user.id])
+        if(car.length > 0){
+            fkPedido = car[0].id
+            await connection.query(`insert into productospedidolinea values(null, ?, ?,?,'Captura')`,[fkPedido,productid,cuantity])
+            console.log("ya existe un carrito")
+            res.json({status:"ok"})
+        }else{
+            await connection.query(`insert into pedidolinea values (null, ?,0,'Captura')`, [req.user.id])
+            const car = await connection.query(`select * from pedidolinea where fk_cliente = ? && estatus = 'Captura'`,[req.user.id])
+            fkPedido = car[0].id
+            await connection.query(`insert into productospedidolinea values(null, ?, ?,?,'Captura')`,[fkPedido,productid,cuantity])
+            console.log("aun no existe un carrito, se creo")
+            res.json({status:"ok"})
+        }
+    } catch (error) {
+        res.json({status: "wrong"})
+        console.log(error)
+    }
+}
+
+controller.getClientProducts = async(req, res)=>{
+    try {
+        const idPedido = await connection.query('select id from pedidolinea where fk_cliente = ?',[req.user.id])
+        console.log(idPedido)
+        const clientProducts = await connection.query('SELECT ppl.num, p.nombre, p.imagen, p.precio_venta, ppl.cantidad, (p.precio_venta*ppl.cantidad) AS total, ppl.estatus FROM productospedidolinea ppl, productos p WHERE p.id = ppl.fk_producto && ppl.fk_pedidolinea = ?',[idPedido[0].id])
+        res.json(clientProducts)
+    } catch (error) {
+        res.json({status: "wrong"})
+        console.log(error)
+        
+    }
+}
 
 module.exports = controller;

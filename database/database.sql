@@ -87,6 +87,7 @@ FOREIGN KEY(fk_mesa)REFERENCES mesas(id),
 totalpedido DOUBLE,
 estatus VARCHAR(50));
 
+
 CREATE TABLE productospedidolocal(
 num INT primary key AUTO_INCREMENT,
 fk_pedidolocal INT,
@@ -96,21 +97,30 @@ foreign KEY (fk_producto) REFERENCES productos(id),
 cantidad INT
 );
 
+
 CREATE TABLE ventalinea(
 id INT PRIMARY KEY AUTO_INCREMENT,
 fecha VARCHAR(50),
-fk_cliente INT,
-FOREIGN KEY(fk_cliente)REFERENCES clientes(id),
-totalventa DOUBLE,
+fk_pedidolinea INT,
+FOREIGN KEY(fk_pedidolinea)REFERENCES pedidolinea(id),
 estatus VARCHAR(50));
+
 
 CREATE TABLE pedidolinea(
 id INT PRIMARY KEY AUTO_INCREMENT,
-fk_ventalinea INT,
-FOREIGN KEY(fk_ventalinea)REFERENCES ventalinea(id),
-fk_producto INT,
-FOREIGN KEY(fk_producto)REFERENCES productos(id),
-cantidad INT,
+fk_cliente INT,
+FOREIGN KEY(fk_cliente)REFERENCES usuarios(id),
 totalpedido DOUBLE,
 estatus VARCHAR(50));
+
+CREATE TABLE productospedidolinea(
+num INT primary key AUTO_INCREMENT,
+fk_pedidolinea INT,
+FOREIGN KEY (fk_pedidolinea) REFERENCES pedidolinea(id),
+fk_producto INT,
+foreign KEY (fk_producto) REFERENCES productos(id),
+cantidad INT
+);
+
+
 

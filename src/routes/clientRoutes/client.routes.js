@@ -5,5 +5,7 @@ const customerController = require('../../controllers/clientControllers/customer
 const authMiddleware = require('../../middlewares/authMiddleware')
 
 router.get('/client/dashboard', authMiddleware.isLoggedIn, customerController.renderDashboard) 
+router.get('/client/menu',authMiddleware.isLoggedIn, customerController.renderClientMenu)
+router.get('/client/orders', authMiddleware.isLoggedIn, customerController.renderClientOrders)
 
 module.exports = router

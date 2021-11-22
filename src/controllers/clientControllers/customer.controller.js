@@ -8,5 +8,13 @@ controller.renderDashboard = (req, res) => {
     res.render('client/dashboard.hbs')
 }
 
+controller.renderClientMenu = (req, res)=>{
+    res.render('client/client.menu.hbs')
+}
+
+controller.renderClientOrders = (req, res)=>{
+    res.render('client/client.orders.hbs')
+}
+
 
 module.exports  = controller
