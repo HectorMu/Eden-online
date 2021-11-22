@@ -110,9 +110,15 @@ controller.ClientAddProductToOrder = async(req, res)=>{
             const productInCar = await connection.query(`select * from productospedidolinea where fk_producto = ? && estatus = 'Captura'`,[productid])
             if(productInCar.length > 0){
                 let currentCuantity = productInCar[0].cantidad;
-                let newCuantity = parseFloat(currentCuantity)+parseFloat(cuantity)
-                await connection.query(`update productospedidolinea set cantidad = ? where fk_pedidolinea = ? && fk_producto = ?`,[newCuantity,fkPedido, productid])
-                res.json({status:"ok"})
+                if(currentCuantity > 10){
+                    await connection.query(`update productospedidolinea set cantidad = 10 where fk_pedidolinea = ? && fk_producto = ?`,[fkPedido, productid])
+                    res.json({status:"ok"})
+                }else{
+                    let newCuantity = parseFloat(currentCuantity)+parseFloat(cuantity)
+                    await connection.query(`update productospedidolinea set cantidad = ? where fk_pedidolinea = ? && fk_producto = ?`,[newCuantity,fkPedido, productid])
+                    res.json({status:"ok"})
+                }
+                
             }else{
                 await connection.query(`insert into productospedidolinea values(null, ?, ?,?,'Captura')`,[fkPedido,productid,cuantity])
                 console.log("ya existe un carrito")

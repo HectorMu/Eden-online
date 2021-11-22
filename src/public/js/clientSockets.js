@@ -49,7 +49,7 @@ carDropdown.addEventListener("click", async () => {
                     </div>
                     <div>
                         <div class="small text-gray-500">${producto.nombre}</div>
-                        <span class="font-weight-bold"> $${producto.precio_venta} - Cantidad: ${producto.cantidad} - Total: $${producto.total}</span>
+                        <span class="font-weight-bold"> $${producto.precio_venta} - Cantidad: ${producto.cantidad > 10 ? '10' : producto.cantidad} - Total: $${producto.total}</span>
                      </div>
             </a> 
             `
