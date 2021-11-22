@@ -1,31 +1,21 @@
 const controller = {}
 const { json } = require('express');
 const connection = require('../../../database')
+
+/* global actions */
+controller.getProducts = async(req, res)=>{
+    const products = await connection.query(`select * from productos`)
+    res.json(products)
+}
+/* /global actions */
+
+/* waiter actions */
 controller.getWaiterOrderDetail = async(req, res)=>{
     const {id} = req.params;
     const orderProducts = await connection.query(`SELECT ppl.num, ppl.fk_pedidolocal, p.nombre,p.precio_venta,ppl.cantidad, ppl.estatus, (p.precio_venta*ppl.cantidad) AS total FROM productospedidolocal ppl, productos p 
     WHERE ppl.fk_pedidolocal = ${id} && ppl.fk_producto = p.id`)
     res.json(orderProducts)
 }
-
-controller.getChefOrderDetail = async(req, res)=>{
-    const {id} = req.params;
-    const orderProducts = await connection.query(`SELECT ppl.num, ppl.fk_pedidolocal, p.nombre,p.precio_venta,ppl.cantidad, ppl.estatus, (p.precio_venta*ppl.cantidad) AS total FROM productospedidolocal ppl, productos p 
-    WHERE ppl.fk_pedidolocal = ${id} && ppl.fk_producto = p.id && ppl.estatus='Preparacion' && p.fk_categoria = 2;`)
-    res.json(orderProducts)
-}
-controller.getBarmanOrderDetail = async(req, res)=>{
-    const {id} = req.params;
-    const orderProducts = await connection.query(`SELECT ppl.num, ppl.fk_pedidolocal, p.nombre,p.precio_venta,ppl.cantidad, ppl.estatus, (p.precio_venta*ppl.cantidad) AS total FROM productospedidolocal ppl, productos p 
-    WHERE ppl.fk_pedidolocal = ${id} && ppl.fk_producto = p.id && ppl.estatus='Preparacion' && p.fk_categoria = 1;`)
-    res.json(orderProducts)
-}
-
-controller.getProducts = async(req, res)=>{
-    const products = await connection.query(`select * from productos`)
-    res.json(products)
-}
-
 controller.orderNewProduct = async (req, res)=>{
     const {fk_pedidolocal} = req.params;
     const {fk_producto, cantidad} = req.body;
@@ -49,7 +39,6 @@ controller.deleteOrderProduct = async(req, res)=>{
         console.log(error)
     }
 }
-
 controller.changeCuantityProduct = async(req, res)=>{
     const {num} = req.params;
     const { cuantity }= req.body;
@@ -73,6 +62,9 @@ controller.sendOrderToChef = async (req, res)=>{
     }
 }
 
+/* /waiter actions */
+
+/* chef actions */
 controller.chefFinishOrder = async(req, res)=>{
     const {id}= req.params
     try {
@@ -84,6 +76,15 @@ controller.chefFinishOrder = async(req, res)=>{
         console.log(error)
     }
 }
+controller.getChefOrderDetail = async(req, res)=>{
+    const {id} = req.params;
+    const orderProducts = await connection.query(`SELECT ppl.num, ppl.fk_pedidolocal, p.nombre,p.precio_venta,ppl.cantidad, ppl.estatus, (p.precio_venta*ppl.cantidad) AS total FROM productospedidolocal ppl, productos p 
+    WHERE ppl.fk_pedidolocal = ${id} && ppl.fk_producto = p.id && ppl.estatus='Preparacion' && p.fk_categoria = 2;`)
+    res.json(orderProducts)
+}
+/* /chef actions */
+
+/* barman actions */
 controller.barmanFinishOrder = async(req, res)=>{
     const {id}= req.params
     try {
@@ -95,7 +96,16 @@ controller.barmanFinishOrder = async(req, res)=>{
         console.log(error)
     }
 }
+controller.getBarmanOrderDetail = async(req, res)=>{
+    const {id} = req.params;
+    const orderProducts = await connection.query(`SELECT ppl.num, ppl.fk_pedidolocal, p.nombre,p.precio_venta,ppl.cantidad, ppl.estatus, (p.precio_venta*ppl.cantidad) AS total FROM productospedidolocal ppl, productos p 
+    WHERE ppl.fk_pedidolocal = ${id} && ppl.fk_producto = p.id && ppl.estatus='Preparacion' && p.fk_categoria = 1;`)
+    res.json(orderProducts)
+}
+/* /barman actions */
 
+
+//client api actions
 controller.ClientAddProductToOrder = async(req, res)=>{
     const { productid, cuantity } = req.params;
     if(cuantity > 10){
@@ -107,10 +117,10 @@ controller.ClientAddProductToOrder = async(req, res)=>{
         const car = await connection.query(`select * from pedidolinea where fk_cliente = ? && estatus = 'Captura'`,[req.user.id])
         if(car.length > 0){
             fkPedido = car[0].id
-            const productInCar = await connection.query(`select * from productospedidolinea where fk_producto = ? && estatus = 'Captura'`,[productid])
+            const productInCar = await connection.query(`select * from productospedidolinea where fk_producto = ? && fk_pedidolinea = ? && estatus = 'Captura'`,[productid,fkPedido])
             if(productInCar.length > 0){
                 let currentCuantity = productInCar[0].cantidad;
-                if(currentCuantity > 10){
+                if(currentCuantity >= 10){
                     await connection.query(`update productospedidolinea set cantidad = 10 where fk_pedidolinea = ? && fk_producto = ?`,[fkPedido, productid])
                     res.json({status:"ok"})
                 }else{
