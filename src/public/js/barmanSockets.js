@@ -64,23 +64,7 @@ if (window.location.href == "http://localhost:3000/barman/orders") {
         </div>
         </div>
     </div>`
-<<<<<<< HEAD
         setActionsToButtons()
-=======
-    setActionsToButtons()
-}
-
-socket.on('server:waiterSendOrdersBarman',async(orders,id)=>{
-    const existingCard = document.getElementById(`orderCard${id}`)
-    if(existingCard){
-        Toastify({
-            text: `Cambios en la orden: ${id}`,
-            className: "info text-center mt-2 w-100 toast-font",
-            position: "center",
-            gravity:"top",
-            style: {background: "#4e73df",}
-        }).showToast();
->>>>>>> 08bd272583950552d78ecf6c3361af2f36cb0b22
     }
 
     socket.on('server:waiterSendOrdersBarman', async (orders, id) => {
@@ -157,18 +141,11 @@ socket.on('server:waiterSendOrdersBarman',async(orders,id)=>{
                             </div>
                         </div>
                     </div>  
-<<<<<<< HEAD
                  `})
                 } else {
                     detailDiv.innerHTML = "<h4>Esta orden aun sigue en captura.</h4>"
                 }
             })
-=======
-                 `})           
-            }else{
-                detailDiv.innerHTML ="<h4>Esta orden aún está en captura.</h4>"
-            }
->>>>>>> 08bd272583950552d78ecf6c3361af2f36cb0b22
         })
         const sendButtons = document.querySelectorAll('.finishOrder')
         sendButtons.forEach(button => {
@@ -380,7 +357,6 @@ if (window.location.href == "http://localhost:3000/barman/onlineorders") {
                         style: { background: "#4e73df", }
                     }).showToast();
 
-<<<<<<< HEAD
                     socket.emit('clientBarman:getAllOnlineOrders')
                     socket.emit('clientBarman:OnlineOrderFinished', button.dataset.finishorder)
                 } else {
@@ -391,18 +367,6 @@ if (window.location.href == "http://localhost:3000/barman/onlineorders") {
                         gravity: "top",
                         style: { background: "red", }
                     }).showToast();
-=======
-            socket.emit('clientBarman:getAllOnlineOrders')
-            //socket.emit('clientBarman:OrderFinished', button.dataset.finishorder)
-        }else{
-            Toastify({
-                text: `Algo sucedió, inténtalo de nuevo.`,
-                className: "info text-center mt-2 w-100 toast-font",
-                position: "center",
-                gravity:"top",
-                style: {background: "red",}
-            }).showToast();
->>>>>>> 08bd272583950552d78ecf6c3361af2f36cb0b22
 
                 }
             })
