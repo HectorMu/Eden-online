@@ -56,11 +56,7 @@ const renderOrders = async (orders) =>{
                    <p class="card-text">Dirección: ${order.direccion}</p>
                    <p class="card-text">Teléfono: ${order.telefono}</p>
                    <p class="card-text">${order.estatus == 'Entrega' ? order.estatus : ''} </p>
-<<<<<<< HEAD
                    <button onclick="getDetails(${order.id},${order.userid})" type="button" class="btn btn-primary" data-toggle="modal" data-target="#orderDetailModal">Ver detalle</button>
-=======
-                   <button onclick="getDetails(${order.id})" type="button" class="btn btn-primary" data-toggle="modal" data-target="#orderDetailModal">Ver detalles</button>
->>>>>>> 08bd272583950552d78ecf6c3361af2f36cb0b22
                    ${order.estatus == 'Entrega' ? `<button onclick="markAsDelivered(${order.id})" type="button" class="btn btn-primary">Entregado</button>` : ''}
                </div>
            </div>
@@ -100,12 +96,8 @@ btnDeliver.addEventListener("click",async ()=>{
     const deliverResults = await deliverOrder(btnDeliver.dataset.id)
     console.log(deliverResults)
     if(deliverResults.status == "ok"){
-<<<<<<< HEAD
         socket.emit('clientTradesman:DeliveryIncoming', btnDeliver.dataset.iduser, btnDeliver.dataset.id)
         createToast(`Notificación enviada, preparate para entregar el pedido ${btnDeliver.dataset.id}`,"success")
-=======
-        createToast(`Notificación enviada, prepárate para entregar el pedido ${btnDeliver.dataset.id}`,"success")
->>>>>>> 08bd272583950552d78ecf6c3361af2f36cb0b22
         renderOrders(await getPreparedOrders())
     }else{
         createToast(`Algo sucedió, inténtalo de nuevo.`,"error")
