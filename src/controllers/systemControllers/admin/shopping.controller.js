@@ -36,7 +36,7 @@ controller.SaveShopping = async (req, res) => {
         res.redirect(redirectPath)
     } catch (error) {
         console.log(error)
-        req.flash("error_msg", "Algo sucedio, intentalo de nuevo.")
+        req.flash("error_msg", "Algo sucedió, inténtalo de nuevo.")
         res.redirect(redirectPath)
     }
 }
@@ -50,11 +50,11 @@ controller.DeleteShopping = async (req, res) => {
     try {
         await connection.query('delete from entradas where id = ?', [id])
         await connection.query('update almacen set existencias = ? where fk_producto = ?', [existencias, cant[0].fk_producto])
-        req.flash("success_msg", "Compra eliminada correctamente")
+        req.flash("success_msg", "La compra fue eliminada con éxito.")
         res.redirect(redirectPath)
     } catch (error) {
         console.log(error)
-        req.flash("error_msg", "Algo sucedio, intentalo de nuevo")
+        req.flash("error_msg", "Algo sucedió, inténtalo de nuevo.")
         res.redirect(redirectPath)
     }
 }

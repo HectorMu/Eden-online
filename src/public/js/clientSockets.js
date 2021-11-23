@@ -11,8 +11,8 @@ socket.on('server:notifyCustomer', () => {
         gravity: "top",
         style: { background: "#4e73df", }
     }).showToast();
-    Push.create("Nueva promocion!", {
-        body: "Aprovecha nuestra promocion!",
+    Push.create("¡Nueva promocion!", {
+        body: "¡Aprovecha nuestra promocion!",
         icon: '/icon.png',
     })
 })
@@ -55,7 +55,7 @@ carDropdown.addEventListener("click", async () => {
             `
         })
     }else{
-        carListDiv.innerHTML =`<a class="dropdown-item text-center small text-gray-500">No tiene productos en su carrito.</a>`
+        carListDiv.innerHTML =`<a class="dropdown-item text-center small text-gray-500">Aún no tienes productos en tu carrito.</a>`
     }
   
 })

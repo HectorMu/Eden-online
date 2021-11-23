@@ -72,7 +72,7 @@ socket.on('server:waiterSendOrdersBarman',async(orders,id)=>{
     const existingCard = document.getElementById(`orderCard${id}`)
     if(existingCard){
         Toastify({
-            text: `Cambios en la orden ${id}`,
+            text: `Cambios en la orden: ${id}`,
             className: "info text-center mt-2 w-100 toast-font",
             position: "center",
             gravity:"top",
@@ -144,7 +144,7 @@ const setActionsToButtons = ()=>{
                     </div>  
                  `})           
             }else{
-                detailDiv.innerHTML ="<h4>Esta orden aun sigue en captura.</h4>"
+                detailDiv.innerHTML ="<h4>Esta orden aún está en captura.</h4>"
             }
         })
     })
@@ -360,7 +360,7 @@ const setActionsToOnlineOrdersButtons = ()=>{
             //socket.emit('clientBarman:OrderFinished', button.dataset.finishorder)
         }else{
             Toastify({
-                text: `Algo sucedio, intental de nuevo.`,
+                text: `Algo sucedió, inténtalo de nuevo.`,
                 className: "info text-center mt-2 w-100 toast-font",
                 position: "center",
                 gravity:"top",

@@ -17,11 +17,11 @@ controller.SaveTable = async (req, res) => {
 
     try {
         await connection.query('insert into mesas set ?', [newTable])
-        req.flash("success_msg", "Mesa guardada correctamente.")
+        req.flash("success_msg", "Datos de la mesa guardados.")
         res.redirect(redirectPath)
     } catch (error) {
         console.log(error)
-        req.flash("error_msg", "Algo sucedio, intentalo de nuevo.")
+        req.flash("error_msg", "Algo sucedió, inténtalo de nuevo.")
         res.redirect(redirectPath)
     }
 }
@@ -34,7 +34,7 @@ controller.deleteTable = async (req, res) => {
         res.redirect(redirectPath)
     } catch (error) {
         console.log(error)
-        req.flash("error_msg", "Algo sucedio, intentalo de nuevo.")
+        req.flash("error_msg", "Algo sucedió, inténtalo de nuevo.")
         res.redirect(redirectPath)
     }
 }

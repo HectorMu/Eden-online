@@ -13,11 +13,11 @@ controller.editProfile = async (req, res) => {
     try {
         await connection.query('update usuarios set nombre = ?, apellido = ?, telefono = ?, direccion = ?, contra = ? where id = ?', 
             [updatedCustomer.nombre, updatedCustomer.apellido, updatedCustomer.telefono, updatedCustomer.direccion, updatedCustomer.contra, id]);
-        req.flash("success_msg", "Datos del cliente modificados correctamente.")
+        req.flash("success_msg", "Los datos de tu perfil fueron actualizados con éxito.")
         res.redirect(redirectProfile);
     } catch (error) {
         console.log(error);
-        req.flash("error_msg", "Algo sucedio, intentalo de nuevo.")
+        req.flash("error_msg", "Algo sucedió, inténtalo de nuevo.")
         res.redirect(redirectProfile);
     }
 };

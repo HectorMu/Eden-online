@@ -20,16 +20,16 @@ controller.SaveCustomer = async (req, res) => {
     try {
         const validateEmail = await helpers.userExists(newCustomer.correo);
         if(validateEmail){
-            req.flash("error_msg", "Este correo electronico ya esta registrado.")
+            req.flash("error_msg", "Este correo electrónico ya está registrado.")
             res.redirect(redirectPath);
         } else{
             await connection.query('insert into usuarios set ?', [newCustomer]);
-            req.flash("success_msg", "Cliente guardado correctamente.")
+            req.flash("success_msg", "El cliente ha sido guardado correctamente.")
             res.redirect(redirectPath);
         }
     } catch (error) {
         console.log(error);
-        req.flash("error_msg", "Algo sucedio, intentalo de nuevo.")
+        req.flash("error_msg", "Algo sucedió, inténtalo de nuevo.")
         res.redirect(redirectPath);
     }
 };
@@ -46,7 +46,7 @@ controller.editCustomer = async (req, res) => {
         res.redirect(redirectPath);
     } catch (error) {
         console.log(error);
-        req.flash("error_msg", "Algo sucedio, intentalo de nuevo.")
+        req.flash("error_msg", "Algo sucedió, inténtalo de nuevo.")
         res.redirect(redirectPath);
     }
 };
@@ -55,11 +55,11 @@ controller.deleteCustomer = async (req, res) => {
     const { id } = req.params;
     try {
         await connection.query('delete from usuarios where id = ?', [id]);
-        req.flash("success_msg", "Cliente eliminado correctamente.")
+        req.flash("success_msg", "El cliente ha sido eliminado correctamente.")
         res.redirect(redirectPath);
     } catch (error) {
         console.log(error);
-        req.flash("error_msg", "Algo sucedio, intentalo de nuevo.")
+        req.flash("error_msg", "Algo sucedió, inténtalo de nuevo.")
         res.redirect(redirectPath);
     }
 };
