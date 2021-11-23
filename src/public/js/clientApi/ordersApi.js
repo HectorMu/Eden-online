@@ -27,7 +27,7 @@ const renderOrders = async()=>{
                     <h5 class="card-title">No. de Pedido: ${order.id}</h5>
                     <p class="card-text">Estatus:  ${order.estatus}</p
                     <p class="card-text">Importe:  $${order.totalpedido}</p>
-                    <button onclick="getDetails(${order.id})" type="button" class="btn btn-primary" data-toggle="modal" data-target="#orderDetailModal">Ver detalle</button>
+                    <button onclick="getDetails(${order.id})" type="button" class="btn btn-primary" data-toggle="modal" data-target="#orderDetailModal">Ver detalles</button>
                 </div>
             </div>
          </div>`

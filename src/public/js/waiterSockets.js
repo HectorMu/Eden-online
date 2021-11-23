@@ -155,7 +155,7 @@ cardHeaders.forEach(header => {
                     } else {
                         headerclicked.click()
                         Toastify({
-                            text: `Algo paso, intentalo de nuevo.`,
+                            text: `Algo sucedió, inténtalo de nuevo.`,
                             className: "info text-center mt-2 w-100 toast-font",
                             position: "center",
                             gravity: "top",
@@ -182,7 +182,7 @@ cardHeaders.forEach(header => {
      </div>
       `
         } else {
-            pTotal.innerHTML = `Esta orden aun no tiene productos.`
+            pTotal.innerHTML = `Esta orden aún no tiene productos.`
         }
         const cuantityEditButtons = document.querySelectorAll('.cuantityEdit')
         cuantityEditButtons.forEach(button => {
@@ -202,7 +202,7 @@ cardHeaders.forEach(header => {
                         if (results.status == "ok") {
                             headerclicked.click()
                             Toastify({
-                                text: `Cantidad cambiada correctamente`,
+                                text: `La cantidad cambió correctamente`,
                                 className: "info text-center mt-2 w-100 toast-font",
                                 position: "center",
                                 gravity: "top",
@@ -211,7 +211,7 @@ cardHeaders.forEach(header => {
                         } else {
                             headerclicked.click()
                             Toastify({
-                                text: `Algo paso, intentalo de nuevo.`,
+                                text: `Algo sucedió, inténtalo de nuevo.`,
                                 className: "info text-center mt-2 w-100 toast-font",
                                 position: "center",
                                 gravity: "top",
@@ -235,7 +235,7 @@ sendButtons.forEach(button => {
             headerclicked.click()
             headerclicked.classList.toggle('grow-height')
             Toastify({
-                text: `Productos de orden ${button.dataset.sendbtnid} enviada para preparacion.`,
+                text: `Productos de orden ${button.dataset.sendbtnid} enviada para preparación.`,
                 className: "info text-center mt-2 w-100 toast-font",
                 position: "center",
                 gravity: "top",
@@ -247,7 +247,7 @@ sendButtons.forEach(button => {
             headerclicked.click()
             headerclicked.classList.toggle('grow-height')
             Toastify({
-                text: `Algo paso, intentalo de nuevo.`,
+                text: `Algo sucedió, inténtalo de nuevo.`,
                 className: "info text-center mt-2 w-100 toast-font",
                 position: "center",
                 gravity: "top",
@@ -266,7 +266,7 @@ sendChefButtons.forEach(button => {
             headerclicked.click()
             headerclicked.classList.toggle('grow-height')
             Toastify({
-                text: `Platillos de orden ${button.dataset.sendbtnid} enviada para preparacion.`,
+                text: `Platillos de orden ${button.dataset.sendbtnid} enviada para preparación.`,
                 className: "info text-center mt-2 w-100 toast-font",
                 position: "center",
                 gravity: "top",
@@ -277,7 +277,7 @@ sendChefButtons.forEach(button => {
             headerclicked.click()
             headerclicked.classList.toggle('grow-height')
             Toastify({
-                text: `Algo paso, intentalo de nuevo.`,
+                text: `Algo sucedió, inténtalo de nuevo.`,
                 className: "info text-center mt-2 w-100 toast-font",
                 position: "center",
                 gravity: "top",
@@ -296,7 +296,7 @@ sendBarmanButtons.forEach(button => {
             headerclicked.click()
             headerclicked.classList.toggle('grow-height')
             Toastify({
-                text: `Bebidas de orden ${button.dataset.sendbtnid} enviada para preparacion.`,
+                text: `Bebidas de orden ${button.dataset.sendbtnid} enviada para preparación.`,
                 className: "info text-center mt-2 w-100 toast-font",
                 position: "center",
                 gravity: "top",
@@ -307,7 +307,7 @@ sendBarmanButtons.forEach(button => {
             headerclicked.click()
             headerclicked.classList.toggle('grow-height')
             Toastify({
-                text: `Algo paso, intentalo de nuevo.`,
+                text: `Algo sucedió, inténtalo de nuevo.`,
                 className: "info text-center mt-2 w-100 toast-font",
                 position: "center",
                 gravity: "top",

@@ -47,7 +47,7 @@ carDropdown.addEventListener("click", async () => {
             `
         })
     }else{
-        carListDiv.innerHTML =`<a class="dropdown-item text-center small text-gray-500">No tiene productos en su carrito.</a>`
+        carListDiv.innerHTML =`<a class="dropdown-item text-center small text-gray-500">Aún no tienes productos en tu carrito.</a>`
     }
   
 })

@@ -26,14 +26,14 @@ controller.renderProducts = async (req, res)=>{
            const existencias = 0
            const newStock = {fk_producto, existencias}           
            await connection.query('insert into almacen set ?', [newStock])
-           req.flash("success_msg", "Producto guardado correctamente.")
+           req.flash("success_msg", "El producto ha sido guardado correctamente.")
            res.redirect(redirectPath)
          }
      }
      catch (error) 
      {
        console.log(error)
-       req.flash("error_msg", "Algo sucedio, intentalo de nuevo.")
+       req.flash("error_msg", "Algo sucedió, inténtalo de nuevo.")
        res.redirect(redirectPath)
      }
   }
@@ -44,12 +44,12 @@ controller.renderProducts = async (req, res)=>{
     const updatedProduct = {nombre, precio_compra, precio_venta, fk_categoria, imagen}
     try {
        await connection.query('update productos set ? where id = ?',[updatedProduct, id])                  
-       req.flash("success_msg", "Producto modificado correctamente.")
+       req.flash("success_msg", "Datos del producto modificados correctamente.")
        res.redirect(redirectPath)
     } 
     catch (error) {
       console.log(error)
-      req.flash("error_msg", "Algo sucedio, intentalo de nuevo.")
+      req.flash("error_msg", "Algo sucedió, inténtalo de nuevo.")
       res.redirect(redirectPath)
     }
   }
@@ -59,12 +59,12 @@ controller.renderProducts = async (req, res)=>{
     try {
       await connection.query('delete from almacen where fk_producto = ?', [id])
       await connection.query('delete from productos where id = ?',[id])
-      req.flash("success_msg", "Producto eliminado correctamente.")
+      req.flash("success_msg", "Producto eliminado con éxito.")
       res.redirect(redirectPath)
     } 
     catch (error) {
       console.log(error)
-      req.flash("error_msg", "Algo sucedio, intentalo de nuevo.")
+      req.flash("error_msg", "Algo sucedió, inténtalo de nuevo.")
       res.redirect(redirectPath)
     }
   }

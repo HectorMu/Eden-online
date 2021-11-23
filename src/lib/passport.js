@@ -16,10 +16,10 @@ passport.use('local.login',new passportLocal({
         if(validPass){
             done(null, user,req.flash("success_msg", `Bienvenido ${user.nombre}`))
         }else{
-            done(null, false, req.flash("error_msg", "Informacion incorrecta, intentalo de nuevo."))
+            done(null, false, req.flash("error_msg", "Información incorrecta, inténtalo de nuevo."))
         }
     }else{
-        return done(null, false,req.flash("error_msg", "Informacion incorrecta, intentalo de nuevo."))
+        return done(null, false,req.flash("error_msg", "Información incorrecta, inténtalo de nuevo."))
     }
 }))
 
@@ -47,7 +47,7 @@ passport.use('local.signup', new passportLocal({
         newCustomer.id = result.insertId
         return done(null, newCustomer)
     }else{
-        return done(null,false,req.flash("error_msg", "Ese correo electrónico ya esta registrado, prueba otro."))
+        return done(null,false,req.flash("error_msg", "Ese correo electrónico ya está registrado, prueba con otro."))
     }
    
 }))
