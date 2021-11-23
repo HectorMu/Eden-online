@@ -294,6 +294,12 @@ controller.TradesmanMarkAsDelivered = async(req, res)=>{
         fk_pedidolinea: id
     }
     try {
+        const productos = await connection.query('select fk_producto, cantidad from productospedidolinea where fk_pedidolinea = ?', [id])
+        productos.forEach(async productopl => {
+            const cantidadalmacen = await connection.query('select existencias from almacen where fk_producto = ?', [productopl.fk_producto])
+            const operacion = parseInt(cantidadalmacen[0].existencias) - parseInt(productopl.cantidad)
+            await connection.query('update almacen set existencias = ? where fk_producto = ?', [operacion, productopl.fk_producto])
+        });
         await connection.query(`update pedidolinea set estatus = 'Entregado' where id = ?`,[id])
         await connection.query(`update productospedidolinea set estatus = 'Entregado' where fk_pedidolinea = ? `,[id])
         await connection.query('insert into ventalinea set ?',[newOnlineSale])
