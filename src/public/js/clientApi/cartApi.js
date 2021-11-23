@@ -122,17 +122,21 @@ const remove = async (num)=>{
 }
 
 btnConfirmOrder.addEventListener('click',async()=>{
-    const results = await confirmOrder()
-    if(results.status == "ok"){
-        createToast("Orden confirmada, espera por tu pedido.","success")
-       
-        socket.emit('clientCustomer:sendChefNewOnlineOrder')
-        socket.emit('clientCustomer:sendBarmanNewOnlineOrder')
-        await renderProducts(await getClientCarProducts())
-        updateCounter()
-    }else{
-        createToast("Algo paso, intentalo de nuevo.","error")
-        updateCounter()
+
+    let confirmOrderRes = confirm('¿Comprar carrito?')
+    if(confirmOrderRes){
+        const results = await confirmOrder()
+        if(results.status == "ok"){
+            createToast("Orden confirmada, espera por tu pedido.","success")
+           
+            socket.emit('clientCustomer:sendChefNewOnlineOrder')
+            socket.emit('clientCustomer:sendBarmanNewOnlineOrder')
+            await renderProducts(await getClientCarProducts())
+            updateCounter()
+        }else{
+            createToast("Algo paso, intentalo de nuevo.","error")
+            updateCounter()
+        }
     }
 })
 
