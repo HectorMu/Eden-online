@@ -1,22 +1,33 @@
 {{>sidebar}}
-        <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
-            <!-- Main Content -->
-            <div id="content">
-               {{>navbar}}
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
-
-                    <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Repartidor Dashboard</h1>
-                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+<!-- Content Wrapper -->
+<div id="content-wrapper" class="d-flex flex-column">
+    <!-- Main Content -->
+    <div id="content">
+        {{>navbar}}
+        <!-- Begin Page Content -->
+        <div id="adminDashboard" class="container-fluid">
+            <!-- Page Heading -->
+            <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                <h1 class="h3 mb-0">Bienvenido {{user.nombre}}</h1>
+            </div>
+            <div class="row">
+                <div class="col col-12 col-sm-12 col-md-3 col-lg-3">
+                    <div class="card shadow my-2">
+                        <div class="card-header text-center">
+                            <span class="font-weight-bold">Productos pendientes por elaborar</span>
+                        </div>
+                        <div class="card-body text-center">
+                            <p>{{Products}}</p>
+                            <hr>
+                            <a href="/barman/orders" class="btn btn-info btn-sm btn-block">¡Ir a ello!</a>
+                        </div>
                     </div>
                 </div>
-                <!-- /.container-fluid -->
             </div>
-            <!-- End of Main Content -->
-          {{>footer}}
         </div>
-        <!-- End of Content Wrapper -->
+        <!-- /.container-fluid -->
+    </div>
+    <!-- End of Main Content -->
+    {{>footer}}
+</div>
+<!-- End of Content Wrapper -->

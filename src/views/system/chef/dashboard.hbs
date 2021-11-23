@@ -14,43 +14,16 @@
                 <div class="col col-12 col-sm-12 col-md-3 col-lg-3">
                     <div class="card shadow my-2">
                         <div class="card-header text-center">
-                            <span class="font-weight-bold">Productos pendientes de elaborar</span>
+                            <span class="font-weight-bold">Productos pendientes por elaborar</span>
                         </div>
                         <div class="card-body text-center">
-                            {{Orders}}
+                            <p>{{Products}}</p>
+                            <hr>
+                            <a href="/chef/orders"
+                                class="btn btn-info btn-sm btn-block">¡Ir a ello!</a>
                         </div>
                     </div>
-                </div>
-                <div class="col col-12 col-sm-12 col-md-3 col-lg-3">
-                    <div class="card shadow my-2">
-                        <div class="card-header text-center">
-                            <span class="font-weight-bold">Ordenes con pedidos en preparación</span>
-                        </div>
-                        <div class="card-body text-center">
-                            {{Orderspreparation}}
-                        </div>
-                    </div>
-                </div>
-                <div class="col col-12 col-sm-12 col-md-3 col-lg-3">
-                    <div class="card shadow my-2">
-                        <div class="card-header text-center">
-                            <span class="font-weight-bold">Ordenes con pedidos preparados</span>
-                        </div>
-                        <div class="card-body text-center">
-                            {{Ordersprepared}}
-                        </div>
-                    </div>
-                </div>
-                <div class="col col-12 col-sm-12 col-md-3 col-lg-3">
-                    <div class="card shadow my-2">
-                        <div class="card-header text-center">
-                            <span class="font-weight-bold">Ordenes en caja</span>
-                        </div>
-                        <div class="card-body text-center">
-                            {{Ordersbox}}
-                        </div>
-                    </div>
-                </div>
+                </div>                
             </div>
         </div>
         <!-- /.container-fluid -->
