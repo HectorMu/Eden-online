@@ -254,4 +254,53 @@ controller.getClientDetailOrder = async(req, res)=>{
     }
 }
 
+//tradesman
+controller.TradesmanGetPreparedOrders = async (req, res)=>{
+    try {
+        const preparedOrders = await connection.query(`select pl.id, u.nombre, u.direccion, u.telefono, pl.fk_cliente, pl.estatus from pedidolinea pl, usuarios u where pl.fk_cliente = u.id && pl.estatus = 'Preparado' || pl.fk_cliente = u.id && pl.estatus = 'Entrega'`)
+        res.json(preparedOrders)
+    } catch (error) {
+        res.json({status: "wrong"})
+        console.log(error) 
+    }
+}
+controller.TradesManGetDetails = async (req, res)=>{
+    const { id } = req.params;
+    try {
+        const orderDetails = await connection.query('SELECT ppl.fk_pedidolinea, p.nombre,ppl.estatus from productospedidolinea ppl, productos p WHERE ppl.fk_pedidolinea = ? && p.id = ppl.fk_producto;',[id])
+        res.json(orderDetails)
+    } catch (error) {
+        res.json({status: "wrong"})
+        console.log(error) 
+    }
+}
+controller.TradesmanDeliverOrder = async(req, res)=>{
+    const { id } = req.params;
+    try {
+        await connection.query(`update pedidolinea set estatus = 'Entrega' where id = ?`,[id])
+        await connection.query(`update productospedidolinea set estatus = 'Entrega' where fk_pedidolinea = ? `,[id])
+        res.json({status: "ok"})
+    } catch (error) {
+        res.json({status: "wrong"})
+        console.log(error)
+    }
+}
+controller.TradesmanMarkAsDelivered = async(req, res)=>{
+    const {id}= req.params;
+    let today = new Date()
+    const fecha = today.toLocaleDateString("en-US")
+    const newOnlineSale = {
+        fecha,
+        fk_pedidolinea: id
+    }
+    try {
+        await connection.query(`update pedidolinea set estatus = 'Entregado' where id = ?`,[id])
+        await connection.query(`update productospedidolinea set estatus = 'Entregado' where fk_pedidolinea = ? `,[id])
+        await connection.query('insert into ventalinea set ?',[newOnlineSale])
+        res.json({status: "ok"})
+    } catch (error) {
+        res.json({status: "wrong"})
+        console.log(error)
+    }
+}
 module.exports = controller;
