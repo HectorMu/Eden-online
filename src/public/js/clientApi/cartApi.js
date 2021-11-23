@@ -47,7 +47,7 @@ const renderProducts = async (products) =>{
                         <i class="fas fa-minus fa-sm"></i>
                     </button>
                 </div>
-                <input type="text" id="inputnum${product.num}"  min="1" value="${product.cantidad}" class="form-control bg-light border-0 small" >
+                <input type="number" id="inputnum${product.num}" readonly  min="1" value="${product.cantidad}" class="form-control bg-light border-0 small" >
                 <div class="input-group-append">
                     <button onclick="addOne(${product.num})" class="btn btn-primary btn-sm" type="button">
                         <i class="fas fa-plus fa-sm"></i>
