@@ -67,7 +67,7 @@ const renderProducts = async (products) =>{
         totalH5.innerHTML = `Total del carrito: $${totalCart}`
 
     }else{
-        listProducts.innerHTML ="Aún no tienes productos en tu carrito."
+        listProducts.innerHTML ="Tu carrito esta vacio."
         totalH5.innerHTML = ``
     }
  

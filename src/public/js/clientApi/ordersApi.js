@@ -1,10 +1,19 @@
 const ordersListDiv = document.getElementById('listOrders')
 const modalTitle = document.getElementById('titleModal')
 const detailsDiv = document.getElementById('details')
+const checkAll = document.getElementById('checkAll')
+const checkOnDeliver = document.getElementById('checkOnDeliver')
+const checkDelivered = document.getElementById('checkDelivered')
+const searchInput = document.getElementById('searchInput')
+
+let localOrders = []
+
+
 const getOrders = async ()=>{
     const url = '/api/client/getOrders'
     const response = await fetch(url)
     const orders = await response.json();
+    localOrders = orders;
     return orders;
 }
 const getOrderDetails = async (id) =>{
@@ -16,8 +25,7 @@ const getOrderDetails = async (id) =>{
 }
 
 
-const renderOrders = async()=>{
-     const orders = await getOrders();
+const renderOrders = (orders)=>{
      ordersListDiv.innerHTML =""
      orders.map(order =>{
          ordersListDiv.innerHTML += `
@@ -49,13 +57,61 @@ const getDetails = async (id)=>{
     })
 }
 
+checkAll.addEventListener("change",async ()=>{
+    if(checkAll.checked == true){
+        checkDelivered.checked = false;
+        checkOnDeliver.checked = false;
+        renderOrders(localOrders)
+    }
+})
+
+checkOnDeliver.addEventListener("change",async()=>{
+    if(checkOnDeliver.checked == true){
+        checkAll.checked = false;
+        checkDelivered.checked = false;
+        const onDeliver = localOrders.filter(order => order.estatus == "Entrega")
+        renderOrders(onDeliver)
+    }else{
+        renderOrders(localOrders)
+    }
+
+})
+
+checkDelivered.addEventListener("change",async()=>{
+    if(checkDelivered.checked == true){
+        checkAll.checked = false
+        checkOnDeliver.checked = false;
+        const Delivered = localOrders.filter(order => order.estatus == "Entregado")
+        renderOrders(Delivered)
+    }else{
+        renderOrders(localOrders)
+    }
+})
+
+const filterById = (id)=>{
+    let filtered = localOrders.filter(order => order.id == id)
+    renderOrders(filtered)
+}
 
 
+searchInput.addEventListener('keyup',()=>{
+    if(searchInput.value !==""){
+        filterById(searchInput.value)
+        checkAll.checked = false;
+        checkOnDeliver.checked = false;
+        checkOnDeliver.checked = false;
+    }else{
+        checkAll.checked = true;
+        renderOrders(localOrders)
+    }
+   
+})
 
 
 
 
 
 window.onload = async()=>{
- await renderOrders()
+ checkAll.checked = true;
+ renderOrders(await getOrders())
 }
