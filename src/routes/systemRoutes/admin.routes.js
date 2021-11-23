@@ -13,6 +13,7 @@ const systemShoppingController = require(adminControllersPath+'shopping.controll
 const systemInventoryController = require(adminControllersPath+'inventory.controller')
 const systemPaymentController = require(adminControllersPath+'payment.controller')
 const systemPaymentsControlController = require(adminControllersPath+'paymentscontrol.controller')
+const systemPaymentsLineControlController = require(adminControllersPath+'paymentslinecontrol.controller')
 
 router.get('/admin/dashboard', authMiddleware.isLoggedIn, authMiddleware.isAdmin, systemAdminController.renderAdminDashboard)
 
@@ -48,5 +49,8 @@ router.post('/admin/savepayment/:id', authMiddleware.isLoggedIn, authMiddleware.
 
 router.get('/admin/paymentscontrol', authMiddleware.isLoggedIn, authMiddleware.isAdmin, systemPaymentsControlController.renderPaymentscontrol)
 router.get('/admin/paymentscontrol/detailaccount/:id', authMiddleware.isLoggedIn, authMiddleware.isAdmin, systemPaymentsControlController.renderDetailAccount)
+
+router.get('/admin/paymentslinecontrol', authMiddleware.isLoggedIn, authMiddleware.isAdmin, systemPaymentsLineControlController.renderPaymentslinecontrol)
+router.get('/admin/paymentslinecontrol/detailaccount/:id', authMiddleware.isLoggedIn, authMiddleware.isAdmin, systemPaymentsLineControlController.renderDetailAccount)
 
 module.exports = router;

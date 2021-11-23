@@ -9,7 +9,7 @@ const systemChefController = require('./../../controllers/systemControllers/chef
 router.get('/chef/dashboard', authMiddleware.isLoggedIn, authMiddleware.isChef, systemChefController.renderChefDashboard)
 router.get('/chef/orders', authMiddleware.isLoggedIn, authMiddleware.isChef, systemChefController.renderChefOrdersView)
 
-router.get('/chef/onlineorders', systemChefController.renderChefOnlineOrdersView)
+router.get('/chef/onlineorders', authMiddleware.isLoggedIn, authMiddleware.isChef, systemChefController.renderChefOnlineOrdersView)
 
 
 module.exports = router;

@@ -8,7 +8,7 @@ const systemBarmanController = require('./../../controllers/systemControllers/ba
 
 router.get('/barman/dashboard',authMiddleware.isLoggedIn, authMiddleware.isBarman, systemBarmanController.renderBarmanDashboard)
 router.get('/barman/orders',authMiddleware.isLoggedIn, authMiddleware.isBarman, systemBarmanController.renderBarmanOrders)
-router.get('/barman/onlineorders', systemBarmanController.renderBarmanOnlineOrders)
+router.get('/barman/onlineorders',authMiddleware.isLoggedIn, authMiddleware.isBarman, systemBarmanController.renderBarmanOnlineOrders)
 
 
 module.exports = router;
