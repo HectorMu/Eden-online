@@ -14,5 +14,9 @@ controller.renderTradesmanDashboard = async (req, res)=>{
     })
 }
 
+controller.renderTradesManOrders = (req, res)=>{
+    res.render('system/tradesman/tradesman.orders.hbs')
+}
+
 
 module.exports = controller

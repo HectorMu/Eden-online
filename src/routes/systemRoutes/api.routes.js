@@ -37,6 +37,13 @@ router.get('/api/client/getOrders', authMiddleware.isLoggedIn, apiController.cli
 router.get('/api/client/getorderDetail/:id', authMiddleware.isLoggedIn, apiController.getClientDetailOrder)
 
 
+//tradesman
+router.get('/api/tradesman/prepareorders',authMiddleware.isLoggedIn, apiController.TradesmanGetPreparedOrders)
+router.get('/api/tradesman/getdetail/:id', authMiddleware.isLoggedIn, apiController.TradesManGetDetails)
+router.get('/api/tradesman/deliverorder/:id', authMiddleware.isLoggedIn, apiController.TradesmanDeliverOrder)
+router.get('/api/tradesman/markdelivered/:id', authMiddleware.isLoggedIn, apiController.TradesmanMarkAsDelivered)
 
+
+ 
 
 module.exports = router;

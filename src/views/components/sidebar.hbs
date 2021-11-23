@@ -182,6 +182,19 @@
     <!-- Divider -->
     <hr class="sidebar-divider">
     {{/if}}
+     {{#if (isTradesman user)}}
+    <div class="sidebar-heading">
+        Pedidos
+    </div>
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="/tradesman/orders">
+            <i class="fas fa-list-alt"></i>
+            <span>Ver pedidos</span>
+        </a>
+    </li>
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+    {{/if}}
     <div class="text-center d-none d-md-inline">
         <button class="rounded-circle border-0" id="sidebarToggle"></button>
     </div>

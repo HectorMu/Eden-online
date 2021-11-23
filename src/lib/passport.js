@@ -29,7 +29,8 @@ passport.use('local.signup', new passportLocal({
     passwordField: 'contra',
     passReqToCallback: true
 }, async (req, correo, contra, done) => {
-    if(!helpers.userExists(correo)){
+    const exists = await helpers.userExists(correo)
+    if(!exists){
         const { nombre, apellido, telefono, direccion } = req.body
         const newCustomer = {
             nombre,
@@ -46,7 +47,7 @@ passport.use('local.signup', new passportLocal({
         newCustomer.id = result.insertId
         return done(null, newCustomer)
     }else{
-        return done(null,req.flash("error_msg", "Ese correo electrónico ya esta registrado, prueba otro."))
+        return done(null,false,req.flash("error_msg", "Ese correo electrónico ya esta registrado, prueba otro."))
     }
    
 }))

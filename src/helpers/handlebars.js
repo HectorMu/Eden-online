@@ -27,7 +27,7 @@ hbs.handlebars.registerHelper('isWaiter',(user)=>{
     return user.fk_rol == 4 ? true : false
 })
 hbs.handlebars.registerHelper('isTradesman',(user)=>{
-    return user.fk_rol == 6 ? true : false
+    return user.fk_rol == 5 ? true : false
 })
 
 hbs.handlebars.registerHelper('isClient',(user)=>{

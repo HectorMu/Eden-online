@@ -40,12 +40,14 @@
         {{/if}}
         {{#if (isClient user)}}
         <script src="/js/clientSockets.js"></script>
-        {{/if}}
-        
+        {{/if}} 
+        {{#if (isTradesman user)}}
+        <script src="/js/tradesmanSockets.js"></script>
+        {{/if}} 
         {{#if (isChefOrAdmin user)}}
            <script src="/js/chefSockets.js"></script>
         {{/if}}
-          {{#if (isBarmanOrAdmin user)}}
+        {{#if (isBarmanOrAdmin user)}}
         <script src="/js/barmanSockets.js"></script>
         {{/if}}
 
@@ -58,6 +60,5 @@
         
             <!-- Core plugin JavaScript-->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js" integrity="sha512-xq+0+dRhI6SZOh+lDnMJEju2p2YPINflJLcYrRAsIMaXnJi6/V3lppCMCYsB2MLeF2E93r+fVo0MioY90pNzpw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        
 </body>
 </html>
