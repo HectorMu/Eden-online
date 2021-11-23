@@ -126,6 +126,7 @@ btnConfirmOrder.addEventListener('click',async()=>{
     if(results.status == "ok"){
         createToast("Orden confirmada, espera por tu pedido.","success")
         await renderProducts(await getClientCarProducts())
+        socket.emit('clientCustomer:sendChefNewOnlineOrder')
         updateCounter()
     }else{
         createToast("Algo paso, intentalo de nuevo.","error")

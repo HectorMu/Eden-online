@@ -110,11 +110,20 @@ const wrap = middleware => (socket, next) => middleware(socket.request, {}, next
         io.emit('server:chefOrderFinished',id)
     })
 
+
     //chef online orders
     socket.on('clientChef:getAllOnlineOrders',async()=>{
       const orders = await connection.query(`select ppl.id, ppl.fk_cliente, u.nombre, ppl.totalpedido, ppl.estatus from pedidolinea ppl, usuarios u  WHERE u.id = ppl.fk_cliente && estatus = 'Preparacion'`)
       io.emit('server:chefGetAllOnlineOrders',orders)
   })
+    socket.on('clientCustomer:sendChefNewOnlineOrder',async()=>{
+      const orders = await connection.query(`select ppl.id, ppl.fk_cliente, u.nombre, ppl.totalpedido, ppl.estatus from pedidolinea ppl, usuarios u  WHERE u.id = ppl.fk_cliente && estatus = 'Preparacion'`)
+      io.emit('server:customerSendOnlineOrdersChef',orders)
+      })
+
+    socket.on('clientChef:OnlineOrderFinished',(id)=>{
+        io.emit('server:chefonlineOrderFinished',id)
+    })
 
     
     //render al barman orders
@@ -140,6 +149,8 @@ const wrap = middleware => (socket, next) => middleware(socket.request, {}, next
 
 
 
+
+    
 
     //sockets for test
     //notify to specific client

@@ -182,6 +182,8 @@ searchInput.addEventListener('keyup',()=>{
 
 }
 
+//online orders
+
 if(window.location.href =="http://localhost:3000/chef/onlineorders"){
     const onlineOrdersdiv = document.getElementById('listarPedidosOnline')
 const getOnlineOrders = async (id) =>{
@@ -245,7 +247,7 @@ const addOnlineOrderDiv = (order)=>{
     setActionsToOnlineOrdersButtons()
 }
 
-socket.on('server:waiterSendOrdersChef',async(orders,id)=>{
+socket.on('server:customerSendOnlineOrdersChef',async(orders,id)=>{
     const existingCard = document.getElementById(`orderCard${id}`)
     if(existingCard){
         Toastify({
