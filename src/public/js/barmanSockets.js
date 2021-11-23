@@ -1,22 +1,21 @@
-if(window.location.href == "http://localhost:3000/barman/orders")
-{
-const ordersDiv = document.getElementById('listarPedidos')
-const getOrders = async (id) =>{
-    const url = `/api/barman/orderdetail/${id}`
-    const response = await fetch(url);
-    return response.json();
-}
-const finishOrder = async(id)=>{
-    const url = `/api/barman/finishorder/${id}`
-    const response = await fetch(url);
-    return response.json();
-}
-const overWriteIfExists = (id)=>{
-    const card = document.getElementById(`orderCard${id}`)
-    return card ? true : false;
-}
+if (window.location.href == "http://localhost:3000/barman/orders") {
+    const ordersDiv = document.getElementById('listarPedidos')
+    const getOrders = async (id) => {
+        const url = `/api/barman/orderdetail/${id}`
+        const response = await fetch(url);
+        return response.json();
+    }
+    const finishOrder = async (id) => {
+        const url = `/api/barman/finishorder/${id}`
+        const response = await fetch(url);
+        return response.json();
+    }
+    const overWriteIfExists = (id) => {
+        const card = document.getElementById(`orderCard${id}`)
+        return card ? true : false;
+    }
 
-const tableSpinner = () => (`
+    const tableSpinner = () => (`
 <div class="d-flex justify-content-center mt-2">
      <div class="spinner-border text-primary" role="status">
     <span class="sr-only">Loading...</span>
@@ -25,21 +24,21 @@ const tableSpinner = () => (`
 
 
 
-const addOrderDiv = (order)=>{
-    const result = overWriteIfExists(order.id)
-    if(result) {  
-        const card = document.getElementById(`orderCard${order.id}`)
-        card.remove()  
-    }else{
-        Toastify({
-            text: `Nueva orden`,
-            className: "info text-center mt-2 w-100 toast-font",
-            position: "center",
-            gravity:"top",
-            style: {background: "#4e73df",}
-        }).showToast();
-    }
-    ordersDiv.innerHTML += `
+    const addOrderDiv = (order) => {
+        const result = overWriteIfExists(order.id)
+        if (result) {
+            const card = document.getElementById(`orderCard${order.id}`)
+            card.remove()
+        } else {
+            Toastify({
+                text: `Nueva orden`,
+                className: "info text-center mt-2 w-100 toast-font",
+                position: "center",
+                gravity: "top",
+                style: { background: "#4e73df", }
+            }).showToast();
+        }
+        ordersDiv.innerHTML += `
         <div class="card" id="orderCard${order.id}">
         <div class="card-header" id="heading${order.id}">
                     <div class="d-flex justify-content-between">
@@ -65,34 +64,34 @@ const addOrderDiv = (order)=>{
         </div>
         </div>
     </div>`
-    setActionsToButtons()
-}
-
-socket.on('server:waiterSendOrdersBarman',async(orders,id)=>{
-    const existingCard = document.getElementById(`orderCard${id}`)
-    if(existingCard){
-        Toastify({
-            text: `Cambios en la orden ${id}`,
-            className: "info text-center mt-2 w-100 toast-font",
-            position: "center",
-            gravity:"top",
-            style: {background: "#4e73df",}
-        }).showToast();
+        setActionsToButtons()
     }
-    await addOrderDiv(orders[orders.length-1])
-})
+
+    socket.on('server:waiterSendOrdersBarman', async (orders, id) => {
+        const existingCard = document.getElementById(`orderCard${id}`)
+        if (existingCard) {
+            Toastify({
+                text: `Cambios en la orden ${id}`,
+                className: "info text-center mt-2 w-100 toast-font",
+                position: "center",
+                gravity: "top",
+                style: { background: "#4e73df", }
+            }).showToast();
+        }
+        await addOrderDiv(orders[orders.length - 1])
+    })
 
 
-window.onload = () =>{
-    socket.emit('clientBarman:getAllOrders')
-    socket.on('server:barmanGetAllOrders', async(orders) =>{
-        await renderOrders(orders)
-    }) 
-}
+    window.onload = () => {
+        socket.emit('clientBarman:getAllOrders')
+        socket.on('server:barmanGetAllOrders', async (orders) => {
+            await renderOrders(orders)
+        })
+    }
 
-const renderOrders = async(orders)=>{
-    ordersDiv.innerHTML=""
-        orders.map(order =>{ 
+    const renderOrders = async (orders) => {
+        ordersDiv.innerHTML = ""
+        orders.map(order => {
             ordersDiv.innerHTML += `
             <div class="card" id="orderCard${order.id}">
             <div class="card-header" id="heading${order.id}">
@@ -120,20 +119,20 @@ const renderOrders = async(orders)=>{
           </div>`
         })
         setActionsToButtons()
-}
+    }
 
-const setActionsToButtons = ()=>{
-    const collapseBtn = ordersDiv.querySelectorAll('.collapsedetail')
-    collapseBtn.forEach(button =>{
-        button.addEventListener('click',async()=>{
-            const detailDiv = document.querySelector(`[data-orderdetail="${button.dataset.id}"]`)
-            detailDiv.innerHTML = tableSpinner()
-            const details = await getOrders(button.dataset.id)
-           
-            if(details.length > 0){
-                detailDiv.innerHTML ="";
-                details.map(detail => {
-                    detailDiv.innerHTML += `
+    const setActionsToButtons = () => {
+        const collapseBtn = ordersDiv.querySelectorAll('.collapsedetail')
+        collapseBtn.forEach(button => {
+            button.addEventListener('click', async () => {
+                const detailDiv = document.querySelector(`[data-orderdetail="${button.dataset.id}"]`)
+                detailDiv.innerHTML = tableSpinner()
+                const details = await getOrders(button.dataset.id)
+
+                if (details.length > 0) {
+                    detailDiv.innerHTML = "";
+                    details.map(detail => {
+                        detailDiv.innerHTML += `
                     <div class="col">
                         <div class="card my-2" style="width: 16rem;">
                             <div class="card-body">
@@ -142,74 +141,76 @@ const setActionsToButtons = ()=>{
                             </div>
                         </div>
                     </div>  
-                 `})           
-            }else{
-                detailDiv.innerHTML ="<h4>Esta orden aun sigue en captura.</h4>"
+                 `})
+                } else {
+                    detailDiv.innerHTML = "<h4>Esta orden aun sigue en captura.</h4>"
+                }
+            })
+        })
+        const sendButtons = document.querySelectorAll('.finishOrder')
+        sendButtons.forEach(button => {
+            button.addEventListener("click", async (e) => {
+                e.preventDefault();
+                const results = await finishOrder(button.dataset.finishorder)
+                if (results.status == "ok") {
+                    Toastify({
+                        text: `Orden ${button.dataset.finishorder} terminada.`,
+                        className: "info text-center mt-2 w-100 toast-font",
+                        position: "center",
+                        gravity: "top",
+                        style: { background: "#4e73df", }
+                    }).showToast();
+
+                    socket.emit('clientBarman:getAllOrders')
+                    socket.emit('clientBarman:OrderFinished', button.dataset.finishorder)
+                } else {
+                    Toastify({
+                        text: `Algo sucedio, intental de nuevo.`,
+                        className: "info text-center mt-2 w-100 toast-font",
+                        position: "center",
+                        gravity: "top",
+                        style: { background: "red", }
+                    }).showToast();
+
+                }
+
+
+            })
+        })
+    }
+
+    const searchInput = document.getElementById('searchInput')
+    searchInput.addEventListener('keyup', () => {
+        socket.emit('clientBarman:getAllOrders')
+        socket.on('server:chefGetAllOrders', async (orders) => {
+            await renderOrders(orders.filter((order) => order.id == searchInput.value))
+            if (searchInput.value == "") {
+                await renderOrders(orders)
             }
         })
     })
-    const sendButtons = document.querySelectorAll('.finishOrder')
-    sendButtons.forEach(button =>{
-    button.addEventListener("click",async(e)=>{
-        e.preventDefault();
-        const results = await finishOrder(button.dataset.finishorder)
-        if(results.status == "ok"){
-            Toastify({
-                text: `Orden ${button.dataset.finishorder} terminada.`,
-                className: "info text-center mt-2 w-100 toast-font",
-                position: "center",
-                gravity:"top",
-                style: {background: "#4e73df",}
-            }).showToast();
-
-            socket.emit('clientBarman:getAllOrders')
-            socket.emit('clientBarman:OrderFinished', button.dataset.finishorder)
-        }else{
-            Toastify({
-                text: `Algo sucedio, intental de nuevo.`,
-                className: "info text-center mt-2 w-100 toast-font",
-                position: "center",
-                gravity:"top",
-                style: {background: "red",}
-            }).showToast();
-
-        }
-        
-        
-    })
-})
-}
-
-const searchInput = document.getElementById('searchInput')
-searchInput.addEventListener('keyup',()=>{
-    socket.emit('clientBarman:getAllOrders')
-    socket.on('server:chefGetAllOrders', async(orders) =>{
-        await renderOrders(orders.filter((order)=> order.id == searchInput.value))
-        if(searchInput.value == ""){
-            await renderOrders(orders)
-        }
-    }) 
-})
 
 }
-if(window.location.href == "http://localhost:3000/barman/onlineorders"){
+
+//online code
+if (window.location.href == "http://localhost:3000/barman/onlineorders") {
     const onlineOrdersDiv = document.getElementById('listarPedidosOnline')
-const getOnlineOrders = async (id) =>{
-    const url = `/api/barman/online/orderdetail/${id}`
-    const response = await fetch(url);
-    return response.json();
-}
-const finishOnlineOrder = async(id)=>{
-    const url = `/api/barman/online/finishorder/${id}`
-    const response = await fetch(url);
-    return response.json();
-}
-const overWriteOnlineOrderIfExists = (id)=>{
-    const card = document.getElementById(`orderCard${id}`)
-    return card ? true : false;
-}
+    const getOnlineOrders = async (id) => {
+        const url = `/api/barman/online/orderdetail/${id}`
+        const response = await fetch(url);
+        return response.json();
+    }
+    const finishOnlineOrder = async (id) => {
+        const url = `/api/barman/online/finishorder/${id}`
+        const response = await fetch(url);
+        return response.json();
+    }
+    const overWriteOnlineOrderIfExists = (id) => {
+        const card = document.getElementById(`orderCard${id}`)
+        return card ? true : false;
+    }
 
-const spinnerOnline = () => (`
+    const spinnerOnline = () => (`
 <div class="d-flex justify-content-center mt-2">
      <div class="spinner-border text-primary" role="status">
     <span class="sr-only">Loading...</span>
@@ -218,21 +219,21 @@ const spinnerOnline = () => (`
 
 
 
-const addOnlineOrderDiv = (order)=>{
-    const result = overWriteOnlineOrderIfExists(order.id)
-    if(result) {  
-        const card = document.getElementById(`orderCard${order.id}`)
-        card.remove()  
-    }else{
-        Toastify({
-            text: `Nueva orden`,
-            className: "info text-center mt-2 w-100 toast-font",
-            position: "center",
-            gravity:"top",
-            style: {background: "#4e73df",}
-        }).showToast();
-    }
-    onlineOrdersDiv.innerHTML += `
+    const addOnlineOrderDiv = (order) => {
+        const result = overWriteOnlineOrderIfExists(order.id)
+        if (result) {
+            const card = document.getElementById(`orderCard${order.id}`)
+            card.remove()
+        } else {
+            Toastify({
+                text: `Nueva orden`,
+                className: "info text-center mt-2 w-100 toast-font",
+                position: "center",
+                gravity: "top",
+                style: { background: "#4e73df", }
+            }).showToast();
+        }
+        onlineOrdersDiv.innerHTML += `
         <div class="card" id="orderCard${order.id}">
         <div class="card-header" id="heading${order.id}">
                     <div class="d-flex justify-content-between">
@@ -258,35 +259,35 @@ const addOnlineOrderDiv = (order)=>{
         </div>
         </div>
     </div>`
-    setActionsToOnlineOrdersButtons()
-}
-
-socket.on('server:waiterSendOrdersBarman',async(orders,id)=>{
-    const existingCard = document.getElementById(`orderCard${id}`)
-    if(existingCard){
-        Toastify({
-            text: `Cambios en la orden ${id}`,
-            className: "info text-center mt-2 w-100 toast-font",
-            position: "center",
-            gravity:"top",
-            style: {background: "#4e73df",}
-        }).showToast();
+        setActionsToOnlineOrdersButtons()
     }
-    await addOnlineOrderDiv(orders[orders.length-1])
-})
+
+    socket.on('server:customerSendOnlineOrdersBarman', async (orders, id) => {
+        const existingCard = document.getElementById(`orderCard${id}`)
+        if (existingCard) {
+            Toastify({
+                text: `Cambios en la orden ${id}`,
+                className: "info text-center mt-2 w-100 toast-font",
+                position: "center",
+                gravity: "top",
+                style: { background: "#4e73df", }
+            }).showToast();
+        }
+        await addOnlineOrderDiv(orders[orders.length - 1])
+    })
 
 
-window.onload = () =>{
-    socket.emit('clientBarman:getAllOnlineOrders')
-    socket.on('server:barmanGetAllOnlineOrders', async(orders) =>{
-        console.log(orders)
-        await renderOnlineOrders(orders)
-    }) 
-}
+    window.onload = () => {
+        socket.emit('clientBarman:getAllOnlineOrders')
+        socket.on('server:barmanGetAllOnlineOrders', async (orders) => {
+            console.log(orders)
+            await renderOnlineOrders(orders)
+        })
+    }
 
-const renderOnlineOrders = async(orders)=>{
-    onlineOrdersDiv.innerHTML=""
-        orders.map(order =>{ 
+    const renderOnlineOrders = async (orders) => {
+        onlineOrdersDiv.innerHTML = ""
+        orders.map(order => {
             onlineOrdersDiv.innerHTML += `
             <div class="card" id="orderCard${order.id}">
             <div class="card-header" id="heading${order.id}">
@@ -314,20 +315,20 @@ const renderOnlineOrders = async(orders)=>{
           </div>`
         })
         setActionsToOnlineOrdersButtons()
-}
+    }
 
-const setActionsToOnlineOrdersButtons = ()=>{
-    const collapseBtn = onlineOrdersDiv.querySelectorAll('.collapsedetail')
-    collapseBtn.forEach(button =>{
-        button.addEventListener('click',async()=>{
-            const detailDiv = document.querySelector(`[data-orderdetail="${button.dataset.id}"]`)
-            detailDiv.innerHTML = spinnerOnline()
-            const details = await getOnlineOrders(button.dataset.id)
-           
-            if(details.length > 0){
-                detailDiv.innerHTML ="";
-                details.map(detail => {
-                    detailDiv.innerHTML += `
+    const setActionsToOnlineOrdersButtons = () => {
+        const collapseBtn = onlineOrdersDiv.querySelectorAll('.collapsedetail')
+        collapseBtn.forEach(button => {
+            button.addEventListener('click', async () => {
+                const detailDiv = document.querySelector(`[data-orderdetail="${button.dataset.id}"]`)
+                detailDiv.innerHTML = spinnerOnline()
+                const details = await getOnlineOrders(button.dataset.id)
+
+                if (details.length > 0) {
+                    detailDiv.innerHTML = "";
+                    details.map(detail => {
+                        detailDiv.innerHTML += `
                     <div class="col">
                         <div class="card my-2" style="width: 16rem;">
                             <div class="card-body">
@@ -336,50 +337,50 @@ const setActionsToOnlineOrdersButtons = ()=>{
                             </div>
                         </div>
                     </div>  
-                 `})           
-            }else{
-                detailDiv.innerHTML ="<h4>Esta orden aun sigue en captura.</h4>"
+                 `})
+                } else {
+                    detailDiv.innerHTML = "<h4>Esta orden aun sigue en captura.</h4>"
+                }
+            })
+        })
+        const sendButtons = document.querySelectorAll('.finishOnlineOrder')
+        sendButtons.forEach(button => {
+            button.addEventListener("click", async (e) => {
+                e.preventDefault();
+                const results = await finishOnlineOrder(button.dataset.finishorder)
+                if (results.status == "ok") {
+                    Toastify({
+                        text: `Orden ${button.dataset.finishorder} terminada.`,
+                        className: "info text-center mt-2 w-100 toast-font",
+                        position: "center",
+                        gravity: "top",
+                        style: { background: "#4e73df", }
+                    }).showToast();
+
+                    socket.emit('clientBarman:getAllOnlineOrders')
+                    socket.emit('clientBarman:OnlineOrderFinished', button.dataset.finishorder)
+                } else {
+                    Toastify({
+                        text: `Algo sucedio, intental de nuevo.`,
+                        className: "info text-center mt-2 w-100 toast-font",
+                        position: "center",
+                        gravity: "top",
+                        style: { background: "red", }
+                    }).showToast();
+
+                }
+            })
+        })
+    }
+
+    const searchOnlineInput = document.getElementById('searchOnlineInput')
+    searchOnlineInput.addEventListener('keyup', () => {
+        socket.emit('clientBarman:getAllOnlineOrders')
+        socket.on('server:barmanGetAllOnlineOrders', async (orders) => {
+            await renderOnlineOrders(orders.filter((order) => order.id == searchOnlineInput.value))
+            if (searchOnlineInput.value == "") {
+                await renderOnlineOrders(orders)
             }
         })
     })
-    const sendButtons = document.querySelectorAll('.finishOnlineOrder')
-    sendButtons.forEach(button =>{
-    button.addEventListener("click",async(e)=>{
-        e.preventDefault();
-        const results = await finishOnlineOrder(button.dataset.finishorder)
-        if(results.status == "ok"){
-            Toastify({
-                text: `Orden ${button.dataset.finishorder} terminada.`,
-                className: "info text-center mt-2 w-100 toast-font",
-                position: "center",
-                gravity:"top",
-                style: {background: "#4e73df",}
-            }).showToast();
-
-            socket.emit('clientBarman:getAllOnlineOrders')
-            //socket.emit('clientBarman:OrderFinished', button.dataset.finishorder)
-        }else{
-            Toastify({
-                text: `Algo sucedio, intental de nuevo.`,
-                className: "info text-center mt-2 w-100 toast-font",
-                position: "center",
-                gravity:"top",
-                style: {background: "red",}
-            }).showToast();
-
-        }
-    })
-})
-}
-
-const searchOnlineInput = document.getElementById('searchOnlineInput')
-searchOnlineInput.addEventListener('keyup',()=>{
-    socket.emit('clientBarman:getAllOnlineOrders')
-    socket.on('server:barmanGetAllOnlineOrders', async(orders) =>{
-        await renderOnlineOrders(orders.filter((order)=> order.id == searchOnlineInput.value))
-        if(searchOnlineInput.value == ""){
-            await renderOnlineOrders(orders)
-        }
-    }) 
-})
 }

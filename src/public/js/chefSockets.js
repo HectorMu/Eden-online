@@ -341,7 +341,7 @@ const setActionsToOnlineOrdersButtons = ()=>{
             }).showToast();
 
             socket.emit('clientChef:getAllOnlineOrders')
-            //socket.emit('clientChef:OrderFinished', button.dataset.finishorder)
+            socket.emit('clientChef:OnlineOrderFinished', button.dataset.finishorder)
         }else{
             Toastify({
                 text: `Algo sucedio, intental de nuevo.`,

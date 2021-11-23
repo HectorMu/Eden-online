@@ -3,19 +3,11 @@ const carDropdown = document.getElementById('carDropdown')
 const carListDiv = document.getElementById('carListDiv')
 const carCounter = document.getElementById('carCounter')
 
-socket.on('server:notifyCustomer', () => {
-    Toastify({
-        text: `Hola cliente`,
-        className: "info text-center mt-2 w-100 toast-font",
-        position: "center",
-        gravity: "top",
-        style: { background: "#4e73df", }
-    }).showToast();
-    Push.create("Nueva promocion!", {
-        body: "Aprovecha nuestra promocion!",
-        icon: '/icon.png',
-    })
+socket.on('server:notifyCustomer',(pedido)=>{
+    createToast(`Tu pedido ${pedido} esta en entrega, ¡esperalo!`,"success")
 })
+
+
 const Carspinner = () =>(`
 <center>
      <div class="spinner-border text-primary" role="status">

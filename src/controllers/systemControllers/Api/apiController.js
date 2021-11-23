@@ -257,7 +257,7 @@ controller.getClientDetailOrder = async(req, res)=>{
 //tradesman
 controller.TradesmanGetPreparedOrders = async (req, res)=>{
     try {
-        const preparedOrders = await connection.query(`select pl.id, u.nombre, u.direccion, u.telefono, pl.fk_cliente, pl.estatus from pedidolinea pl, usuarios u where pl.fk_cliente = u.id && pl.estatus = 'Preparado' || pl.fk_cliente = u.id && pl.estatus = 'Entrega'`)
+        const preparedOrders = await connection.query(`select pl.id, u.id As userid, u.nombre, u.direccion, u.telefono, pl.fk_cliente, pl.estatus from pedidolinea pl, usuarios u where pl.fk_cliente = u.id && pl.estatus = 'Preparado' || pl.fk_cliente = u.id && pl.estatus = 'Entrega'`)
         res.json(preparedOrders)
     } catch (error) {
         res.json({status: "wrong"})
