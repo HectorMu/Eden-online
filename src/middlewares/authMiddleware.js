@@ -44,6 +44,13 @@ authMiddleware.isBarman = (req, res, next)=>{
     req.flash('error_msg','Solo los barman pueden acceder a este modulo.')
     res.redirect(helpers.redirectByUserRol(req.user.fk_rol))
 }
+authMiddleware.isTradesman = (req, res, next)=>{
+    if(req.user.fk_rol === 1 || req.user.fk_rol === 5){
+        return next();
+    }
+    req.flash('error_msg','Solo los repartidores pueden acceder a este modulo.')
+    res.redirect(helpers.redirectByUserRol(req.user.fk_rol))
+}
 
 
 module.exports = authMiddleware;
