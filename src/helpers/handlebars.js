@@ -14,6 +14,12 @@ hbs.handlebars.registerHelper('isAdmin',(user)=>{
 hbs.handlebars.registerHelper('isChef',(user)=>{
     return user.fk_rol == 2 ? true : false
 })
+hbs.handlebars.registerHelper('isChefOrAdmin', (user) => {
+    return user.fk_rol == 1  || user.fk_rol == 2 ? true : false;
+})
+hbs.handlebars.registerHelper('isBarmanOrAdmin', (user) => {
+    return user.fk_rol == 1  || user.fk_rol == 3 ? true : false;
+})
 hbs.handlebars.registerHelper('isBarman',(user)=>{
     return user.fk_rol == 3 ? true : false
 })
@@ -46,6 +52,7 @@ hbs.handlebars.registerHelper('isMinor',(existencia) => {
 hbs.handlebars.registerHelper('isMinorCash', (total) => {
     return total < 0 ? true : false
 })
+
 
 hbs.handlebars.registerHelper('redirectPrivileges',(rol)=>{
     

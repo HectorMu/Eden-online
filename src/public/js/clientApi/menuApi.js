@@ -73,7 +73,7 @@ const renderProducts = async (products) => {
     products.map(product => {
         productsDiv.innerHTML += `
         <div class="col">
-            <div class="card my-1" style="width: 100%;">
+            <div class="card my-1 shadow" style="width: 100%;">
                 <img src="${product.imagen}" class="card-img-top" alt="...">
                 <div class="card-body">
                     <p class="card-title">${product.nombre} - $${product.precio_venta}</p>
