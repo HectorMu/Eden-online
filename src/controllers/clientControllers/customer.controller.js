@@ -4,8 +4,11 @@ const helpers = require('../../helpers/helpers');
 const controller = {}
  
 
-controller.renderDashboard = (req, res) => {
-    res.render('client/dashboard.hbs')
+controller.renderDashboard = async (req, res) => {
+    const orders = await connection.query(`select COUNT(*) as orders from pedidolinea where fk_cliente = ${req.user.id};`)    
+    res.render('client/dashboard.hbs', {
+        Orders: orders[0].orders
+    })
 }
 
 controller.renderClientMenu = (req, res)=>{
