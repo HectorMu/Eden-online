@@ -114,6 +114,7 @@ const remove = async (num)=>{
             totalCart = 0;
             await renderProducts(await getClientCarProducts())
             updateCounter()
+            updateButtonConfirmStatus()
            
         }else{
             createToast("Algo paso, intentalo de nuevo.","error")
@@ -133,14 +134,25 @@ btnConfirmOrder.addEventListener('click',async()=>{
             socket.emit('clientCustomer:sendBarmanNewOnlineOrder')
             await renderProducts(await getClientCarProducts())
             updateCounter()
+            await updateButtonConfirmStatus()
         }else{
             createToast("Algo paso, intentalo de nuevo.","error")
             updateCounter()
+            await updateButtonConfirmStatus()
         }
     }
 })
+const updateButtonConfirmStatus = async()=>{
+    const carProductosLength = await getClientCarProducts();
+    if(carProductosLength.length > 0){
+        btnConfirmOrder.classList.remove("d-none")
+    }else{
+        btnConfirmOrder.classList.add("d-none")
+    }
+}
 
 window.onload = async()=>{
+   await updateButtonConfirmStatus()
     await renderProducts(await getClientCarProducts())
 }
 
