@@ -38,12 +38,14 @@
         {{#if (isClient user)}}
         <script src="/js/clientSockets.js"></script>
         {{/if}}
-        {{#if (isChef user)}}
-        <script src="/js/chefSockets.js"></script>
+        
+        {{#if (isChefOrAdmin user)}}
+           <script src="/js/chefSockets.js"></script>
         {{/if}}
-        {{#if (isBarman user)}}
+          {{#if (isBarmanOrAdmin user)}}
         <script src="/js/barmanSockets.js"></script>
         {{/if}}
+
     {{/if}}
         <!-- Bootstrap core JavaScript-->
        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>

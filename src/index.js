@@ -98,6 +98,7 @@ const wrap = middleware => (socket, next) => middleware(socket.request, {}, next
         const orders = await connection.query(`select ppl.id, m.mesa, ppl.totalpedido, ppl.estatus from pedidolocal ppl, mesas m WHERE m.id = ppl.fk_mesa && estatus = 'Preparacion'`)
         io.emit('server:chefGetAllOrders',orders)
     })
+  
     //send new order to chef from waiter to add to chef orders view
     socket.on('clientWaiter:sendChefNewOrder',async(id)=>{
         console.log(id)
@@ -108,6 +109,12 @@ const wrap = middleware => (socket, next) => middleware(socket.request, {}, next
     socket.on('clientChef:OrderFinished',(id)=>{
         io.emit('server:chefOrderFinished',id)
     })
+
+    //chef online orders
+    socket.on('clientChef:getAllOnlineOrders',async()=>{
+      const orders = await connection.query(`select ppl.id, ppl.fk_cliente, u.nombre, ppl.totalpedido, ppl.estatus from pedidolinea ppl, usuarios u  WHERE u.id = ppl.fk_cliente && estatus = 'Preparacion'`)
+      io.emit('server:chefGetAllOnlineOrders',orders)
+  })
 
     
     //render al barman orders
@@ -121,10 +128,15 @@ const wrap = middleware => (socket, next) => middleware(socket.request, {}, next
         const orders = await connection.query(`select ppl.id, m.mesa, ppl.totalpedido, ppl.estatus from pedidolocal ppl, mesas m WHERE m.id = ppl.fk_mesa && estatus = 'Preparacion'`)
         io.emit('server:waiterSendOrdersBarman',orders, id)
     })
-    //chef emits order finished and id of the order
+    //barman emits order finished and id of the order
     socket.on('clientBarman:OrderFinished',(id)=>{
         io.emit('server:barmanOrderFinished',id)
     })
+    //render al barman orders
+    socket.on('clientBarman:getAllOnlineOrders',async()=>{
+      const orders = await connection.query(`select ppl.id, ppl.fk_cliente, u.nombre, ppl.totalpedido, ppl.estatus from pedidolinea ppl, usuarios u WHERE u.id = ppl.fk_cliente && estatus = 'Preparacion'`)
+      io.emit('server:barmanGetAllOnlineOrders',orders)
+  })
 
 
 

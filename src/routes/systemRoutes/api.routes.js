@@ -17,10 +17,14 @@ router.get('/api/orderdetail/:id', authMiddleware.isLoggedIn, authMiddleware.Api
 //chef routes
 router.get('/api/chef/orderdetail/:id', authMiddleware.isLoggedIn, apiController.getChefLocalOrderDetail)
 router.get('/api/chef/finishorder/:id', authMiddleware.isLoggedIn, apiController.chefFinishLocalOrder)
+router.get('/api/chef/online/orderdetail/:id', authMiddleware.isLoggedIn, apiController.getChefOnlineOrderDetail)
+router.get('/api/chef/online/finishorder/:id', authMiddleware.isLoggedIn, apiController.chefFinishOnlineOrder)
 
 //barman
 router.get('/api/barman/orderdetail/:id', authMiddleware.isLoggedIn, apiController.getBarmanLocalOrderDetail)
 router.get('/api/barman/finishorder/:id', authMiddleware.isLoggedIn, apiController.barmanFinishLocalOrder)
+router.get('/api/barman/online/orderdetail/:id', authMiddleware.isLoggedIn, apiController.getBarmanOnlineOrderDetail)
+router.get('/api/barman/online/finishorder/:id', authMiddleware.isLoggedIn, apiController.barmanFinishOnlineOrder)
 
 
 //client

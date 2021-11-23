@@ -7,6 +7,6 @@ const systemBarmanController = require('./../../controllers/systemControllers/ba
 
 router.get('/barman/dashboard',systemBarmanController.renderBarmanDashboard)
 router.get('/barman/orders', systemBarmanController.renderBarmanOrders)
-
+router.get('/barman/onlineorders', systemBarmanController.renderBarmanOnlineOrders)
 
 module.exports = router;

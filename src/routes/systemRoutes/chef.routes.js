@@ -9,5 +9,7 @@ router.get('/chef/dashboard',systemChefController.renderChefDashboard)
 
 router.get('/chef/orders',systemChefController.renderChefOrdersView)
 
+router.get('/chef/onlineorders', systemChefController.renderChefOnlineOrdersView)
+
 
 module.exports = router;
