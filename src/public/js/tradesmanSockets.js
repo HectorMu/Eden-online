@@ -1,8 +1,19 @@
+
+
 const listOrders = document.getElementById('listarPedidos')
 const modalTitle = document.getElementById('titleModal')
 const detailsDiv = document.getElementById('details')
 const btnDeliver = document.getElementById('btnDeliver')
 
+socket.on('server:chefOnlineOrderFinished',async id =>{
+    createToast(`Platillos de la orden ${id} listos para recoger`,"success")
+    renderOrders(await getPreparedOrders())
+})
+
+socket.on('server:barmanOnlineOrderFinished', async id =>{
+    createToast(`Bebidas de la orden ${id} listas para recoger`,"success")
+    renderOrders(await getPreparedOrders())
+})
 
 
 const setEstatusDelivered = async (id)=>{
@@ -42,10 +53,10 @@ const renderOrders = async (orders) =>{
            <div class="card my-2 text-center shadow" style="width: 18rem;">
                <div class="card-body ">
                    <h5 class="card-title">No. ${order.id} - Cliente: ${order.nombre}</h5>
-                   <p class="card-text">Direccion: ${order.direccion}</p>
-                   <p class="card-text">Telefono: ${order.telefono}</p>
+                   <p class="card-text">Dirección: ${order.direccion}</p>
+                   <p class="card-text">Teléfono: ${order.telefono}</p>
                    <p class="card-text">${order.estatus == 'Entrega' ? order.estatus : ''} </p>
-                   <button onclick="getDetails(${order.id})" type="button" class="btn btn-primary" data-toggle="modal" data-target="#orderDetailModal">Ver detalle</button>
+                   <button onclick="getDetails(${order.id},${order.userid})" type="button" class="btn btn-primary" data-toggle="modal" data-target="#orderDetailModal">Ver detalle</button>
                    ${order.estatus == 'Entrega' ? `<button onclick="markAsDelivered(${order.id})" type="button" class="btn btn-primary">Entregado</button>` : ''}
                </div>
            </div>
@@ -59,16 +70,17 @@ const markAsDelivered = async (id) =>{
         createToast(`Pedido entregado, ¡sigue asi!`,"success")
         renderOrders(await getPreparedOrders())
     }else{
-        createToast(`Algo paso, intentalo de nuevo`,"error")
+        createToast(`Algo sucedió, inténtalo de nuevo.`,"error")
     }
 }
 
 
 
-const getDetails = async (id)=>{
+const getDetails = async (id,userid)=>{
     const details = await getDetailsOrder(id)
     modalTitle.innerText = `Pedido: ${id}`
     btnDeliver.setAttribute('data-id',id)
+    btnDeliver.setAttribute('data-iduser',userid)
     detailsDiv.innerHTML =""
     details.map(detail =>{
         detailsDiv.innerHTML +=`
@@ -84,10 +96,11 @@ btnDeliver.addEventListener("click",async ()=>{
     const deliverResults = await deliverOrder(btnDeliver.dataset.id)
     console.log(deliverResults)
     if(deliverResults.status == "ok"){
+        socket.emit('clientTradesman:DeliveryIncoming', btnDeliver.dataset.iduser, btnDeliver.dataset.id)
         createToast(`Notificación enviada, preparate para entregar el pedido ${btnDeliver.dataset.id}`,"success")
         renderOrders(await getPreparedOrders())
     }else{
-        createToast(`Algo paso, intentalo de nuevo`,"error")
+        createToast(`Algo sucedió, inténtalo de nuevo.`,"error")
     }
 })
 

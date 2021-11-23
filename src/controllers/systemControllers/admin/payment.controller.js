@@ -32,11 +32,11 @@ controller.SavePayment = async (req, res) => {
         });
         await connection.query('insert into ventalocal values (null,?,?)', [fecha, id])
         await connection.query(`update pedidolocal set estatus = 'Cobrado' where id = ?`, [id])
-        req.flash("success_msg", "Venta hecha correctamente.")
+        req.flash("success_msg", "La venta se realizó con éxito.")
         res.redirect(redirectPath)
     } catch (error) {
         console.log(error)
-        req.flash("error_msg", "Algo sucedio, intentalo de nuevo.")
+        req.flash("error_msg", "Algo sucedió, inténtalo de nuevo.")
         res.redirect(redirectPath)
     }
 }

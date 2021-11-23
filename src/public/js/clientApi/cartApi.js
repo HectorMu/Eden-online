@@ -67,7 +67,7 @@ const renderProducts = async (products) =>{
         totalH5.innerHTML = `Total del carrito: $${totalCart}`
 
     }else{
-        listProducts.innerHTML ="No tienes productos en tu carrito."
+        listProducts.innerHTML ="Aún no tienes productos en tu carrito."
         totalH5.innerHTML = ``
     }
  
@@ -125,6 +125,9 @@ btnConfirmOrder.addEventListener('click',async()=>{
     const results = await confirmOrder()
     if(results.status == "ok"){
         createToast("Orden confirmada, espera por tu pedido.","success")
+       
+        socket.emit('clientCustomer:sendChefNewOnlineOrder')
+        socket.emit('clientCustomer:sendBarmanNewOnlineOrder')
         await renderProducts(await getClientCarProducts())
         updateCounter()
     }else{

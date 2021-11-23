@@ -110,11 +110,20 @@ const wrap = middleware => (socket, next) => middleware(socket.request, {}, next
         io.emit('server:chefOrderFinished',id)
     })
 
+
     //chef online orders
     socket.on('clientChef:getAllOnlineOrders',async()=>{
       const orders = await connection.query(`select ppl.id, ppl.fk_cliente, u.nombre, ppl.totalpedido, ppl.estatus from pedidolinea ppl, usuarios u  WHERE u.id = ppl.fk_cliente && estatus = 'Preparacion'`)
       io.emit('server:chefGetAllOnlineOrders',orders)
   })
+    socket.on('clientCustomer:sendChefNewOnlineOrder',async()=>{
+      const orders = await connection.query(`select ppl.id, ppl.fk_cliente, u.nombre, ppl.totalpedido, ppl.estatus from pedidolinea ppl, usuarios u  WHERE u.id = ppl.fk_cliente && estatus = 'Preparacion'`)
+      io.emit('server:customerSendOnlineOrdersChef',orders)
+      })
+
+    socket.on('clientChef:OnlineOrderFinished',(id)=>{
+        io.emit('server:chefOnlineOrderFinished',id)
+    })
 
     
     //render al barman orders
@@ -132,23 +141,37 @@ const wrap = middleware => (socket, next) => middleware(socket.request, {}, next
     socket.on('clientBarman:OrderFinished',(id)=>{
         io.emit('server:barmanOrderFinished',id)
     })
-    //render al barman orders
+
+    //barman online actions
     socket.on('clientBarman:getAllOnlineOrders',async()=>{
       const orders = await connection.query(`select ppl.id, ppl.fk_cliente, u.nombre, ppl.totalpedido, ppl.estatus from pedidolinea ppl, usuarios u WHERE u.id = ppl.fk_cliente && estatus = 'Preparacion'`)
       io.emit('server:barmanGetAllOnlineOrders',orders)
   })
+  socket.on('clientCustomer:sendBarmanNewOnlineOrder',async()=>{
+    const orders = await connection.query(`select ppl.id, ppl.fk_cliente, u.nombre, ppl.totalpedido, ppl.estatus from pedidolinea ppl, usuarios u WHERE u.id = ppl.fk_cliente && estatus = 'Preparacion'`)
+    io.emit('server:customerSendOnlineOrdersBarman',orders)
+    })
+    socket.on('clientBarman:OnlineOrderFinished',(id)=>{
+      io.emit('server:barmanOnlineOrderFinished',id)
+    })
+
+    socket.on('clientTradesman:DeliveryIncoming', (id,pedido)=>{
+      clients.sockets.forEach(socket =>{
+        if(socket.request.user.id == id){
+          io.to(socket.id).emit('server:notifyCustomer', pedido)
+        }
+      })
+    })
 
 
 
+
+    
 
     //sockets for test
     //notify to specific client
     socket.on('clientAdmin:notifyClient', ()=>{
-      clients.sockets.forEach(socket =>{
-        if(socket.request.user.id === 38){
-          io.to(socket.id).emit('server:notifyCustomer')
-        }
-      })
+      
        
     })
     socket.on('clientAdmin:notifyWaiter',()=>{

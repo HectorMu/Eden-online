@@ -32,7 +32,7 @@
         const validateEmail = await helpers.userExists(newEmployee.correo)
         if(validateEmail){ //si existe, que me mande un mensaje que ya existe y redirija a la misma pagina
           message="El email ya esta en uso por otro usuario."
-          req.flash("error_msg", "Este correo electronico ya esta registrado.")
+          req.flash("error_msg", "Este correo electrónico ya está registrado.")
           res.redirect(redirectPath)
         }else{ //si no existe, guardamos el usuario
           await connection.query('insert into usuarios set ?',[newEmployee])
@@ -44,7 +44,7 @@
     {
       //siempre hay que poner un trycatch, por si el servidor se callo o paso algo, y mandamos un mensaje
       console.log(error)
-      req.flash("success_msg", "Algo sucedio, intentalo de nuevo.")
+      req.flash("success_msg", "Algo sucedió, inténtalo de nuevo.")
       res.redirect(redirectPath)
     }
  }
@@ -62,7 +62,7 @@
       res.redirect(redirectPath)
    } catch (error) {
      console.log(error)
-     req.flash("error_msg", "Algo sucedio, intentalo de nuevo.")
+     req.flash("error_msg", "Algo sucedió, inténtalo de nuevo.")
      res.redirect(redirectPath)
    }
  }
@@ -76,7 +76,7 @@
      res.redirect(redirectPath)
    } catch (error) {
      console.log(error)
-     req.flash("error_msg", "Algo sucedio, intentalo de nuevo.")
+     req.flash("error_msg", "Algo sucedió, inténtalo de nuevo.")
      res.redirect(redirectPath)
    }
  }

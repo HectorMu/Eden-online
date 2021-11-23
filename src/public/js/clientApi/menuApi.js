@@ -98,7 +98,7 @@ const addProductToOrder = async(id) =>{
         
     }else{
         updateCounter()
-        createToast("Algo paso, intentalo de nuevo.","error")
+        createToast("Algo sucedió, inténtalo de nuevo.","error")
     }
 }
 
@@ -106,7 +106,7 @@ const verifyInputValue = (value, productbuttonid)=>{
     const addToCarBtn = document.getElementById(`btnAddToCar${productbuttonid}`)
     if(parseFloat(value) < 1){
         addToCarBtn.disabled = true;
-        console.log('ingrese una cantidad aceptada')
+        console.log('Ingrese una cantidad aceptada')
     }else{
         addToCarBtn.disabled = false;
     }
