@@ -184,7 +184,7 @@ controller.ClientAddProductToOrder = async(req, res)=>{
 controller.getClientProducts = async(req, res)=>{
     try {
         const idPedido = await connection.query(`select id from pedidolinea where fk_cliente = ? && estatus = 'Captura'`,[req.user.id])
-        if(idPedido){
+        if(idPedido.length > 0){
             const clientProducts = await connection.query(`SELECT ppl.num, p.nombre, p.imagen, p.precio_venta, ppl.cantidad, (p.precio_venta*ppl.cantidad) AS total, ppl.estatus FROM productospedidolinea ppl, productos p WHERE p.id = ppl.fk_producto && ppl.fk_pedidolinea = ? && estatus = 'Captura'`,[idPedido[0].id])
             res.json(clientProducts)
         }else{
