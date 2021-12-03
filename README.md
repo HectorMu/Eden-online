@@ -15,6 +15,9 @@ And, the proyect itself counts with a product inventory management, a sales cont
 with an email and add orders to his car, the user can delete products of his car, add more products, and finaly, confirm the order and wait for a notification when their order is about to deliver.
 # Modules made with API and pure Javascript
 Some of the modules like, the admin sales control, inventory managemente, sales control, and users control are made with server side rendering, meanwhile, the modules
-of the waiter, barman, chef, and customer (client), are made with pure Javascript, feeded with diferents API's for diferents purposes, and for increase user experience while working on this app.
+of the waiter, barman, chef, and customer (client), are made with pure Javascript, feeded with diferents API's for diferents purposes, and some socket io data send/receive, we decided to make it this way to increase user experience while working on this app, to give a enjoyable feeling to the app. The app itself is so smooth, the waiter, chef, and barman loved the new workflow provided for this app, as well, the owner loved this app.
 # Realtime
 To get the realtime working in our, we used Socket.io, a node js library for web sockets communication. 
+
+# Final comentaries
+Finishing, this app was maded for a university develop proyect, sepecif to the Requirements Engineer class, our teacher gave us two weeks to cover all the requeriments we wrote, we made it. Since we read the requirements we know that will be hard, but at the end of time, we did it and the final product is amazing, whe learned a lot, the good results of develop an ambicious proyect.
