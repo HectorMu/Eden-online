@@ -12,4 +12,9 @@ advise all the waiters to pick up that element of the order. Finally, when the c
 to check to the cashier.
 
 And, the proyect itself counts with a product inventory management, a sales control, a users control, and the customers of the place can register
-with an email and make online orders.
+with an email and add orders to his car, the user can delete products of his car, add more products, and finaly, confirm the order and wait for a notification when their order is about to deliver.
+# Modules made with API and pure Javascript
+Some of the modules like, the admin sales control, inventory managemente, sales control, and users control are made with server side rendering, meanwhile, the modules
+of the waiter, barman, chef, and customer (client), are made with pure Javascript, feeded with diferents API's for diferents purposes, and for increase user experience while working on this app.
+# Realtime
+To get the realtime working in our, we used Socket.io, a node js library for web sockets communication. 
