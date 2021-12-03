@@ -2,7 +2,7 @@
 A proyect about an Web App to help Eden Bar &amp; Lounge to modernize it's restaurant
 
 
-The proyect itself consist in a local order control, the order could contain a drink or a saucer, so, in Eden Bar & Lounge
+The proyect itself consists in a local order control, the order could contain a drink or a saucer, so, in Eden Bar & Lounge
 has a chef and a barman, the chef prepare the food and the barman the drinks, so they have to watch their respective product
 to make it. The waiter can capture local orders by table of the establishment and add products to all orders, all of this handled by a
 integrated in rest API. When the order is ready, the waiter can send the order to the chef and barman, the chef will only see the food
