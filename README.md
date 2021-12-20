@@ -20,4 +20,4 @@ of the waiter, barman, chef, and customer (client), are made with pure Javascrip
 To get the realtime working in our proyect, we used Socket.io, a node js library for web sockets communication, we found the way to notify the users by his role, and send notifications to specific users, we used this functionality to notify a customer about his order being deliver soon. 
 
 # Final comentaries
-Finishing, this app was maded for a university develop proyect, specif to the Requirements Engineering class, our teacher gave us two weeks to cover all the requeriments we wrote, we made it. Since we read the requirements we know that will be hard, but at the end of time, we did it and the final product is amazing, whe learned a lot, the good results of develop an ambicious proyect.
+Finishing, this app was maded for a university develop proyect, specif to the Requirements Engineering class, our teacher gave us two weeks to cover all the requeriments we wrote, we made it. Since we read the requirements we know that will be hard, but at the end of time, we did it and the final product is amazing, we learned a lot, the good results of develop an ambicious proyect.
