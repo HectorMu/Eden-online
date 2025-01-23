@@ -1,4 +1,4 @@
-# edenonline
+# Eden online
 A proyect about an Web App to help Eden Bar &amp; Lounge to modernize it's restaurant
 
 
